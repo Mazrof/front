@@ -6,6 +6,26 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.bg-light {
+  background-image: url("../public/images/light-bg.png"),
+    linear-gradient(to bottom right, #dce68ce4 10%, #b7e398f2 30%, #a1c397e4 70%, #cccfad 90%);
+}
+
+.bg-dark {
+  background-image: url("../public/images/dark-bg.png");
+  background-color: rgba(65, 35, 52, 0.9);
+}
+
+.basic-layout {
+  min-height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1680px;
+  height: 100%;
+  display: flex;
+
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -40,6 +60,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -72,6 +93,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
