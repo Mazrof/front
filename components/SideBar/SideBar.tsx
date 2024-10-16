@@ -1,9 +1,8 @@
-/* eslint-disable unicorn/filename-case */
 import React from 'react'
 
 function SideBar() {
   return (
-    <div className='min-w-[500px] w-full sm:max-w-[500px] px-2 bg-white'>
+    <div className='px-2  max-w-[500px] sm:min-w-[530px]  sm:w-[600px] bg-white'>
       Side Bar
     </div>
   )
