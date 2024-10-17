@@ -16,8 +16,6 @@ body {
   background-color: rgba(65, 35, 52, 0.9);
 }
 
-
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
