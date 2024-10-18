@@ -14,4 +14,4 @@ const useIsRecording = create<isRecordingOption>(set => ({
     isRecording: false,
     setIsRecoding:(isRecord)=>set({isRecording:isRecord})
 }))
-export {useInputTextMessage,useShowFileOptions,useIsRecording}
+export { useInputTextMessage, useShowFileOptions, useIsRecording }

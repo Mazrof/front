@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Emoji from "@/components/Chats/Emoji"
 import AttachFiles from './AttachFiles'
-import { useInputTextMessage } from '@/store/inputMessage'
+import {  useInputTextMessage } from '@/store/inputMessage'
 import InputMessageButtons from './InputMessageButtons'
 import { AlertDialogDemo } from './AlertDialogDemo'
 function InputMessage({ placeHolder }: { placeHolder: string }) {

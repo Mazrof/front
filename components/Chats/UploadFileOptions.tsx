@@ -2,12 +2,13 @@
 import { useShowFileOptions } from '@/store/inputMessage';
 import { UploadImageIcon, UploadFileIcon } from '@/utils/icons'
 import { useEffect, useRef } from 'react';
+import { checkClickOutside } from "@/utils/inputMessage"
 import React from 'react'
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { isShow, setIsShow } = useShowFileOptions()
     const handleClickOutside = (event: MouseEvent) => {
-        if (optionRef.current && !optionRef.current.contains(event.target as Node)) {
+        if (checkClickOutside(event, optionRef.current)) {
             setIsShow(); // Close the picker when clicking outside
         }
     };
@@ -30,7 +31,7 @@ function UploadFilesOption() {
                     <UploadImageIcon />
                     <p >Photo or Video</p>
                 </label>
-                <input id="photo-upload" type="file" className="hidden" accept="image/*,video/*" onChange={e=>console.log(e.target.files)} />
+                <input id="photo-upload" type="file" className="hidden" accept="image/*,video/*" onChange={e => console.log(e.target.files)} />
             </div>
             <div className="file-option-container">
                 <label htmlFor="file-upload" className="file-option-label">
