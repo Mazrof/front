@@ -30,7 +30,7 @@ function UploadFilesOption() {
                     <UploadImageIcon />
                     <p >Photo or Video</p>
                 </label>
-                <input id="photo-upload" type="file" className="hidden" accept="image/*,video/*" />
+                <input id="photo-upload" type="file" className="hidden" accept="image/*,video/*" onChange={e=>console.log(e.target.files)} />
             </div>
             <div className="file-option-container">
                 <label htmlFor="file-upload" className="file-option-label">

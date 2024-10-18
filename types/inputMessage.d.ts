@@ -8,3 +8,7 @@ export type ShowFileOptions = {
     setIsShow:()=>void
     
 }
+export type isRecordingOption = {
+    isRecording: boolean,
+    setIsRecoding:(isRecording:boolean)=>void
+}
