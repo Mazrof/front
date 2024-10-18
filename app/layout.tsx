@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 export const metadata: Metadata = {
   title: "Mazrof Web",
-  description: "Mazrof is a cloud-based mobile and desktop messaging app with a focus on security and speed.",
+  description: "Mazrof is a cloud-based mobile  messaging app and website with a focus on security and speed.",
 };
 export default function RootLayout({
   children,
@@ -23,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <head>
+        <meta charSet="UTF-8" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );
