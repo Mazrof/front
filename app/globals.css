@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif,'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
 }
 
 .bg-light {
@@ -87,4 +87,15 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .input-message-button{
+    @apply bg-blue-700 dark:bg-purple-700 w-16 h-16 rounded-full  absolute right-1 flex justify-center items-center
+  }
+  .file-option-container{
+    @apply flex items-center  justify-between w-full   hover:bg-zinc-400
+  }
+  .file-option-label{
+    @apply  text-black w-full py-2 px-4 rounded cursor-pointer dark:text-white flex justify-between 
+  }
+ 
+   
 }

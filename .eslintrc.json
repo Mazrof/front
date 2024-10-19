@@ -4,7 +4,7 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:testing-library/react",
-    "plugin:jest-dom/recommended",
+    "plugin:jest-dom/recommended"
   ],
   "ignorePatterns": ["node_modules/", "dist/", "*.test.js", "*.test.ts", "*.spec.js", "*.spec.ts"]
 }
