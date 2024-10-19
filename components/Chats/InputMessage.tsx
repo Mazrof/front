@@ -1,20 +1,11 @@
 "use client";
-{
-    /** Edit
-     * Please Remove Import React (it's unnecessary after react 18) and any unused Import inside the code
-     */
-}
-
-import React, { useEffect, useState } from "react";
 import Emoji from "@/components/Chats/Emoji";
 import AttachFiles from "./AttachFiles";
 import { useInputTextMessage } from "@/store/inputMessage";
 import InputMessageButtons from "./InputMessageButtons";
-import { AlertDialogDemo } from "./AlertDialogDemo";
 function InputMessage({ placeHolder }: { placeHolder: string }) {
     const { textMessage, setTextMessage } = useInputTextMessage();
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-        //Perfect You handled it Here ;)
         setTextMessage(e.target.value.trimStart());
     }
     return (

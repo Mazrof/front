@@ -5,41 +5,28 @@ import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 function InputMessageButtons() {
     const { textMessage } = useInputTextMessage();
     const { isRecording, setIsRecoding } = useIsRecording();
-    function handleOnClickVoice(e: any) {
-        /** Edit
-         * function handleOnClickVoice(event:React.MouseEvent<HTMLButtonElement>) because any is bad indication for typescript ;)
-         * and Replace every e in the file
-         */
-        e.preventDefault();
+    function handleOnClickVoice(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
         setIsRecoding(true);
     }
-    function handleDeleteRecording(e: any) {
-        /** Edit
-         * function handleDeleteRecording(event:React.MouseEvent<HTMLButtonElement>) because any is bad indication for typescript ;)
-         * and Replace every e in the file
-         */
-        e.preventDefault();
+    function handleDeleteRecording(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
         setIsRecoding(false);
     }
-    function handleSendRecording(e: any) {
-        /** Edit
-         * function handleSendRecording(event:React.MouseEvent<HTMLButtonElement>) because any is bad indication for typescript ;)
-         * and Replace every e in the file
-         */
-        e.preventDefault();
+    function handleSendRecording(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
         setIsRecoding(false);
     }
     return (
         <>
             {textMessage !== "" ? (
                 <button type="submit" className="input-message-button">
-                    {" "}
                     <SendMsIcon />
                 </button>
             ) : (
                 <button
                     className={`input-message-button ${isRecording ? "hidden" : ""} `}
-                    onClick={(e) => handleOnClickVoice(e)}
+                    onClick={(event) => handleOnClickVoice(event)}
                 >
                     <VoiceIcon />
                 </button>
@@ -48,16 +35,14 @@ function InputMessageButtons() {
                 <>
                     <button
                         className="input-message-button mx-20 bg-red-500"
-                        onClick={(e) => handleDeleteRecording(e)}
+                        onClick={(event) => handleDeleteRecording(event)}
                     >
-                        {" "}
                         <DeleteIcon />
                     </button>
                     <button
                         className="input-message-button ml-3"
-                        onClick={(e) => handleSendRecording(e)}
+                        onClick={(event) => handleSendRecording(event)}
                     >
-                        {" "}
                         <SendMsIcon />
                     </button>
                 </>

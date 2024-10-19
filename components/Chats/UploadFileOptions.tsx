@@ -3,7 +3,6 @@ import { useShowFileOptions } from '@/store/inputMessage';
 import { UploadImageIcon, UploadFileIcon } from '@/utils/icons'
 import { useEffect, useRef } from 'react';
 import { checkClickOutside } from "@/utils/inputMessage"
-import React from 'react'
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { isShow, setIsShow } = useShowFileOptions()

@@ -9,25 +9,16 @@ function Emoji() {
     const [showEmoji, setShowEmoji] = useState<boolean>(false);
     const { setEmoji } = useInputTextMessage();
     const emojiRef = useRef<HTMLDivElement | null>(null);
-    function handleOnClick(e: any) {
-        /** Edit
-         * function handleOnClick(event:React.MouseEvent<HTMLButtonElement>) because any is bad indication for typescript ;)
-         * and Replace every e in the file
-         */
-        e.preventDefault();
+    function handleOnClick(event:React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
         setShowEmoji((showEmojie) => !showEmojie);
     }
-    const onEmojiClick = (emojiObject: any) => {
-        /** Edit
-         * function OnEmojiClick(event:React.MouseEvent<HTMLButtonElement>) because any is bad indication for typescript ;)
-         * and Replace every e in the file
-         */
+    const onEmojiClick = (emojiObject:{native:string}) => {
         setEmoji(emojiObject.native);
     };
     const handleClickOutside = (event: MouseEvent) => {
-        // Perfect I want all to be like that
         if (checkClickOutside(event, emojiRef.current)) {
-            setShowEmoji(false); // Close the picker when clicking outside
+            setShowEmoji(false); 
         }
     };
     useEffect(() => {
@@ -49,7 +40,7 @@ function Emoji() {
             )}
             <button
                 className="absolute bottom-[.9rem] left-[10%] z-10 w-7"
-                onClick={(e) => handleOnClick(e)}
+                onClick={(event) => handleOnClick(event)}
             >
                 <SmileFaceIcon />
             </button>
