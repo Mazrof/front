@@ -12,7 +12,7 @@ function AttachFiles() {
         <>
             {isShow && <UploadFilesOption />}
             <button
-                className="absolute bottom-[.9rem] right-[10%] z-10 w-7"
+                className="relative  right-10 z-10 w-7"
                 onClick={(event) => handleOnClick(event)}
             >
                 <AttachFileIcon />

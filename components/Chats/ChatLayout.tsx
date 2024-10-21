@@ -1,12 +1,14 @@
-import React from 'react'
-import InputMessage from "@/components/Chats/InputMessage"
+"use client"
+import { useSelectedChtaId } from "@/store/user";
+import ChatRoom from "./ChatRoom";
 function ChatLayout() {
+    const { isSelectedChatId } = useSelectedChtaId()
+    const isSelectedChat = isSelectedChatId()
     return (
-        <div className='dark:bg-dark bg-light hidden md:block w-full min-h-screen overflow-y-auto relative'>
-            Chatting
-            <InputMessage placeHolder='Message'/>
+        <div className={`dark:bg-dark bg-light relative ${!isSelectedChat && "hidden"} min-h-screen w-full overflow-y-auto md:block overflow-x-hidden flex flex-col`}>
+            {isSelectedChat && <ChatRoom />}
         </div>
-    )
+    );
 }
 
-export default ChatLayout
+export default ChatLayout;

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif,'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+  font-family: Arial, Helvetica, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Color Emoji";
 }
 
 .bg-light {
@@ -20,6 +21,7 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
 }
 
 @layer base {
@@ -87,15 +89,16 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-  .input-message-button{
-    @apply bg-blue-700 dark:bg-purple-700 w-16 h-16 rounded-full  absolute right-1 flex justify-center items-center
+
+  .input-message-button {
+    @apply absolute right-0  translate-x-24 flex h-16 w-16 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700 ;
   }
-  .file-option-container{
-    @apply flex items-center  justify-between w-full   hover:bg-zinc-400
+
+  .file-option-container {
+    @apply flex w-full items-center justify-between hover:bg-zinc-400;
   }
-  .file-option-label{
-    @apply  text-black w-full py-2 px-4 rounded cursor-pointer dark:text-white flex justify-between 
+
+  .file-option-label {
+    @apply flex w-full cursor-pointer justify-between rounded px-4 py-2 text-black dark:text-white;
   }
- 
-   
 }
