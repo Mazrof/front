@@ -9,10 +9,10 @@ function InputMessage({ placeHolder }: { placeHolder: string }) {
         setTextMessage(e.target.value.trimStart());
     }
     return (
-        <form className="absolute bottom-10 mx-auto mt-auto flex w-[95%] items-center justify-center">
-            <div className="absolute mx-auto flex w-[90%] items-center justify-center">
+        <form className={`absolute bottom-5  mt-auto  flex w-[90%] items-center justify-between -ml-12`}>
+            <div className="relative flex min-w-full w-full items-center justify-center ">
                 <Emoji />
-                <div className="bottom-4 w-[85%]">
+                <div className={`bottom-4 w-[78%]`}>
                     <input
                         type="text"
                         placeholder={placeHolder}
