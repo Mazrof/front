@@ -5,7 +5,7 @@ import {
     MessageImage,
     MessageText,
     MessageVideo,
-} from "@/components/Chats/Message";
+} from "@/components/Chats/Message/Message";
 
 type MessageResponseType = {
     text: string | undefined;
