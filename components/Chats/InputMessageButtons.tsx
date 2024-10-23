@@ -34,13 +34,13 @@ function InputMessageButtons() {
             {isRecording && (
                 <>
                     <button
-                        className="input-message-button mx-20 bg-red-500"
+                        className="input-message-button mx-20 bg-red-500 "
                         onClick={(event) => handleDeleteRecording(event)}
                     >
                         <DeleteIcon />
                     </button>
                     <button
-                        className="input-message-button ml-3"
+                        className="input-message-button "
                         onClick={(event) => handleSendRecording(event)}
                     >
                         <SendMsIcon />

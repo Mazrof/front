@@ -9,16 +9,16 @@ function Emoji() {
     const [showEmoji, setShowEmoji] = useState<boolean>(false);
     const { setEmoji } = useInputTextMessage();
     const emojiRef = useRef<HTMLDivElement | null>(null);
-    function handleOnClick(event:React.MouseEvent<HTMLButtonElement>) {
+    function handleOnClick(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setShowEmoji((showEmojie) => !showEmojie);
     }
-    const onEmojiClick = (emojiObject:{native:string}) => {
+    const onEmojiClick = (emojiObject: { native: string }) => {
         setEmoji(emojiObject.native);
     };
     const handleClickOutside = (event: MouseEvent) => {
         if (checkClickOutside(event, emojiRef.current)) {
-            setShowEmoji(false); 
+            setShowEmoji(false);
         }
     };
     useEffect(() => {
@@ -34,12 +34,12 @@ function Emoji() {
     return (
         <>
             {showEmoji && (
-                <div className="absolute bottom-20 left-[8%] bg-white" ref={emojiRef}>
+                <div className="absolute bottom-20 left-[10%] bg-white" ref={emojiRef}>
                     <Picker data={data} onEmojiSelect={onEmojiClick} theme="light" />
                 </div>
             )}
             <button
-                className="absolute bottom-[.9rem] left-[10%] z-10 w-7"
+                className="relative left-10 z-10 w-7"
                 onClick={(event) => handleOnClick(event)}
             >
                 <SmileFaceIcon />
