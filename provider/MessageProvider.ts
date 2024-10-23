@@ -1,5 +1,6 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, useContext } from "react";
 
+import { MessageType } from "@/types/Message";
 export const MessageContext = createContext<MessageType | undefined>(undefined);
 
 export function useMessageContext() {

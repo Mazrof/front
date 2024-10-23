@@ -1,78 +1,77 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useMessageContext } from "@/provider/MessageProvider";
+import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 export function MessageImage() {
-    const message = useMessageContext();
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
+    let { imageUrl } = useMessageContext();
+    imageUrl = imageUrl || [];
+    const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+    const [selectedImage, setSelectedImage] = useState<number>(-1);
     const handleImageClick = (index: number) => {
         setSelectedImage(index);
         setIsOpen(true);
     };
-
-    const imageUrls = message?.imageUrl || [];
-    const maxDisplayImages = 3;
-
     return (
-        <div className="relative grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-            {imageUrls.slice(0, maxDisplayImages).map((photo, index) => (
-                <div
+        <div className="flex w-full flex-wrap">
+            {imageUrl.slice(0, 4).map((img, index) => (
+                <figure
                     key={index}
-                    className="relative cursor-pointer"
+                    className={`relative ${imageUrl.length === 1 ? "w-full" : "w-1/2"}`}
                     onClick={() => handleImageClick(index)}
                 >
                     <Image
-                        src={photo}
-                        width={100}
-                        height={100}
-                        layout="responsive"
-                        alt={`Image ${index + 1}`}
-                        className="h-auto w-full rounded-md object-cover"
+                        src={img}
+                        width={1000}
+                        height={1000}
+                        alt={`photo ${index}`}
+                        className="block h-full w-full object-cover"
                     />
-                    {/* Show "+X" if this is the last image and there are more images */}
-                    {index === maxDisplayImages - 1 && imageUrls.length > maxDisplayImages && (
+                    {index === 3 && (imageUrl ? imageUrl.length : 0) > 3 && (
                         <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black bg-opacity-50 text-lg font-bold text-white">
-                            +{imageUrls.length - maxDisplayImages}
+                            +{imageUrl.length - 4}
                         </div>
                     )}
-                </div>
+                </figure>
             ))}
-
-            {/* Dialog Modal for Image Preview */}
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="max-w-4xl">
-                    <DialogHeader>
-                        <DialogTitle>Image Preview</DialogTitle>
-                    </DialogHeader>
-                    {selectedImage !== null && (
-                        <div className="flex flex-col items-center space-y-4">
+                <DialogContent className="container w-full border-none bg-transparent p-16 text-white shadow-none outline-none sm:max-w-3xl lg:max-w-7xl">
+                    <div className="flex items-center justify-center space-x-12">
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => {
+                                if (selectedImage) setSelectedImage(selectedImage - 1);
+                            }}
+                        >
+                            <MoveLeftIcon />
+                        </Button>
+
+                        <div className="flex items-center justify-center space-y-4">
                             <Image
-                                src={imageUrls[selectedImage]}
-                                width={800}
-                                height={800}
-                                layout="responsive"
+                                src={imageUrl[selectedImage]}
+                                width={1000}
+                                height={1000}
+                                // layout="responsive"
                                 alt={`Preview Image ${selectedImage + 1}`}
                                 className="h-auto w-full rounded-lg object-cover"
                             />
-                            <div className="flex space-x-4">
-                                {/* Show small thumbnails for other images */}
-                                {imageUrls.map((photo, idx) => (
-                                    <div
-                                        key={idx}
-                                        className={`cursor-pointer ${idx === selectedImage ? "border-2 border-blue-500" : ""}`}
-                                        onClick={() => setSelectedImage(idx)}
-                                    >
-                                        <Image
-                                            src={photo}
-                                            width={60}
-                                            height={60}
-                                            layout="fixed"
-                                            alt={`Thumbnail ${idx + 1}`}
-                                            className="rounded-md object-cover"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
                         </div>
-                    )}
+
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => {
+                                if (selectedImage + 1 < imageUrl.length) {
+                                    setSelectedImage(selectedImage + 1);
+                                }
+                            }}
+                        >
+                            <MoveRightIcon />
+                        </Button>
+                    </div>
                 </DialogContent>
             </Dialog>
         </div>

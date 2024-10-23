@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
-iimport { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"; // Importing ShadCN UI components
-import { useState } from "react";
-
+import { MessageContext } from "@/provider/MessageProvider";
+import { MessageType } from "@/types/Message";
+import { PropsWithChildren } from "react";
 
 type MessageProps = PropsWithChildren & {
     message: MessageType;
@@ -12,10 +11,9 @@ type MessageProps = PropsWithChildren & {
 export function Message({ children, message }: MessageProps) {
     return (
         <MessageContext.Provider value={message}>
-            <div className="mx-auto my-4 flex w-fit flex-col flex-wrap rounded-lg bg-white">
+            <div className="my-4 flex w-fit flex-col flex-wrap items-center justify-center rounded-lg bg-white">
                 {children}
             </div>
         </MessageContext.Provider>
     );
 }
-

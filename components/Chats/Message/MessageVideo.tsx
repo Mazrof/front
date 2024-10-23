@@ -1,3 +1,5 @@
+"use client";
+import { useMessageContext } from "@/provider/MessageProvider";
 export function MessageVideo() {
     const message = useMessageContext();
     return (
