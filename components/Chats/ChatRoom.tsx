@@ -1,6 +1,6 @@
 "use client";
-import { UploadingAlert } from "./UploadingAlert";
-import InputMessage from "@/components/Chats/InputMessage";
+import { UploadingAlert } from "./InputMessage/UploadingAlert";
+import InputMessage from "@/components/Chats/InputMessage/InputMessage";
 import InfoChatBar from "./InfoChatBar";
 function ChatRoom() {
     return (

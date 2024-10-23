@@ -1,5 +1,5 @@
 "use client";
-import Emoji from "@/components/Chats/Emoji";
+import Emoji from "@/components/Chats/InputMessage/Emoji";
 import AttachFiles from "./AttachFiles";
 import { useInputTextMessage } from "@/store/inputMessage";
 import InputMessageButtons from "./InputMessageButtons";

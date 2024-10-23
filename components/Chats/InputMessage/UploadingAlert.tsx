@@ -3,7 +3,7 @@ import { CloseIcon } from "@/utils/icons";
 import { useEffect } from "react";
 import { useOpenAlert, useFileInfo, useFileInput, useInputTextMessage } from "@/store/inputMessage";
 import { capitalizeFirstLetter } from "@/utils/inputMessage";
-import ShowUploaded from "@/components/Chats/ShowUploaded";
+import ShowUploaded from "@/components/Chats/InputMessage/ShowUploaded";
 import { getFileType } from "@/utils/inputMessage";
 import {
     AlertDialog,
@@ -20,7 +20,7 @@ export function UploadingAlert() {
     const { isOpenAlert, setIsOpenAlert } = useOpenAlert();
     const { fileType, setFileType, setUrl } = useFileInfo();
     const { caption, setCaption, setUploadedFile } = useFileInput();
-    const { textMessage } = useInputTextMessage();
+    const { textMessage, setTextMessage } = useInputTextMessage();
     const type = getFileType(fileType);
     function handleChangeCaption(event: React.ChangeEvent<HTMLInputElement>) {
         setCaption(event.target.value);
@@ -30,8 +30,9 @@ export function UploadingAlert() {
         setFileType("");
         setUploadedFile(null);
         setIsOpenAlert(false);
+        setTextMessage("");
     }
-    function sendImageVideo() {
+    function sendFile() {
         //ToDO BackEnd
         unSetVariables();
     }
@@ -62,9 +63,9 @@ export function UploadingAlert() {
                     />
                     <AlertDialogAction
                         className="bg-blue-700 hover:bg-blue-500 dark:bg-purple-700 dark:hover:bg-purple-500"
-                        onClick={sendImageVideo}
+                        onClick={sendFile}
                     >
-                        Send
+                        SEND
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
