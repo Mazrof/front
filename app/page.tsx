@@ -4,8 +4,7 @@ export default function Home() {
     return (
         <div className="min-w-screen flex min-h-screen max-w-full">
             <SideBar />
-            <ChatLayout/ >
-       
+            <ChatLayout />
         </div>
     );
 }

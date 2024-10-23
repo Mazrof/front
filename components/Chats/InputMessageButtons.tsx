@@ -20,12 +20,12 @@ function InputMessageButtons() {
     return (
         <>
             {textMessage !== "" ? (
-                <button type="submit" className="input-message-button">
+                <button type="submit" className="input-message-button button-colors">
                     <SendMsIcon />
                 </button>
             ) : (
                 <button
-                    className={`input-message-button ${isRecording ? "hidden" : ""} `}
+                    className={`input-message-button button-colors ${isRecording ? "hidden" : ""} `}
                     onClick={(event) => handleOnClickVoice(event)}
                 >
                     <VoiceIcon />
@@ -34,13 +34,13 @@ function InputMessageButtons() {
             {isRecording && (
                 <>
                     <button
-                        className="input-message-button mx-20 bg-red-500 "
+                        className="input-message-button mx-20 bg-red-500"
                         onClick={(event) => handleDeleteRecording(event)}
                     >
                         <DeleteIcon />
                     </button>
                     <button
-                        className="input-message-button "
+                        className="input-message-button button-colors"
                         onClick={(event) => handleSendRecording(event)}
                     >
                         <SendMsIcon />

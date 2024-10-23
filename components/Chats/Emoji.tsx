@@ -34,14 +34,11 @@ function Emoji() {
     return (
         <>
             {showEmoji && (
-                <div className="absolute bottom-20 left-[10%] bg-white" ref={emojiRef}>
+                <div className="absolute bottom-20 left-[11%] bg-white" ref={emojiRef}>
                     <Picker data={data} onEmojiSelect={onEmojiClick} theme="light" />
                 </div>
             )}
-            <button
-                className="relative left-10 z-10 w-7"
-                onClick={(event) => handleOnClick(event)}
-            >
+            <button className="relative left-10 z-10 w-7" onClick={(event) => handleOnClick(event)}>
                 <SmileFaceIcon />
             </button>
         </>

@@ -4,6 +4,9 @@ import {
     ShowFileOptions,
     isRecordingOption,
     ShowSideBar,
+    FileInfo,
+    FileInput,
+    OpenAlert,
 } from "@/types/inputMessage";
 const useInputTextMessage = create<InputMessageStore>((set) => ({
     textMessage: "",
@@ -23,4 +26,28 @@ const useShowSideBar = create<ShowSideBar>((set) => ({
     isShow: false,
     setIsShow: (newIsShow) => set({ isShow: newIsShow }),
 }));
-export { useInputTextMessage, useShowFileOptions, useIsRecording, useShowSideBar };
+const useFileInfo = create<FileInfo>((set) => ({
+    url: "",
+    fileType: "",
+    setUrl: (newUrl: string) => set({ url: newUrl }),
+    setFileType: (newType: string) => set({ fileType: newType }),
+}));
+const useFileInput = create<FileInput>((set) => ({
+    uploadedFile: null,
+    caption: "",
+    setUploadedFile: (newFile: File | null) => set({ uploadedFile: newFile }),
+    setCaption: (newCaption: string) => set({ caption :newCaption}),
+}));
+const useOpenAlert = create<OpenAlert>(set => ({
+    isOpenAlert: false,
+    setIsOpenAlert:(newIsOpen:boolean)=>set({isOpenAlert:newIsOpen})
+}))
+export {
+    useInputTextMessage,
+    useShowFileOptions,
+    useIsRecording,
+    useShowSideBar,
+    useFileInfo,
+    useFileInput,
+    useOpenAlert,
+};

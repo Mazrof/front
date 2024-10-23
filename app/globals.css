@@ -89,9 +89,11 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-
+   .button-colors{
+    @apply bg-blue-700 dark:bg-purple-700;
+   }
   .input-message-button {
-    @apply absolute right-0  translate-x-24 flex h-16 w-16 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700 ;
+    @apply absolute right-0  translate-x-24 flex h-16 w-16 items-center justify-center rounded-full ;
   }
 
   .file-option-container {
