@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useMessageContext } from "@/provider/MessageProvider";
 import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ export function MessageImage() {
             {imageUrl.slice(0, 4).map((img, index) => (
                 <figure
                     key={index}
-                    className={`relative ${imageUrl.length === 1 ? "w-full" : "w-1/2"}`}
+                    className={`relative ${imageUrl.length === 1 ? "w-full" : "w-1/2"} `}
                     onClick={() => handleImageClick(index)}
                 >
                     <Image
@@ -27,7 +27,7 @@ export function MessageImage() {
                         width={1000}
                         height={1000}
                         alt={`photo ${index}`}
-                        className="block h-full w-full object-cover"
+                        className={`-z-1 h-full w-full object-cover ${index <= 1 && "rounded-lg rounded-b-none"} ${imageUrl.length > 1 && index % 2 == 1 && "rounded-l-none"} ${imageUrl.length > 1 && index % 2 == 0 && "rounded-r-none"}`}
                     />
                     {index === 3 && (imageUrl ? imageUrl.length : 0) > 3 && (
                         <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black bg-opacity-50 text-lg font-bold text-white">
