@@ -5,7 +5,7 @@ export default function ChatsSearchBar() {
       <header className="flex items-center justify-between bg-[#2C2F33] p-4 shadow-md">
         <div className="flex items-center">
           <Image
-            src="/images/logo.png"
+            src="/images/logo.jpg"
             alt="App Logo"
             width={40}
             height={40}
