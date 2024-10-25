@@ -90,7 +90,7 @@ const ChatList = () => {
     const [hasImage, setHasImage] = useState(true);
 
     return (
-        <div className="custom-scrollbar h-full space-y-4 overflow-y-auto p-2">
+        <div className="custom-scrollbar space-y-4 p-2">
             {chatData.map((chat, index) => (
                 <div
                     key={chat.id}
