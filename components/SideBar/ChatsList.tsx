@@ -22,6 +22,33 @@ const chatData = [
         pinned: false,
     },
     {
+        id: 2,
+        name: "Jane Smith",
+        avatar: "/images/default-avatar.gif",
+        lastMessage: "Got the files. Thanks!",
+        time: "10:20 PM",
+        unreadCount: 0,
+        pinned: false,
+    },
+    {
+        id: 2,
+        name: "Jane Smith",
+        avatar: "/images/default-avatar.gif",
+        lastMessage: "Got the files. Thanks!",
+        time: "10:20 PM",
+        unreadCount: 0,
+        pinned: false,
+    },
+    {
+        id: 2,
+        name: "Jane Smith",
+        avatar: "/images/default-avatar.gif",
+        lastMessage: "Got the files. Thanks!",
+        time: "10:20 PM",
+        unreadCount: 0,
+        pinned: false,
+    },
+    {
         id: 3,
         name: "Mike Tyson",
         avatar: "/images/default-avatar.gif",
@@ -90,7 +117,7 @@ const ChatList = () => {
     const [hasImage, setHasImage] = useState(true);
 
     return (
-        <div className="custom-scrollbar space-y-4 p-2">
+        <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
             {chatData.map((chat, index) => (
                 <div
                     key={chat.id}
