@@ -22,6 +22,13 @@ body {
 .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(128, 118, 118, 0.4);
