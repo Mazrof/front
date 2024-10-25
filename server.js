@@ -18,5 +18,5 @@ server.use((request, response, next) => {
 server.use(router);
 
 server.listen(4000, () => {
-    console.log("JSON Server RUNNING");
+    console.log("JSON Server Running...");
 });

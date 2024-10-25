@@ -1,15 +1,22 @@
 "use client";
-import React from "react";
 import { useSelectedChatId } from "@/store/user";
+import ChatList from "./ChatsList";
+import React from "react";
+import ChatsSearchBar from "./ChatsSearchBar";
+import NewChatButton from "./NewChatButton";
 function SideBar() {
     const { isSelectedChatId } = useSelectedChatId();
     const isSelectedChat = isSelectedChatId();
 
     return (
         <div
-            className={`px-2 ${isSelectedChat && "hidden"} z-10 max-w-[500px] border-r-2 border-white bg-white sm:w-[600px] sm:min-w-[530px] lg:block`}
+            className={`custom-scrollbar group ${isSelectedChat && "hidden"} relative h-screen w-1/3 overflow-y-scroll bg-[#212121] p-4`}
         >
-            Side Bar
+            <ChatsSearchBar />
+            <ChatList />
+            <div className="absolute bottom-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <NewChatButton />
+            </div>
         </div>
     );
 }
