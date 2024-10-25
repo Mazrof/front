@@ -1,12 +1,11 @@
-import jsonServer from "json-server";
-import type { NextFunction, Request, Response } from "express";
-
+/* eslint-disable @typescript-eslint/no-require-imports */
+const jsonServer = require("json-server");
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
-server.use((request: Request, response: Response, next: NextFunction) => {
+server.use((request, response, next) => {
     console.log("Request Received");
     response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader(
@@ -18,6 +17,6 @@ server.use((request: Request, response: Response, next: NextFunction) => {
 
 server.use(router);
 
-server.listen(3001, () => {
-    console.log("JSON Server RUNNING");
+server.listen(4000, () => {
+    console.log("JSON Server Running...");
 });

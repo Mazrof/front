@@ -1,4 +1,3 @@
-// components/ChatList.js
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -97,7 +96,7 @@ const ChatList = () => {
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#212121] p-3 shadow-sm transition duration-150 hover:bg-[#2B2B2B]"
                 >
-                    {hasImage && index%2==0 ? (
+                    {hasImage && index % 2 == 0 ? (
                         <Image
                             src={chat.avatar}
                             alt={chat.name}
@@ -127,7 +126,9 @@ const ChatList = () => {
                                 ) : (
                                     <span className="text-gray-400">✔️</span>
                                 )}
-                                {chat.pinned && <span className="hover:bg-slate-600 rounded-full">📌</span>}
+                                {chat.pinned && (
+                                    <span className="rounded-full hover:bg-slate-600">📌</span>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,9 @@
-"use client"
-import { useSelectedChtaId } from "@/store/user";
+import { MessageType } from "@/types/Message";
 import ChatRoom from "./ChatRoom";
-function ChatLayout() {
-    const { isSelectedChatId } = useSelectedChtaId()
-    const isSelectedChat = isSelectedChatId()
-    return (
-        <div className={`dark:bg-dark bg-light relative ${!isSelectedChat && "hidden"} min-h-screen w-3/4 overflow-y-auto md:block overflow-x-hidden flex flex-col`}>
-            {isSelectedChat && <ChatRoom />}
-        </div>
-    );
+async function ChatLayout() {
+    const response = await fetch("http://localhost:4000/messages");
+    const messages: MessageType[] = await response.json();
+    return <ChatRoom messages={messages} />;
 }
 
 export default ChatLayout;

@@ -1,4 +1,3 @@
-// utils/genAvatar.js
 export const genAvatar = (name: string) => {
     try {
         // Match General_Category=Letter

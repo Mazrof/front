@@ -1,4 +1,3 @@
-// components/Avatar.js
 import React from "react";
 import { genAvatar } from "../../utils/genAvatar";
 

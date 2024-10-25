@@ -52,7 +52,7 @@ export default function ChatsSearchBar() {
                     </button>
                 </div>
                 {isMenuOpen && (
-                    <div className="absolute right-0 top-20 z-10 w-48 rounded-lg bg-[#201f1f] py-2 text-gray-100 shadow-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute right-0 top-20 z-10 w-48 rounded-lg bg-[#201f1f] py-2 text-gray-100 opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100">
                         <ul>
                             <li className="flex cursor-pointer gap-2 px-4 py-2 hover:bg-[#2B2B2B]">
                                 <Image
