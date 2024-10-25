@@ -1,14 +1,24 @@
 "use client";
-import { useShowFileOptions } from "@/store/inputMessage";
+import { useShowFileOptions, useFileInput, useFileInfo, useOpenAlert } from "@/store/inputMessage";
 import { UploadImageIcon, UploadFileIcon } from "@/utils/icons";
 import { useEffect, useRef } from "react";
-import { checkClickOutside } from "@/utils/inputMessage";
+import { checkClickOutside, convertFileToImageVideo } from "@/utils/inputMessage";
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { isShow, setIsShow } = useShowFileOptions();
+    const { setUploadedFile } = useFileInput();
+    const { setUrl, setFileType } = useFileInfo();
+    const { setIsOpenAlert } = useOpenAlert();
+
     const handleClickOutside = (event: MouseEvent) => {
         if (checkClickOutside(event, optionRef.current)) {
-            setIsShow(); // Close the picker when clicking outside
+            setIsShow();
+        }
+    };
+    const handleOnChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            convertFileToImageVideo(event.target.files[0], setFileType, setUrl, setIsOpenAlert);
+            setUploadedFile(event.target.files[0]);
         }
     };
     useEffect(() => {
@@ -36,7 +46,7 @@ function UploadFilesOption() {
                     type="file"
                     className="hidden"
                     accept="image/*,video/*"
-                    onChange={(e) => console.log(e.target.files)}
+                    onChange={(event) => handleOnChooseFile(event)}
                 />
             </div>
             <div className="file-option-container">
@@ -44,7 +54,12 @@ function UploadFilesOption() {
                     <UploadFileIcon />
                     <p>Document</p>
                 </label>
-                <input id="file-upload" type="file" className="hidden" />
+                <input
+                    id="file-upload"
+                    type="file"
+                    className="hidden"
+                    onChange={(event) => handleOnChooseFile(event)}
+                />
             </div>
         </div>
     );

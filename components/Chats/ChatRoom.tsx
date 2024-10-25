@@ -1,5 +1,6 @@
 "use client";
-import InputMessage from "@/components/Chats/InputMessage";
+import { UploadingAlert } from "./InputMessage/UploadingAlert";
+import InputMessage from "@/components/Chats/InputMessage/InputMessage";
 import { Message } from "@/components/Chats/Message/Message";
 import { MessageImage } from "./Message/MessageImage";
 import { MessageVideo } from "./Message/MessageVideo";
@@ -33,6 +34,7 @@ function ChatRoom({ messages }: ChatRoomProps) {
                             ))}
                         </div>
                     </div>
+                    <UploadingAlert />
                     <InputMessage placeHolder="Message" />
                 </>
             )}
