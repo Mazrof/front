@@ -7,6 +7,11 @@ const nextConfig = {
                 hostname: '**', // Allows images from any domain
                 port: '', // Optional, can specify if needed
                 pathname: '/**', // Matches any path
+            },{
+                protocol: 'http',
+                hostname: '**', // Allows images from any domain
+                port: '', // Optional, can specify if needed
+                pathname: '/**', // Matches any path
             },
         ],
     },

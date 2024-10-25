@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "json-server": "nodemon --watch db.json --exec 'node server.js'",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
     "prettier": "prettier --write .",
@@ -29,6 +30,7 @@
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.3",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.0"
   },
@@ -53,6 +55,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "json-server": "^0.17.4",
     "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.7",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",

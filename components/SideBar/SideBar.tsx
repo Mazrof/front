@@ -1,15 +1,21 @@
-"use client"
-import React from 'react'
-import { useSelectedChtaId } from"@/store/user"
-function SideBar() {
-  const { isSelectedChatId } = useSelectedChtaId();
-  const isSelectedChat = isSelectedChatId()
+"use client";
 
-  return (
-    <div className={`px-2 ${isSelectedChat &&"hidden" } lg:block max-w-[500px] sm:min-w-[530px] sm:w-[600px] bg-white z-10 border-r-2 border-white`}>
-      Side Bar
-    </div>
-  )
+import ChatList from "./ChatsList";
+import React from "react";
+import ChatsSearchBar from "./ChatsSearchBar";
+import NewChatButton from "./NewChatButton";
+function SideBar() {
+    return (
+        <div
+            className={`group relative max-h-screen w-full bg-[#212121] py-2 pl-2 md:w-2/3 lg:w-1/3 xl:w-1/4`}
+        >
+            <ChatsSearchBar />
+            <ChatList />
+            <div className="absolute bottom-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <NewChatButton />
+            </div>
+        </div>
+    );
 }
 
-export default SideBar
+export default SideBar;
