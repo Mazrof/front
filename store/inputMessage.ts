@@ -7,6 +7,7 @@ import {
     FileInfo,
     FileInput,
     OpenAlert,
+    isMaxSizeError
 } from "@/types/inputMessage";
 const useInputTextMessage = create<InputMessageStore>((set) => ({
     textMessage: "",
@@ -42,6 +43,11 @@ const useOpenAlert = create<OpenAlert>(set => ({
     isOpenAlert: false,
     setIsOpenAlert:(newIsOpen:boolean)=>set({isOpenAlert:newIsOpen})
 }))
+const useIsMaxSizeError = create<isMaxSizeError>(set =>( {
+    isMaxSize: false,
+    setIsMaxSize:(newIsMaxSize:boolean)=>set({isMaxSize:newIsMaxSize})
+    
+}))
 export {
     useInputTextMessage,
     useShowFileOptions,
@@ -50,4 +56,5 @@ export {
     useFileInfo,
     useFileInput,
     useOpenAlert,
+    useIsMaxSizeError
 };

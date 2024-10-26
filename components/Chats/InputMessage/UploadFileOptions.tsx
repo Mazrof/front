@@ -1,24 +1,51 @@
 "use client";
-import { useShowFileOptions, useFileInput, useFileInfo, useOpenAlert } from "@/store/inputMessage";
-import { UploadImageIcon, UploadFileIcon } from "@/utils/icons";
+import {
+    useShowFileOptions,
+    useFileInput,
+    useFileInfo,
+    useOpenAlert,
+    useIsMaxSizeError,
+} from "@/store/inputMessage";
+import { UploadImageIcon, UploadFileIcon, CompressIcon } from "@/utils/icons";
 import { useEffect, useRef } from "react";
-import { checkClickOutside, convertFileToImageVideo } from "@/utils/inputMessage";
+import {
+    checkClickOutside,
+    convertFileToImageVideo,
+    isAllowedFileSize,
+    compressMedia,
+} from "@/utils/inputMessage";
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { isShow, setIsShow } = useShowFileOptions();
-    const { setUploadedFile } = useFileInput();
+    const {  setUploadedFile } = useFileInput();
     const { setUrl, setFileType } = useFileInfo();
     const { setIsOpenAlert } = useOpenAlert();
-
+    const { setIsMaxSize } = useIsMaxSizeError();
     const handleClickOutside = (event: MouseEvent) => {
         if (checkClickOutside(event, optionRef.current)) {
             setIsShow();
         }
     };
+    const handleOnChooseCompress = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setIsOpenAlert(true);
+            const compress: File | undefined = await compressMedia(event.target.files[0]);
+           filesChecks(compress);//if he close the alert before loading has been completed
+        }
+    };
+    const filesChecks = (file: File | undefined) => {
+        if (file && isAllowedFileSize(file.size)) {
+            convertFileToImageVideo(file, setFileType, setUrl, setIsOpenAlert);
+            setUploadedFile(file);
+        } else {
+            setIsMaxSize(true);
+            setIsOpenAlert(true);
+        }
+    };
     const handleOnChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
-            convertFileToImageVideo(event.target.files[0], setFileType, setUrl, setIsOpenAlert);
-            setUploadedFile(event.target.files[0]);
+            const file: File = event.target.files[0];
+            filesChecks(file);
         }
     };
     useEffect(() => {
@@ -33,9 +60,22 @@ function UploadFilesOption() {
     }, [isShow]);
     return (
         <div
-            className="absolute bottom-16 right-[8%] flex w-48 flex-col rounded-md bg-gray-200 dark:bg-gray-600"
+            className="absolute bottom-16 right-[8%] flex w-52 flex-col items-start rounded-md bg-gray-200 align-bottom dark:bg-gray-600"
             ref={optionRef}
         >
+            <div className="file-option-container">
+                <label htmlFor="compress-media-upload" className="file-option-label">
+                    <CompressIcon />
+                    <p>Compress Media</p>
+                </label>
+                <input
+                    id="compress-media-upload"
+                    type="file"
+                    className="hidden"
+                    accept="image/jpeg, image/png, image/gif, image/webp,video/*"
+                    onChange={(event) => handleOnChooseCompress(event)}
+                />
+            </div>
             <div className="file-option-container">
                 <label htmlFor="photo-upload" className="file-option-label">
                     <UploadImageIcon />
