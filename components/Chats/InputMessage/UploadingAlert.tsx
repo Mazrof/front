@@ -46,7 +46,7 @@ export function UploadingAlert() {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="flex gap-14 text-center align-middle text-2xl">
-                        <AlertDialogCancel onClick={unSetVariables} className={`${type===""?"hidden":""}`}>
+                        <AlertDialogCancel onClick={unSetVariables} className={`${(!isMaxSize && type==="")?"hidden":""}`}>
                             <CloseIcon />
                         </AlertDialogCancel>
                         Send {capitalizeFirstLetter(type)}
@@ -59,7 +59,7 @@ export function UploadingAlert() {
                 <AlertDialogFooter className={`${isMaxSize ? "hidden" : ""}`}>
                     <input
                         type="text"
-                        className="w-full bg-white outline-none dark:bg-black"
+                        className={`w-full bg-white outline-none dark:bg-black ${type===""?"hidden":""}`}
                         placeholder="Add a caption..."
                         value={caption}
                         onChange={(event) => handleChangeCaption(event)}
