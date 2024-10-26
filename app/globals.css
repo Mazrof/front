@@ -116,10 +116,10 @@ body {
     }
 
     .file-option-container {
-        @apply flex w-full items-center justify-between hover:bg-zinc-400;
+        @apply flex w-full hover:bg-zinc-400;
     }
 
     .file-option-label {
-        @apply flex w-full cursor-pointer justify-between rounded px-4 py-2 text-black dark:text-white;
+        @apply flex w-full cursor-pointer items-center justify-between rounded px-4 py-2 text-black dark:text-white;
     }
 }

@@ -34,7 +34,7 @@ function InputMessageButtons() {
             {isRecording && (
                 <>
                     <button
-                        className="input-message-button mx-20 bg-red-500"
+                        className="input-message-button mr-20 bg-red-500"
                         onClick={(event) => handleDeleteRecording(event)}
                     >
                         <DeleteIcon />

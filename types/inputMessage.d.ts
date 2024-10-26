@@ -33,3 +33,7 @@ export type OpenAlert = {
     setIsOpenAlert:(newIsOpen:boolean)=>void
     
 }
+export type isMaxSizeError = {
+    isMaxSize: boolean,
+    setIsMaxSize:(newIsMaaxSize:boolean)=>void
+}
