@@ -17,13 +17,13 @@ function SideBar(sideBarProp: SideBarProp) {
     const { isSelectedChatId } = useSelectedChatId();
     const isSelectedChat = isSelectedChatId();
     return (
-        <div className={`w-3/12`}>
+        <div className={`${isSelectedChat && "hidden md:block"} sm:w-full md:w-1/4`}>
             <div
-                className={`relative min-h-screen ${isSelectedChat && "hidden"} group max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
+                className={`group relative max-h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
             >
                 <ChatsSearchBar {...sideBarProp} />
                 <ChatList />
-                <div className="absolute bottom-24 right-4 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute bottom-12 right-4 opacity-0 transition-opacity group-hover:opacity-100">
                     <NewChatButton />
                 </div>
             </div>
