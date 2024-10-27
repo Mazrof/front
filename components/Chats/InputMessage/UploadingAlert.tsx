@@ -1,9 +1,9 @@
 "use client";
 import { CloseIcon } from "@/utils/icons";
 import { useEffect } from "react";
-import { useOpenAlert, useFileInfo, useFileInput, useInputTextMessage } from "@/store/inputMessage";
+import { useOpenAlert, useFileInfo, useFileInput, useInputTextMessage, useIsMaxSizeError } from "@/store/inputMessage";
 import { capitalizeFirstLetter } from "@/utils/inputMessage";
-import ShowUploaded from "@/components/Chats/InputMessage/ShowUploaded";
+import ShowUploadedFiles from "@/components/Chats/InputMessage/ShowUploadedFiles";
 import { getFileType } from "@/utils/inputMessage";
 import {
     AlertDialog,
@@ -21,6 +21,7 @@ export function UploadingAlert() {
     const { fileType, setFileType, setUrl } = useFileInfo();
     const { caption, setCaption, setUploadedFile } = useFileInput();
     const { textMessage, setTextMessage } = useInputTextMessage();
+    const { setIsMaxSize, isMaxSize } = useIsMaxSizeError()
     const type = getFileType(fileType);
     function handleChangeCaption(event: React.ChangeEvent<HTMLInputElement>) {
         setCaption(event.target.value);
@@ -30,10 +31,11 @@ export function UploadingAlert() {
         setFileType("");
         setUploadedFile(null);
         setIsOpenAlert(false);
-        setTextMessage("");
+        setIsMaxSize(false)
     }
     function sendFile() {
         //ToDO BackEnd
+        setTextMessage("");
         unSetVariables();
     }
     useEffect(() => {
@@ -44,25 +46,26 @@ export function UploadingAlert() {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="flex gap-14 text-center align-middle text-2xl">
-                        <AlertDialogCancel onClick={unSetVariables}>
+                        <AlertDialogCancel onClick={unSetVariables} className={`${(!isMaxSize && type==="")?"hidden":""}`}>
                             <CloseIcon />
                         </AlertDialogCancel>
                         Send {capitalizeFirstLetter(type)}
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="max-h-96 w-full overflow-hidden">
-                        <ShowUploaded />
-                    </AlertDialogDescription>
+                    <AlertDialogDescription className="text-xl text-center ">{isMaxSize ?"This File is exceeding the maximum size 100MB":""}</AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <div className={`max-h-96 w-full overflow-hidden ${isMaxSize?"hidden":""}`}>
+                        <ShowUploadedFiles />
+                    </div>
+                <AlertDialogFooter className={`${isMaxSize ? "hidden" : ""}`}>
                     <input
                         type="text"
-                        className="w-full bg-white outline-none dark:bg-black"
+                        className={`w-full bg-white outline-none dark:bg-black ${type===""?"hidden":""}`}
                         placeholder="Add a caption..."
                         value={caption}
                         onChange={(event) => handleChangeCaption(event)}
                     />
                     <AlertDialogAction
-                        className="bg-blue-700 hover:bg-blue-500 dark:bg-purple-700 dark:hover:bg-purple-500"
+                        className={`bg-blue-700 hover:bg-blue-500 dark:bg-purple-700 dark:hover:bg-purple-500 ${type===""?"hidden":""}`}
                         onClick={sendFile}
                     >
                         SEND
@@ -72,3 +75,4 @@ export function UploadingAlert() {
         </AlertDialog>
     );
 }
+

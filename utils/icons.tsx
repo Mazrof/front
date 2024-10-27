@@ -262,8 +262,8 @@ export function LeftArrowIcon() {
 export function CloseIcon() {
     return (
         <svg
-            width="30px"
-            height="30px"
+            width="25px"
+            height="25px"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -283,6 +283,29 @@ export function CloseIcon() {
                         strokeLinejoin="round"
                     ></path>{" "}
                 </g>{" "}
+            </g>
+        </svg>
+    );
+}
+
+export function CompressIcon() {
+    return (
+        <svg
+            width="24px"
+            height="24px"
+            viewBox="0 0 16 16"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+        >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path fill="gray" d="M12 0h-12v12l1-1v-10h10z"></path>{" "}
+                <path fill="gray" d="M4 16h12v-12l-1 1v10h-10z"></path>{" "}
+                <path fill="gray" d="M7 9h-5l1.8 1.8-3.8 3.8 1.4 1.4 3.8-3.8 1.8 1.8z"></path>{" "}
+                <path fill="gray" d="M16 1.4l-1.4-1.4-3.8 3.8-1.8-1.8v5h5l-1.8-1.8z"></path>{" "}
             </g>
         </svg>
     );
