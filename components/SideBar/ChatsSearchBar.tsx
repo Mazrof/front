@@ -11,7 +11,7 @@ export default function ChatsSearchBar({ setDarkMode, showContacts, setShowConta
         return false;
     });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     function toggleMode() {
         setDarkModeState((prevMode) => !prevMode);
     }
@@ -26,21 +26,21 @@ export default function ChatsSearchBar({ setDarkMode, showContacts, setShowConta
     };
 
     function toggleContacts() {
-        setShowContacts(showContactsValue=>!showContactsValue);
+        setShowContacts((showContactsValue) => !showContactsValue);
     }
 
     return (
         <div>
             <header className="flex items-center justify-between bg-[#fcfcfc] p-4 shadow-md dark:bg-[#2C2F33]">
-                <div className="flex items-center mr-2">
+                <div className="mr-2 flex items-center">
                     <Image
                         src="/images/logo.gif"
                         alt="App Logo"
                         width={40}
                         height={40}
-                        className="rounded-full"
+                        className="w-5 rounded-full md:w-10"
                     />
-                    <h1 className="ml-2 text-xl font-semibold text-slate-800 dark:text-white">
+                    <h1 className="text-md ml-2 font-semibold text-slate-800 dark:text-white md:text-xl">
                         Mazrof
                     </h1>
                 </div>
@@ -114,7 +114,10 @@ export default function ChatsSearchBar({ setDarkMode, showContacts, setShowConta
                                 <span>{darkMode ? "🌑" : "☀️"}</span>
                                 <span>{darkMode ? "Night" : "Light"}</span>
                             </li>
-                            <li onClick={toggleContacts} className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                            <li
+                                onClick={toggleContacts}
+                                className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            >
                                 <span>📞</span>
                                 Contacts
                             </li>

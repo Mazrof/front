@@ -121,7 +121,7 @@ const ChatList = () => {
             {chatData.map((chat, index) => (
                 <div
                     key={chat.id}
-                    className="flex cursor-pointer items-center rounded-lg dark:bg-[#212121] p-3 shadow-sm transition  dark:hover:bg-[#3b3b3b] bg-[#f3f3f3] hover:bg-[#e9e9e9]"
+                    className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                 >
                     {hasImage && index % 2 == 0 ? (
                         <Image
@@ -132,26 +132,30 @@ const ChatList = () => {
                             className="rounded-full object-cover"
                         />
                     ) : (
-                        <div className="rounded-full object-cover ">
+                        <div className="rounded-full object-cover">
                             <Avatar name={chat.name} />
                         </div>
                     )}
                     <div className="ml-4 flex-grow">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold dark:text-white text-black">{chat.name}</h3>
-                            <span className="text-xs  text-gray-400 dark:text-gray-500">{chat.time}</span>
+                            <h3 className="text-lg font-semibold text-black dark:text-white">
+                                {chat.name}
+                            </h3>
+                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                                {chat.time}
+                            </span>
                         </div>
                         <div className="flex items-center justify-between">
-                            <p className="max-w-36 truncate text-sm  text-gray-400 dark:text-gray-400 ">
+                            <p className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400">
                                 {chat.lastMessage}
                             </p>
                             <div className="flex min-w-7 items-center space-x-1">
                                 {chat.unreadCount > 0 ? (
-                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full dark:bg-blue-500 dark:text-white bg-[#04be2d] text-white text-xs font-semibold ">
+                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white">
                                         {chat.unreadCount}
                                     </span>
                                 ) : (
-                                    <span >✔️</span>
+                                    <span>✔️</span>
                                 )}
                                 {chat.pinned && (
                                     <span className="rounded-full hover:bg-slate-600">📌</span>
