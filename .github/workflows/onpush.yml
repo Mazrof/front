@@ -2,9 +2,11 @@ name: main workflow
 
 on:
   push:
-    branches: [ "dev", "main", "test"]
+    branches:
+    - '**'
   pull_request:
-    branches: [ "dev", "main", "test" ]
+    branches:
+    - '**'
 
 jobs:
   build:
