@@ -1,7 +1,7 @@
 import React from "react";
 import { genAvatar } from "../../utils/genAvatar";
 
-const Avatar = ({ name }) => {
+const Avatar = ({ name }: { name: string }) => {
     const avatarLetter = genAvatar(name);
 
     return (

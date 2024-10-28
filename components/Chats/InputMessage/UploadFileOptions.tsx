@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import {
     useShowFileOptions,
@@ -17,7 +18,7 @@ import {
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { isShow, setIsShow } = useShowFileOptions();
-    const {  setUploadedFile } = useFileInput();
+    const { setUploadedFile } = useFileInput();
     const { setUrl, setFileType } = useFileInfo();
     const { setIsOpenAlert } = useOpenAlert();
     const { setIsMaxSize } = useIsMaxSizeError();
@@ -30,7 +31,7 @@ function UploadFilesOption() {
         if (event.target.files && event.target.files.length > 0) {
             setIsOpenAlert(true);
             const compress: File | undefined = await compressMedia(event.target.files[0]);
-           filesChecks(compress);//if he close the alert before loading has been completed
+            filesChecks(compress); //if he close the alert before loading has been completed
         }
     };
     const filesChecks = (file: File | undefined) => {

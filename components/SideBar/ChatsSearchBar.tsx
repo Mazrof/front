@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+import { SetDarkMode, SetShowContacts, ShowContacts } from "@/types/SideBar";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+type ChatsSearchBarProps = {
+    setDarkMode: SetDarkMode;
+    showContacts: ShowContacts;
+    setShowContacts: SetShowContacts;
+};
 
-export default function ChatsSearchBar({ setDarkMode, showContacts, setShowContacts }) {
+export default function ChatsSearchBar({
+    setDarkMode,
+    showContacts,
+    setShowContacts,
+}: ChatsSearchBarProps) {
     const [darkMode, setDarkModeState] = useState(() => {
         if (typeof window !== "undefined") {
             const storedMode = localStorage.getItem("darkMode");
@@ -13,7 +24,7 @@ export default function ChatsSearchBar({ setDarkMode, showContacts, setShowConta
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     function toggleMode() {
-        setDarkModeState((prevMode) => !prevMode);
+        setDarkModeState((prevMode: boolean) => !prevMode);
     }
 
     useEffect(() => {
