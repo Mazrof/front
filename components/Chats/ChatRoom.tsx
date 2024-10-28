@@ -10,7 +10,7 @@ import InfoChatBar from "./InfoChatBar";
 import { useSelectedChatId } from "@/store/user";
 import { MessageType } from "@/types/Message";
 type ChatRoomProps = {
-    messages: MessageType[];
+    messages: MessageType[] | undefined;
 };
 function ChatRoom({ messages }: ChatRoomProps) {
     const { isSelectedChatId } = useSelectedChatId();
@@ -24,7 +24,7 @@ function ChatRoom({ messages }: ChatRoomProps) {
                     <InfoChatBar />
                     <div className="mb-32 max-h-[85vh] overflow-y-scroll transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
                         <div className="container mx-auto w-1/2 px-4 lg:w-1/3">
-                            {messages.map((message: MessageType, index) => (
+                            {messages?.map((message: MessageType, index) => (
                                 <Message message={message} key={index}>
                                     <MessageImage />
                                     <MessageText />

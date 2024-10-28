@@ -17,7 +17,7 @@ export default function Home() {
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? <ContactsSideBar {...sideBarProp} /> : <SideBar {...sideBarProp} />}
             <Suspense fallback={<div>Loading chats...</div>}>
-                <ChatLayout />
+                <ChatLayout messages={[]} />
             </Suspense>
         </div>
     );
