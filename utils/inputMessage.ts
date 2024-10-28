@@ -30,7 +30,7 @@ export const compressMedia = async (file: File | null) => {
         const fileType = KnowFileType(file);
         if (fileType === "image") {
             return await compressImage(file);
-        } else return file
+        } else return file;
     }
 };
 export const compressImage = async (file: File) => {

@@ -112,7 +112,7 @@ body {
     }
 
     .input-message-button {
-        @apply absolute right-0 flex h-16 w-16 translate-x-24 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700;
+        @apply absolute right-0 flex h-14 w-14 lg:h-16 lg:w-16 translate-x-28 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700;
     }
 
     .file-option-container {
