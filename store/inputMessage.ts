@@ -7,7 +7,9 @@ import {
     FileInfo,
     FileInput,
     OpenAlert,
-    isMaxSizeError
+    isMaxSizeError,
+    StickersGifsArray,
+    StickerGif,
 } from "@/types/inputMessage";
 const useInputTextMessage = create<InputMessageStore>((set) => ({
     textMessage: "",
@@ -37,17 +39,23 @@ const useFileInput = create<FileInput>((set) => ({
     uploadedFile: null,
     caption: "",
     setUploadedFile: (newFile: File | null) => set({ uploadedFile: newFile }),
-    setCaption: (newCaption: string) => set({ caption :newCaption}),
+    setCaption: (newCaption: string) => set({ caption: newCaption }),
 }));
-const useOpenAlert = create<OpenAlert>(set => ({
+const useOpenAlert = create<OpenAlert>((set) => ({
     isOpenAlert: false,
-    setIsOpenAlert:(newIsOpen:boolean)=>set({isOpenAlert:newIsOpen})
-}))
-const useIsMaxSizeError = create<isMaxSizeError>(set =>( {
+    setIsOpenAlert: (newIsOpen: boolean) => set({ isOpenAlert: newIsOpen }),
+}));
+const useIsMaxSizeError = create<isMaxSizeError>((set) => ({
     isMaxSize: false,
-    setIsMaxSize:(newIsMaxSize:boolean)=>set({isMaxSize:newIsMaxSize})
-    
-}))
+    setIsMaxSize: (newIsMaxSize: boolean) => set({ isMaxSize: newIsMaxSize }),
+}));
+const useStickersGifs = create<StickersGifsArray>((set) => ({
+    stickers: [],
+    gifs: [],
+    setGifs: (newGifs: StickerGif[]) => set({ gifs: newGifs }),
+    setStickers: (newStickers: StickerGif[]) => set({ stickers: newStickers }),
+}));
+
 export {
     useInputTextMessage,
     useShowFileOptions,
@@ -56,5 +64,6 @@ export {
     useFileInfo,
     useFileInput,
     useOpenAlert,
-    useIsMaxSizeError
+    useIsMaxSizeError,
+    useStickersGifs,
 };

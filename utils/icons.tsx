@@ -25,8 +25,8 @@ export function SmileFaceIcon() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="gray"
-            className="h-6 w-6"
-        >
+            width="30px"
+            height="30px"        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -80,8 +80,8 @@ export function SendMsIcon() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="white"
-            width="45px"
-            height="45px"
+            width="30px"
+            height="30px"
         >
             <path
                 strokeLinecap="round"
@@ -187,8 +187,8 @@ export function VoiceIcon() {
 export function DeleteIcon() {
     return (
         <svg
-            width="40px"
-            height="40px"
+            width="30px"
+            height="30px"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -306,6 +306,83 @@ export function CompressIcon() {
                 <path fill="gray" d="M4 16h12v-12l-1 1v10h-10z"></path>{" "}
                 <path fill="gray" d="M7 9h-5l1.8 1.8-3.8 3.8 1.4 1.4 3.8-3.8 1.8 1.8z"></path>{" "}
                 <path fill="gray" d="M16 1.4l-1.4-1.4-3.8 3.8-1.8-1.8v5h5l-1.8-1.8z"></path>{" "}
+            </g>
+        </svg>
+    );
+}
+
+export function GifIcon() {
+    return (
+        <svg
+            fill="#979595"
+            width="35px"
+            height="35px"
+            viewBox="0 0 1024 1024"
+            className="icon"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="12475"
+        >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path
+                    d="M944 299H692c-4.4 0-8 3.6-8 8v406c0 4.4 3.6 8 8 8h59.2c4.4 0 8-3.6 8-8V549.9h168.2c4.4 0 8-3.6 8-8V495c0-4.4-3.6-8-8-8H759.2V364.2H944c4.4 0 8-3.6 8-8V307c0-4.4-3.6-8-8-8zM588 300h-56c-4.4 0-8 3.6-8 8v406c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V308c0-4.4-3.6-8-8-8zM452 500.9H290.5c-4.4 0-8 3.6-8 8v43.7c0 4.4 3.6 8 8 8h94.9l-0.3 8.9c-1.2 58.8-45.6 98.5-110.9 98.5-76.2 0-123.9-59.7-123.9-156.7 0-95.8 46.8-155.2 121.5-155.2 54.8 0 93.1 26.9 108.5 75.4h76.2c-13.6-87.2-86-143.4-184.7-143.4C150 288 72 375.2 72 511.9 72 650.2 149.1 736 273 736c114.1 0 187-70.7 187-181.6v-45.5c0-4.4-3.6-8-8-8z"
+                    p-id="12476"
+                ></path>
+            </g>
+        </svg>
+    );
+}
+export function StickersIcon() {
+    return (
+        <svg
+            width="30px"
+            height="30px"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#979595"
+        >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                    d="M2 12C2 17.5228 6.47715 22 12 22C12.6477 22 13.2503 21.7004 13.7083 21.2424L21.2424 13.7083C21.7004 13.2503 22 12.6477 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12Z"
+                    stroke="#979595"
+                    strokeWidth="1.5"
+                ></path>{" "}
+                <path
+                    d="M8.9126 15.9336C9.94668 16.1928 11.0951 16.2391 12.2688 16.0337"
+                    stroke="#979595"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                ></path>{" "}
+                <ellipse
+                    cx="14.5094"
+                    cy="9.77405"
+                    rx="1"
+                    ry="1.5"
+                    transform="rotate(-15 14.5094 9.77405)"
+                    fill="#979595"
+                ></ellipse>{" "}
+                <ellipse
+                    cx="8.71402"
+                    cy="11.3278"
+                    rx="1"
+                    ry="1.5"
+                    transform="rotate(-15 8.71402 11.3278)"
+                    fill="#979595"
+                ></ellipse>{" "}
+                <path
+                    d="M12 22C12 19.2071 12 17.8107 12.3928 16.688C13.0964 14.6773 14.6773 13.0964 16.688 12.3928C17.8107 12 19.2071 12 22 12"
+                    stroke="#979595"
+                    stroke-width="1.5"
+                ></path>{" "}
             </g>
         </svg>
     );

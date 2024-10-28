@@ -56,5 +56,89 @@
             ],
             "createdAt": "2024-03-24T20:52:42.000Z"
         }
+    ],
+    "stickers": [
+        {
+            "url": "/images/logo.jpg",
+            "id": 1
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 2
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 3
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 4
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 1
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 2
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 3
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 4
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 1
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 2
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 3
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 4
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 1
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 2
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 3
+        },
+        {
+            "url": "/images/logo.jpg",
+            "id": 4
+        }
+    ],
+    "gifs": [
+        {
+            "url": "/images/settings.gif",
+            "id": 1
+        },
+        {
+            "url": "/images/save.gif",
+            "id": 2
+        },
+        {
+            "url": "/images/save.gif",
+            "id": 3
+        },
+        {
+            "url": "/images/save.gif",
+            "id": 4
+        }
     ]
 }

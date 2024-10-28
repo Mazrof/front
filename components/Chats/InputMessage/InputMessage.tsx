@@ -1,5 +1,5 @@
 "use client";
-import Emoji from "@/components/Chats/InputMessage/Emoji";
+import EmojiStickersGif from "./EmojiStickersGif";
 import AttachFiles from "./AttachFiles";
 import { useInputTextMessage } from "@/store/inputMessage";
 import InputMessageButtons from "./InputMessageButtons";
@@ -13,7 +13,7 @@ function InputMessage({ placeHolder }: { placeHolder: string }) {
             className={`absolute bottom-5 -ml-12 mt-auto flex w-[90%] items-center justify-between`}
         >
             <div className="relative flex w-full min-w-full items-center justify-center">
-                <Emoji />
+                <EmojiStickersGif />
                 <div className={`bottom-4 w-[78%]`}>
                     <input
                         type="text"
