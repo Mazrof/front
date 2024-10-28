@@ -29,5 +29,4 @@ jobs:
         npm install
     - name: Build
       run: |
-        npm run json-server
         npm run build
