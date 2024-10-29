@@ -1,24 +1,30 @@
-import { GetServerSideProps } from "next";
-import { MessageType } from "@/types/Message";
+import { getMessages } from "@/services/Messages";
 import ChatRoom from "./ChatRoom";
+import { MessageType } from "@/types/Message";
+import { Message } from "@/components/Chats/Message/Message";
+import { MessageImage } from "./Message/MessageImage";
+import { MessageVideo } from "./Message/MessageVideo";
+import { MessageText } from "./Message/MessageText";
+import { MessageCreatedAt } from "./Message/MessageCreatedAt";
+async function ChatLayout() {
+    const messages: MessageType[] = await getMessages();
 
-interface ChatLayoutProps {
-    messages?: MessageType[];
+    const renderedMessages = (
+        <div className="mb-32 max-h-[85vh] overflow-y-scroll transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
+            <div className="container mx-auto w-1/2 px-4 lg:w-1/3">
+                {messages?.map((message: MessageType, index) => (
+                    <Message message={message} key={index}>
+                        <MessageImage />
+                        <MessageText />
+                        <MessageVideo />
+                        <MessageCreatedAt />
+                    </Message>
+                ))}
+            </div>
+        </div>
+    );
+
+    return <ChatRoom>{renderedMessages}</ChatRoom>;
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-    try {
-        const response = await fetch("http://localhost:4000/messages");
-        const messages = await response.json();
-        return { props: { messages } };
-    } catch (error) {
-        console.error("Error fetching messages:", error);
-        return { props: { messages: [] } }; // Fallback with empty array
-    }
-};
-
-const ChatLayout: React.FC<ChatLayoutProps> = ({ messages }) => {
-    return <ChatRoom messages={messages} />;
-};
 
 export default ChatLayout;
