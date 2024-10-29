@@ -12,7 +12,7 @@ function InfoChatBar() {
     return (
         <div className="flex h-16 w-full items-center border-2 border-gray-200 bg-white px-5 dark:border-slate-800 dark:bg-black">
             <button
-                className="rounded-full hover:bg-gray-300 md:hidden"
+                className="rounded-full hover:bg-gray-300"
                 onClick={(event) => handleOnClickArrow(event)}
             >
                 <LeftArrowIcon />

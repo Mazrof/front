@@ -2,119 +2,83 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import Avatar from "./Avatar";
+import Avatar from "../SideBar/Avatar";
 const chatData = [
     {
         id: 1,
         name: "John Doe",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Hey! How are you?",
-        time: "10:30 AM",
-        unreadCount: 2,
-        pinned: true,
+        status: "online",
     },
     {
         id: 2,
         name: "Jane Smith",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen just now",
     },
     {
         id: 3,
         name: "Jane Smith",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen 7 minutes ago",
     },
     {
         id: 4,
         name: "Jane Smith",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen today at 10:20 PM",
     },
     {
         id: 5,
         name: "Jane Smith",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen yesterday at 10:20 PM",
     },
     {
         id: 6,
         name: "Mike Tyson",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "See you tomorrow at 3!",
-        time: "2 days ago",
-        unreadCount: 5,
-        pinned: true,
+        status: "last seen 10/24/2024",
     },
     {
         id: 7,
         name: "Nathan",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 0,
-        pinned: true,
+        status: "last seen 10/24/2024",
     },
     {
         id: 8,
         name: "Harith",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "I will kill you watch out",
-        time: "Oct 15",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen 10/24/2024",
     },
     {
         id: 9,
         name: "Arther",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 1,
-        pinned: false,
+        status: "last seen 10/8/2024",
     },
     {
         id: 10,
         name: "Ali",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 5,
-        pinned: false,
+        status: "last seen 10/24/2024",
     },
     {
         id: 11,
         name: "Ahmed",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Sep 28",
-        unreadCount: 0,
-        pinned: false,
+        status: "last seen 10/8/2024",
     },
     {
         id: 12,
         name: "Jade",
         avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Aug 9",
-        unreadCount: 3,
-        pinned: false,
+        status: "last seen 10/8/2024",
     },
 ];
 
-const ChatList = () => {
+export default function ContactsList() {
     const [hasImage, setHasImage] = useState(true);
 
     return (
@@ -142,32 +106,15 @@ const ChatList = () => {
                             <h3 className="text-lg font-semibold text-black dark:text-white">
                                 {chat.name}
                             </h3>
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
-                                {chat.time}
-                            </span>
                         </div>
                         <div className="flex items-center justify-between">
                             <p className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400">
-                                {chat.lastMessage}
+                                {chat.status}
                             </p>
-                            <div className="flex min-w-7 items-center space-x-1">
-                                {chat.unreadCount > 0 ? (
-                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white">
-                                        {chat.unreadCount}
-                                    </span>
-                                ) : (
-                                    <span>✔️</span>
-                                )}
-                                {chat.pinned && (
-                                    <span className="rounded-full hover:bg-slate-600">📌</span>
-                                )}
-                            </div>
                         </div>
                     </div>
                 </div>
             ))}
         </div>
     );
-};
-
-export default ChatList;
+}
