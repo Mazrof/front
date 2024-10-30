@@ -1,7 +1,6 @@
-import { signIn, auth } from "@/auth";
+import { signIn } from "@/auth";
 
 export default async function Login() {
-    const session = await auth();
     return (
         <form
             className="flex h-96 flex-col items-center justify-around "
