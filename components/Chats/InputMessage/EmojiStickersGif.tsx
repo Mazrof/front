@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { SmileFaceIcon, StickersIcon, GifIcon } from "@/utils/icons"
 import { checkClickOutside } from "@/utils/inputMessage";
 import { useEffect, useRef, useState } from "react";
@@ -40,7 +41,7 @@ function EmojiStickersGif() {
             {isShowEmojiStickers && <div ref={emojiRef} className="absolute bottom-20 left-[11%] w-[355px] h-[480px] flex flex-col  items-center justify-between bg-white dark:bg-black" >
                 <div className="w-full h-full ">
                     <Emoji option={selectedOption} />
-                    <StickersGif option={selectedOption}/>
+                    <Suspense fallback={<div>Loading...</div>}><StickersGif option={selectedOption} /></Suspense>  
                 </div>
                 <div className="flex justify-evenly items-center  w-full mb-3 bg-white dark:bg-black  rounded-md ">
                     <button onClick={(event) => handleOnClickOption(event,"Emoji")}><SmileFaceIcon /></button> 

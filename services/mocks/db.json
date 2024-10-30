@@ -59,86 +59,94 @@
     ],
     "stickers": [
         {
-            "url": "/images/logo.jpg",
+            "url": "https://i.pinimg.com/564x/24/fa/08/24fa08a0c42b9603490fcdfd517078ce.jpg",
             "id": 1
         },
         {
-            "url": "/images/logo.jpg",
+            "url": "https://i.pinimg.com/474x/b9/78/ad/b978ad81b2c30b971adfb67060cda471.jpg",
             "id": 2
         },
         {
-            "url": "/images/logo.jpg",
+            "url": "https://i.pinimg.com/474x/b2/e4/14/b2e4140f14d458122a74e5c73983845c.jpg",
             "id": 3
         },
         {
-            "url": "/images/logo.jpg",
+            "url": "https://i.pinimg.com/474x/94/88/c6/9488c60755bfb5e21d825f4ab53b98cd.jpg",
             "id": 4
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 1
+            "url": "https://i.pinimg.com/474x/42/37/fb/4237fbdd7533285043c9e719ca7510d9.jpg",
+            "id": 5
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 2
+            "url": "https://i.pinimg.com/474x/9c/d1/7d/9cd17d8d191a636c4e1d6ba382b39499.jpg",
+            "id": 6
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 3
+            "url": "https://i.pinimg.com/474x/c1/00/81/c10081631f89e8b1ab4888230bfd45b2.jpg",
+            "id": 7
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 4
+            "url": "https://i.pinimg.com/474x/9c/d1/7d/9cd17d8d191a636c4e1d6ba382b39499.jpg",
+            "id": 8
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 1
+            "url": "https://i.pinimg.com/474x/9c/d1/7d/9cd17d8d191a636c4e1d6ba382b39499.jpg",
+            "id": 9
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 2
+            "url": "https://i.pinimg.com/474x/9c/d1/7d/9cd17d8d191a636c4e1d6ba382b39499.jpg",
+            "id": 10
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 3
+            "url": "https://i.pinimg.com/474x/d1/82/e5/d182e5f3695c6f8819e15e6a95461919.jpg",
+            "id": 11
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 4
+            "url": "https://i.pinimg.com/474x/d1/82/e5/d182e5f3695c6f8819e15e6a95461919.jpg",
+            "id": 12
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 1
+            "url": "https://i.pinimg.com/474x/c1/00/81/c10081631f89e8b1ab4888230bfd45b2.jpg",
+            "id": 13
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 2
+            "url": "https://i.pinimg.com/474x/c1/00/81/c10081631f89e8b1ab4888230bfd45b2.jpg",
+            "id": 14
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 3
+            "url": "https://i.pinimg.com/474x/c1/00/81/c10081631f89e8b1ab4888230bfd45b2.jpg",
+            "id": 15
         },
         {
-            "url": "/images/logo.jpg",
-            "id": 4
+            "url": "https://i.pinimg.com/474x/c1/00/81/c10081631f89e8b1ab4888230bfd45b2.jpg",
+            "id": 16
         }
     ],
     "gifs": [
         {
-            "url": "/images/settings.gif",
+            "url": "https://i.pinimg.com/originals/3b/dc/77/3bdc775d77bfdd22e9624555333f6141.gif",
             "id": 1
         },
         {
-            "url": "/images/save.gif",
+            "url": "https://i.pinimg.com/originals/8a/6d/3d/8a6d3d749c0f380665264a4a04f3d29c.gif",
             "id": 2
         },
         {
-            "url": "/images/save.gif",
+            "url": "https://i.pinimg.com/originals/06/ce/08/06ce08b931ce98347803f57417febc24.gif",
             "id": 3
         },
         {
-            "url": "/images/save.gif",
+            "url": "https://i.pinimg.com/originals/b1/c9/c2/b1c9c23974d7ecd60d3ec15ac91b115e.gif",
             "id": 4
+        },
+        {
+            "url": "https://i.pinimg.com/originals/06/ce/08/06ce08b931ce98347803f57417febc24.gif",
+            "id": 6
+        },
+        {
+            "url": "https://i.pinimg.com/originals/b1/c9/c2/b1c9c23974d7ecd60d3ec15ac91b115e.gif",
+            "id": 5
         }
     ]
 }

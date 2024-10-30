@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Avatar from "./Avatar";
+import { useSelectedChatId } from "@/store/user";
 const chatData = [
     {
         id: 1,
@@ -116,13 +117,14 @@ const chatData = [
 
 const ChatList = () => {
     const [hasImage, setHasImage] = useState(true);
-
+    const { setChatId } = useSelectedChatId();
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
             {chatData.map((chat, index) => (
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
+                    onClick={() => setChatId(chat.id)}
                 >
                     {hasImage && index % 2 == 0 ? (
                         <Image

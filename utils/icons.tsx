@@ -381,7 +381,7 @@ export function StickersIcon() {
                 <path
                     d="M12 22C12 19.2071 12 17.8107 12.3928 16.688C13.0964 14.6773 14.6773 13.0964 16.688 12.3928C17.8107 12 19.2071 12 22 12"
                     stroke="#979595"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                 ></path>{" "}
             </g>
         </svg>

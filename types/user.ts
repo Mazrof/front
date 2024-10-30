@@ -1,5 +1,5 @@
 export type SelectedChatId = {
-    id: string;
-    setChatId: (newId: string) => void;
+    id: number|null;
+    setChatId: (newId: number|null) => void;
     isSelectedChatId: () => boolean;
 };
