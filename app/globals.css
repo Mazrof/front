@@ -6,7 +6,24 @@ body {
     font-family: Arial, Helvetica, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
         "Noto Color Emoji";
 }
-
+.bg-light-gradient {
+    background: radial-gradient(
+        circle,
+        #1c4b82 0%,
+        #285182 25%,
+        #325683 50%,
+        #285182 75%,
+        #1c4b82 100%
+    );
+}
+.glass {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(2.5px);
+    -webkit-backdrop-filter: blur(2.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
 }
@@ -109,7 +126,7 @@ body {
     }
 
     .input-message-button {
-        @apply absolute right-0 flex h-14 w-14 lg:h-16 lg:w-16 translate-x-28 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700;
+        @apply absolute right-0 flex h-14 w-14 translate-x-28 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700 lg:h-16 lg:w-16;
     }
 
     .file-option-container {
@@ -122,7 +139,13 @@ body {
 
     .bg-light {
         background-image: url("../public/images/light-bg.png"),
-            linear-gradient(to bottom right, #dce68ce4 10%, #b7e398f2 30%, #a1c397e4 70%, #cccfad 90%);
+            linear-gradient(
+                to bottom right,
+                #dce68ce4 10%,
+                #b7e398f2 30%,
+                #a1c397e4 70%,
+                #cccfad 90%
+            );
     }
 
     .bg-dark {
@@ -140,4 +163,5 @@ body {
         background-size:100%;
         background-attachment: fixed;
     }
+
 }
