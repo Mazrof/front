@@ -13,7 +13,7 @@ function Emoji({ option }: { option:string}) {
         <>
             {option==="Emoji" && (
                 <div className="w-full mt-2 " >
-                    <Picker data={data} onEmojiSelect={onEmojiClick} theme="light"  />
+                    <Picker data={data} onEmojiSelect={onEmojiClick}   />
                 </div>
             )}
          

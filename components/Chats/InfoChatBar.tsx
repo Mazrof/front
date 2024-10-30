@@ -7,7 +7,7 @@ function InfoChatBar() {
 
     function handleOnClickArrow(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        setChatId("");
+        setChatId(null);
     }
     return (
         <div className="flex h-16 w-full items-center border-2 border-gray-200 bg-white px-5 dark:border-slate-800 dark:bg-black">

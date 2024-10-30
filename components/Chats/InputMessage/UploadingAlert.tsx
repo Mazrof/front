@@ -49,8 +49,8 @@ export function UploadingAlert() {
         setCaption(textMessage);
     }, [textMessage]);
     return (
-        <AlertDialog open={isOpenAlert} onOpenChange={setIsOpenAlert}>
-            <AlertDialogContent>
+        <AlertDialog open={isOpenAlert} onOpenChange={setIsOpenAlert} >
+            <AlertDialogContent >
                 <AlertDialogHeader>
                     <AlertDialogTitle className="flex gap-14 text-center align-middle text-2xl">
                         <AlertDialogCancel
