@@ -1,9 +1,8 @@
 // pages/error.tsx
 "use client";
+import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 const ErrorPage = () => {
-    const router = useRouter();
 
     return (
         <div className="flex flex-col h-screen items-center justify-center bg-blue-950">
@@ -11,9 +10,9 @@ const ErrorPage = () => {
             <div className="text-center">
                 <h1 className="text-2xl font-bold text-white">Something went wrong!</h1>
                 <p className="mt-4 text-[#F9f9f9]" >{"An unknown error occurred."}</p>
-                <a href="/" className="mt-6 text-white hover:underline">
+                <Link href="/" className="mt-6 text-white hover:underline">
                     Go back to home
-                </a>
+                </Link>
             </div>
         </div>
     );
