@@ -152,4 +152,16 @@ body {
         background-image: url("../public/images/dark-bg.png");
         background-color: rgba(65, 35, 52, 0.9);
     }
+
+    .auth-buttons {
+        @apply border-2 border-gray-300 rounded-2xl py-2 px-10
+    }
+
+    .auth-background {
+        background-image: url("https://i.pinimg.com/736x/eb/f2/6b/ebf26b673403a57679da9025449a2ada.jpg");
+        background-repeat: no-repeat;
+        background-size:100%;
+        background-attachment: fixed;
+    }
+
 }
