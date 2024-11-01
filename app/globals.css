@@ -154,20 +154,19 @@ body {
     }
 
     .auth-buttons {
-        @apply border-2 border-gray-300 rounded-2xl py-2 px-10 flex justify-around items-center  gap-5 w-full
+        @apply flex w-full items-center justify-around gap-5 rounded-2xl border-2 border-gray-300 px-10 py-2;
     }
 
     .auth-background {
         background-image: url("/images/ebf26b673403a57679da9025449a2ada.jpg");
         background-repeat: no-repeat;
-        background-size:100%;
+        background-size: 100%;
         background-attachment: fixed;
     }
-    .login-field{
-        @apply flex flex-col items-start justify-between
+    .login-field {
+        @apply flex flex-col items-start justify-between;
     }
-    .login-input-field{
-        @apply rounded-2xl border-2 border-gray-300 px-7 py-1 outline-none w-full
+    .login-input-field {
+        @apply w-full rounded-2xl border-2 border-gray-300 px-7 py-1 outline-none;
     }
-
 }
