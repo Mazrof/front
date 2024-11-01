@@ -5,7 +5,7 @@ export default async function Login() {
         <div className="flex h-[600px] flex-col items-center justify-between pb-5">
             <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
             <LoginForm>
-                <Aouth pageType="Sign up" />
+                <Aouth pageType="Login" />
             </LoginForm>
         </div>
     );
