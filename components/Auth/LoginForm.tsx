@@ -50,7 +50,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex h-full flex-col items-center justify-between">
             <form
-                className="flex h-full flex-col justify-between gap-4"
+                className="flex h-full flex-col justify-between gap-2"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="login-field">
@@ -91,13 +91,16 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                     >
                         {isSubmitting ? "Loading..." : "Login"}
                     </button>
+                    <div>
+                        <span className="text-black">Do you have an account? </span> 
                     <button
-                        className="auth-buttons my-4 bg-blue-950 text-white"
+                        className="text-blue-900 text-lg"
                         disabled={isSubmitting}
                         onClick={(event) => handleSignUp(event)}
                     >
-                        Create an Account
-                    </button>
+    Signup
+                        </button>
+                    </div>
                 </div>
             </form>
             <div className={`${isSubmitting && "invisible"} w-full`}>{children}</div>
