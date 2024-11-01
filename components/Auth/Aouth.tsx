@@ -1,7 +1,10 @@
 import { signIn } from "@/auth";
 import { GitHubIcon, GoogleIcon } from "@/utils/icons";
 import { getFormAction } from "@/utils/aouth";
-async function Aouth() {
+type OAuthProps = {
+    pageType: "Login" | "Sign up";
+};
+async function Aouth({ pageType }: OAuthProps) {
     async function handleAouth(formData: FormData) {
         "use server";
         const actionString: string = getFormAction(formData);
@@ -15,11 +18,11 @@ async function Aouth() {
             <div className="flex w-full flex-col items-center justify-evenly gap-3">
                 <button type="submit" name="action" value="google" className="auth-buttons">
                     <GoogleIcon />
-                    Login with Google
+                    {pageType} with Google
                 </button>
                 <button type="submit" name="action" value="github" className="auth-buttons">
                     <GitHubIcon />
-                    Login with GitHub
+                    {pageType} with GitHub
                 </button>
             </div>
         </form>
