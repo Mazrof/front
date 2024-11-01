@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import Logo from "@/public/images/logo-no-background.png";
 
 export default function VerificationPage() {
     const OTPDigits = Array.from({ length: 6 }, (_, index) => (
@@ -14,11 +13,15 @@ export default function VerificationPage() {
 
     return (
         <main className="flex items-center justify-center">
-            <div className="glass flex max-w-[300px] flex-col items-center rounded-lg p-8 shadow-lg dark:bg-gray-900 md:max-w-screen-md">
-                {/* Logo */}
-                <Image src={Logo} alt="Mazrof Logo" width={80} height={80} className="mb-6" />
+            <div className="flex max-w-[300px] flex-col items-center rounded-lg p-8 dark:bg-gray-900 md:max-w-screen-md">
+                <Image
+                    src="/images/logo.jpg"
+                    alt="Logo"
+                    width={70}
+                    height={70}
+                    className="rounded-full"
+                />
 
-                {/* Header */}
                 <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
                     OTP Verification
                 </h2>
@@ -26,7 +29,6 @@ export default function VerificationPage() {
                     Enter the verification code we sent to you
                 </p>
 
-                {/* OTP Input */}
                 <section className="my-6 flex flex-col items-center">
                     <h3 className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                         Type the 6-digit security code
@@ -48,7 +50,6 @@ export default function VerificationPage() {
                     </p>
                 </section>
 
-                {/* Verify Button */}
                 <Button className="mt-6 w-full rounded-full bg-[#1c4b82] py-3 text-lg font-semibold text-white shadow-lg transition-transform duration-150 hover:scale-105 hover:bg-[#285182]">
                     Verify
                 </Button>
