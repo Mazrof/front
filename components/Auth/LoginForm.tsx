@@ -45,7 +45,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        router.push("/forget");
+        router.push("/forget-password");
     };
     return (
         <div className="flex h-full flex-col items-center justify-between">

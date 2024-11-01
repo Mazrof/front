@@ -2,10 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { passwordSchema } from "../schemas/passwordSchema";
 import { z } from "zod";
-
-type ResetPasswordFormData = z.infer<typeof passwordSchema>;
 
 export default function ResetPasswordForm() {
     const passwordSchema = z
@@ -17,6 +14,7 @@ export default function ResetPasswordForm() {
             message: "Passwords do not match",
             path: ["confirmPassword"], // Error path for confirm password field
         });
+    type ResetPasswordFormData = z.infer<typeof passwordSchema>;
     const {
         register,
         handleSubmit,
