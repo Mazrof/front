@@ -1,7 +1,7 @@
 dist
 node_modules
 package*.json
-.*
+
 jest.*
 *.mjs
 *.config.*

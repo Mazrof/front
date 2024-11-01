@@ -92,13 +92,13 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         {isSubmitting ? "Loading..." : "Login"}
                     </button>
                     <div>
-                        <span className="text-black">Don’t you have an account? </span> 
-                    <button
-                        className="text-blue-900 text-lg"
-                        disabled={isSubmitting}
-                        onClick={(event) => handleSignUp(event)}
-                    >
-    Signup
+                        <span className="text-black">Don’t you have an account? </span>
+                        <button
+                            className="text-lg text-blue-900"
+                            disabled={isSubmitting}
+                            onClick={(event) => handleSignUp(event)}
+                        >
+                            Signup
                         </button>
                     </div>
                 </div>
