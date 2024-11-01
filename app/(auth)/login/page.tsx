@@ -1,23 +1,12 @@
-import { signIn } from "@/auth";
-
+import Aouth from "@/components/Auth/Aouth";
+import LoginForm from "@/components/Auth/LoginForm";
 export default async function Login() {
     return (
-        <form
-            className="flex h-96 flex-col items-center justify-around "
-            action={async () => {
-                "use server";
-                await signIn("github");
-            }}
-        >   
-            <h1 className="bold text-3xl  text-blue-900">LOGIN</h1>
-            <div className="flex flex-col items-center justify-evenly gap-3">
-                <button type="submit" name="action" value="google" className="auth-buttons">
-                    Login with Google
-                </button>
-                <button type="submit" name="action" value="github" className="auth-buttons">
-                    Login with GitHub
-                </button>
-            </div>
-        </form>
+        <div className="flex h-[600px] flex-col items-center justify-between pb-5">
+            <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
+            <LoginForm>
+                <Aouth />
+            </LoginForm>
+        </div>
     );
 }

@@ -3,3 +3,7 @@ export type SelectedChatId = {
     setChatId: (newId: number|null) => void;
     isSelectedChatId: () => boolean;
 };
+
+export type UserToken = {
+    Token:String
+}
