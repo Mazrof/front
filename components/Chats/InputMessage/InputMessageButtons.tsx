@@ -8,14 +8,16 @@ function InputMessageButtons() {
     const { isRecording, setIsRecoding } = useIsRecording();
     
     const [recorder, setRecorder] = useState<MediaRecorder| null>(null);
+    let audioURL:string='';
     let [recordingDuration, setRecordingDuration] = useState<number>(0);
     let [id,setId] = useState<NodeJS.Timeout>();
     let chunks : Blob[] = [];
+    let [saveRecording,setSaveRecording] = useState<boolean>(true);
 
     async function handleOnClickVoice(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setIsRecoding(true);
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true } );
         
         const mediaRecorder = new MediaRecorder(stream);
 
@@ -23,17 +25,16 @@ function InputMessageButtons() {
             chunks.push(event.data);
         };
 
-        mediaRecorder.onstop = (event) => {
+        mediaRecorder.onstop = () => {
             const audioBlob = new Blob(chunks, { type: 'audio/ogg; codecs=opus'});
             chunks = [];
-            const audioURL = window.URL.createObjectURL(audioBlob);
-      
-            const audioMessage = new Audio();
-            audioMessage.src = audioURL;
-            audioMessage.controls = true;
-            document.body.appendChild(audioMessage);
+            audioURL = window.URL.createObjectURL(audioBlob);
+
+            stream.getTracks().forEach(track => {
+                track.stop();
+            });
             setRecordingDuration(0);
-            
+
         };
 
         mediaRecorder.onstart = () => {
@@ -46,15 +47,19 @@ function InputMessageButtons() {
     function handleDeleteRecording(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setIsRecoding(false);
+     
+        setSaveRecording(false);
+        
         if (recorder) {
-            chunks=[];
+            recorder.stop();
             clearInterval(id);
-            setRecordingDuration(0);
         }
     }
     function handleSendRecording(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setIsRecoding(false);
+        setSaveRecording(true);
+        
         if (recorder) {
             recorder.stop();
             clearInterval(id);
@@ -76,7 +81,9 @@ function InputMessageButtons() {
             )}
             {isRecording && (
                 <>
-                    <div  className=" bg-red-500 rounded-full border-solid mr-20"> {recordingDuration} </div>
+                    <div className="dark:bg-red-500 dark:text-black mr-20 w-5 h-50">
+                    {Math.floor(recordingDuration / 60)} : {recordingDuration % 60} <SendMsIcon/>
+                    </div>
                     <button
                         className="input-message-button mr-20 bg-red-500"
                         onClick={(event) => handleDeleteRecording(event)}
@@ -89,6 +96,7 @@ function InputMessageButtons() {
                     >
                         <SendMsIcon />
                     </button>
+
                 </>
             )}
         </>
