@@ -16,12 +16,9 @@ export async function GET(
     const provider = params.aouth;
     //TO DO modify when backend
     if (!code) {
-        return NextResponse.json({ error: "Authorization code not found" }, { status: 400 });
+        return NextResponse.redirect("http://localhost:3000/error");
     }
     const token: UserToken = await LoginWithAouth(code, provider);
-
-    //TO DO Call backend Here
-    if (token)
-        return NextResponse.redirect("http://localhost:3000/"); // Redirect to the custom error page
-    else return NextResponse.redirect("http://localhost:3000/error");
+    if (token.error) return NextResponse.redirect("http://localhost:3000/aouth-error");
+    else return NextResponse.redirect("http://localhost:3000/"); 
 }
