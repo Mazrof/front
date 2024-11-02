@@ -6,7 +6,24 @@ body {
     font-family: Arial, Helvetica, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
         "Noto Color Emoji";
 }
-
+.bg-light-gradient {
+    background: radial-gradient(
+        circle,
+        #1c4b82 0%,
+        #285182 25%,
+        #325683 50%,
+        #285182 75%,
+        #1c4b82 100%
+    );
+}
+.glass {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(2.5px);
+    -webkit-backdrop-filter: blur(2.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
 }
@@ -109,7 +126,7 @@ body {
     }
 
     .input-message-button {
-        @apply absolute right-0 flex h-14 w-14 lg:h-16 lg:w-16 translate-x-28 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700;
+        @apply absolute right-0 flex h-14 w-14 translate-x-28 items-center justify-center rounded-full bg-blue-700 dark:bg-purple-700 lg:h-16 lg:w-16;
     }
 
     .file-option-container {
@@ -122,11 +139,34 @@ body {
 
     .bg-light {
         background-image: url("../public/images/light-bg.png"),
-            linear-gradient(to bottom right, #dce68ce4 10%, #b7e398f2 30%, #a1c397e4 70%, #cccfad 90%);
+            linear-gradient(
+                to bottom right,
+                #dce68ce4 10%,
+                #b7e398f2 30%,
+                #a1c397e4 70%,
+                #cccfad 90%
+            );
     }
 
     .bg-dark {
         background-image: url("../public/images/dark-bg.png");
         background-color: rgba(65, 35, 52, 0.9);
+    }
+
+    .auth-buttons {
+        @apply flex w-full items-center justify-around gap-5 rounded-2xl border-2 border-gray-300 px-10 py-2;
+    }
+
+    .auth-background {
+        background-image: url("/images/ebf26b673403a57679da9025449a2ada.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-attachment: fixed;
+    }
+    .login-field {
+        @apply flex flex-col items-start justify-between;
+    }
+    .login-input-field {
+        @apply w-full rounded-2xl border-2 border-gray-300 px-7 py-1 outline-none;
     }
 }
