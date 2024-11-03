@@ -27,17 +27,17 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         },
         resolver: zodResolver(LoginSchema),
     });
-    const setErrorRoot = () => {
+    const setErrorRoot = (message: string) => {
+        console.log(message)
         setError("root", {
             type: "manual",
-            message: "This user is founded",
+            message: message,
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
         const token: UserToken = await LoginWithEmail(data.email, data.password);
-        console.log(token);
-        if (token) router.push("/");
-        else setErrorRoot();
+        if (token.error) setErrorRoot(token.error);
+        else router.push("/")
     };
     const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -71,7 +71,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         <div className="text-sm text-red-700">{errors.password.message}</div>
                     )}
                     {errors.root && (
-                        <div className="text-sm text-red-700">{errors.root.message}</div>
+                        <div className="text-sm text-red-700 mt-4 mx-auto">{errors.root.message}</div>
                     )}
                 </div>
                 <div>

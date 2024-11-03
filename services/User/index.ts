@@ -5,7 +5,7 @@ const server = "http://localhost:4000";
 
 export async function LoginWithEmail(email: string, password: string): Promise<UserToken> {
     const request: ApiRequest = {
-        endpoint: `${server}/users`,
+        endpoint: `${server}/login`,
         method: "POST",
         cache: "no-store",
         body: { email: email, password: password },
@@ -13,18 +13,25 @@ export async function LoginWithEmail(email: string, password: string): Promise<U
             "Content-Type": "application/json",
         },
     };
-    const user = await apiHandler(request);
-    return user?.email + user?.password;
+    const response = await apiHandler(request);
+    return {
+        access_token: response.email,
+        refresh_token: response.password,
+    };
 }
 export async function LoginWithAouth(code: string, aouthType: string): Promise<UserToken> {
     const request: ApiRequest = {
-        endpoint: `${server}/${aouthType}`,
+        endpoint: `${server}/social-login`,
         method: "POST",
         cache: "no-store", // to avoid caching
-        body: { code },
+        body: { provider: aouthType, access_token: code },
         headers: {
             "Content-Type": "application/json",
         },
     };
-    return await apiHandler(request);
+    const response = await apiHandler(request);
+    return {
+        access_token: response.provider,
+        refresh_token: response.access_token,
+    };
 }
