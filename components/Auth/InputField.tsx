@@ -1,17 +1,10 @@
-import { type, placeholder, label } from "../../types/auth";
-function InputField({
-    type,
-    placeholder,
-    label,
-}: {
-    type: type;
-    placeholder: placeholder;
-    label: label;
-}) {
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+function InputField({ id, type, placeholder, ...rest }: InputFieldProps) {
     return (
         <div>
-            <label className="label">{label}</label>
-            <input type={type} placeholder={placeholder} className="input-field" />
+            <label className="label">{id}</label>
+            <input type={type} placeholder={placeholder} className="input-field" {...rest} />
         </div>
     );
 }
