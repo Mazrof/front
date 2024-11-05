@@ -1,11 +1,14 @@
 "use client";
+
 import { useRouter } from "next/navigation";
+import logo from "../../public/images/logo.jpg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import { UserToken } from "@/types/user";
+import Image from "next/image";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -22,26 +25,22 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         formState: { errors, isSubmitting },
     } = useForm<LoginFormFields>({
         defaultValues: {
-            email: "example@example.com",
+            email: "",
             password: "",
         },
         resolver: zodResolver(LoginSchema),
     });
     const setErrorRoot = (message: string) => {
-        console.log(message)
         setError("root", {
             type: "manual",
             message: message,
+
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
         const token: UserToken = await LoginWithEmail(data.email, data.password);
         if (token.error) setErrorRoot(token.error);
         else router.push("/")
-    };
-    const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        router.push("/signup");
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -57,18 +56,14 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                     <label>Email</label>
                     <input type="text" {...register("email")} className="login-input-field" />
                     {errors.email && (
-                        <div className="text-sm text-red-700">{errors.email.message}</div>
+                        <div className="text-sm text-red-900">{errors.email.message}</div>
                     )}
                 </div>
-                <div className="login-field">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        {...register("password")}
-                        className="login-input-field"
-                    />
+                <div className="field">
+                    <label className="label">Password</label>
+                    <input type="password" {...register("password")} className="input-field" />
                     {errors.password && (
-                        <div className="text-sm text-red-700">{errors.password.message}</div>
+                        <div className="text-sm text-red-900">{errors.password.message}</div>
                     )}
                     {errors.root && (
                         <div className="text-sm text-red-700 mt-4 mx-auto">{errors.root.message}</div>
@@ -80,29 +75,23 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         disabled={isSubmitting}
                         onClick={(event) => handleForgetPassword(event)}
                     >
-                        Forget Password
+                        Forget Password?
                     </button>
                 </div>
                 <div>
-                    <button
-                        className="auth-buttons my-4 bg-blue-950 text-white"
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
+                    <button className="btn" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? "Loading..." : "Login"}
                     </button>
-                    <div>
-                        <span className="text-black">Don’t you have an account? </span>
-                        <button
-                            className="text-lg text-blue-900"
-                            disabled={isSubmitting}
-                            onClick={(event) => handleSignUp(event)}
-                        >
-                            Signup
-                        </button>
-                    </div>
                 </div>
             </form>
+            <div className="mt-4 flex justify-center">
+                <p>
+                    Do not have an account?
+                    <a className="cursor-pointer font-semibold text-blue-700" href="/signup">
+                        Sign Up
+                    </a>
+                </p>
+            </div>
             <div className={`${isSubmitting && "invisible"} w-full`}>{children}</div>
         </div>
     );

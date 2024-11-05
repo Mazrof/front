@@ -15,6 +15,7 @@ export default function VerificationPage() {
             className="mx-1 h-8 w-8 rounded-lg border border-gray-300 bg-white text-center text-2xl font-semibold shadow transition-transform duration-150 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white md:h-12 md:w-12"
         />
     ));
+
     const handleVerifyOTP = () => {
         if (OTPContext === "verifyAccount") {
             // Verify account
@@ -35,10 +36,12 @@ export default function VerificationPage() {
                     className="rounded-full"
                 />
 
+
                 <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
                     OTP Verification
                 </h2>
                 <p className="mt-2 text-center text-gray-600 dark:text-gray-400">
+
                     Enter the verification code we sent to {email}
                 </p>
 
@@ -62,7 +65,6 @@ export default function VerificationPage() {
                         </Button>
                     </p>
                 </section>
-
                 <Button
                     className="mt-6 w-full rounded-full bg-[#1c4b82] py-3 text-lg font-semibold text-white shadow-lg transition-transform duration-150 hover:scale-105 hover:bg-[#285182]"
                     onClick={handleVerifyOTP}

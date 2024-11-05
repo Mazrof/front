@@ -1,3 +1,8 @@
+
+export type operation = string;
+export type type = string;
+export type placeholder = string;
+export type label = string;
 type OTPContextType = 'verifyAccount' | 'resetPassword' | "";
 export type OTPState = {
     email: string;
@@ -5,3 +10,4 @@ export type OTPState = {
     setOTPContext: (context: OTPContextType, email: string) => void;
     cleanOTPContext: () => void;
 }
+

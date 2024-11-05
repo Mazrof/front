@@ -2,7 +2,7 @@ import ForgetPasswordForm from "@/components/Auth/ForgetPasswordForm";
 import Image from "next/image";
 export default function ForgetPasswordPage() {
     return (
-        <main className="flex items-center justify-center">
+        <main className="flex h-3/4 w-1/2 flex-col items-center justify-around rounded-2xl border-2 bg-white pt-3 text-blue-900 shadow-lg lg:w-1/3">
             <div className="flex max-w-[300px] flex-col items-center rounded-lg p-8 dark:bg-gray-900 md:max-w-screen-md">
                 <Image
                     src="/images/logo.jpg"

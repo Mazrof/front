@@ -154,7 +154,7 @@ body {
     }
 
     .auth-buttons {
-        @apply flex w-full items-center justify-around gap-5 rounded-2xl border-2 border-gray-300 px-10 py-2;
+        @apply flex w-full items-center justify-center rounded-md border border-gray-300 py-2 hover:bg-gray-100;
     }
 
     .auth-background {
@@ -163,10 +163,22 @@ body {
         background-size: 100%;
         background-attachment: fixed;
     }
-    .login-field {
-        @apply flex flex-col items-start justify-between;
+
+    .field {
+        @apply flex flex-col items-start justify-between text-gray-400;
     }
-    .login-input-field {
-        @apply w-full rounded-2xl border-2 border-gray-300 px-7 py-1 outline-none;
+    .input-field {
+        @apply mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none;
+    }
+    .input-field::placeholder {
+        @apply text-gray-400;
+    }
+
+    .label {
+        @apply block text-sm font-medium text-gray-700;
+    }
+    .btn {
+        @apply w-full rounded-md bg-blue-900 py-2 text-white hover:bg-blue-950;
     }
 }
+{/*ahmed was here*/}
