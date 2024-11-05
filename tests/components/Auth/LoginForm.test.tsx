@@ -29,7 +29,7 @@ describe("LoginForm", () => {
                 </LoginForm>
             );
 
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const emailField = screen.getByTestId("email")
             expect(emailField).toBeInTheDocument();
         });
         it("Should render an password input field", () => {
@@ -38,7 +38,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
+            const paswordField = screen.getByTestId("password");
             expect(paswordField).toBeInTheDocument();
         });
         it("Should render login button", () => {
@@ -56,7 +56,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const forgetPassword = screen.getByRole("button", { name: "Forget Password" });
+            const forgetPassword = screen.getByRole("button", { name: "Forget Password?" });
             expect(forgetPassword).toBeInTheDocument();
         });
         it("Should render signup button", () => {
@@ -65,7 +65,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const signup = screen.getByRole("button", { name: "Signup" });
+            const signup = screen.getByRole("button", { name: "Sign Up" });
             expect(signup).toBeInTheDocument();
         });
         it("Should render OAuth Component", () => {
@@ -85,7 +85,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(emailField, "example@");
             await userEvent.click(login);
@@ -100,7 +100,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
+            const paswordField = screen.getByTestId("password");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "123");
             await userEvent.click(login);
@@ -117,8 +117,8 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const paswordField = screen.getByTestId("password");
+            const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "12345678");
             await userEvent.type(emailField, "example@example.com");
@@ -138,8 +138,8 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const paswordField = screen.getByTestId("password");
+            const emailField = screen.getByTestId("email")
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "12345678");
             await userEvent.type(emailField, "example@example.com");
@@ -154,7 +154,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const signupButton = screen.getByRole("button", { name: "Signup" });
+            const signupButton = screen.getByRole("button", { name: "Sign Up" });
             await userEvent.click(signupButton);
             await waitFor(() => {
                 expect(useRouter().push).toHaveBeenCalledWith("/signup");
@@ -166,7 +166,7 @@ describe("LoginForm", () => {
                     <Aouth operation="Login" />
                 </LoginForm>
             );
-            const forgetPasswordButton = screen.getByRole("button", { name: "Forget Password" });
+            const forgetPasswordButton = screen.getByRole("button", { name: "Forget Password?" });
             await userEvent.click(forgetPasswordButton);
             await waitFor(() => {
                 expect(useRouter().push).toHaveBeenCalledWith("/forget-password");
