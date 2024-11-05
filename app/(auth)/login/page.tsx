@@ -1,9 +1,9 @@
-import Aouth from "@/components/Auth/Aouth";
+import Oauth from "@/components/Auth/Oauth";
 import LoginForm from "@/components/Auth/LoginForm";
 export default async function Login() {
     return (
         <LoginForm>
-            <Aouth operation="Log In" />
+            <Oauth operation="Log In" />
         </LoginForm>
     );
 }
