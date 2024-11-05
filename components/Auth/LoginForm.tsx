@@ -30,37 +30,31 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         },
         resolver: zodResolver(LoginSchema),
     });
-    const setErrorRoot = () => {
+    const setErrorRoot = (message: string) => {
         setError("root", {
             type: "manual",
-            message: "This user is not founded",
+            message: message,
+
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
         const token: UserToken = await LoginWithEmail(data.email, data.password);
-        console.log(token);
-        if (token) router.push("/");
-        else setErrorRoot();
+        if (token.error) setErrorRoot(token.error);
+        else router.push("/")
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        router.push("/forgetpassword");
+        router.push("/forget-password");
     };
     return (
-        <div className="mt-6 w-full max-w-md rounded-2xl bg-white p-8">
-            {/*logo */}
-            <div className="mb-6 flex justify-center">
-                <div className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-full bg-blue-100">
-                    <Image className="rounded-full" src={logo} alt="logo" />
-                </div>
-            </div>
-            <div className="mb-6 flex justify-center">
-                <h1 className="text-center text-3xl text-blue-800">LOG IN</h1>
-            </div>
-            <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                <div className="field">
-                    <label className="label">Email address or phone number </label>
-                    <input type="text" {...register("email")} className="input-field" />
+        <div className="flex h-full flex-col items-center justify-between">
+            <form
+                className="flex h-full flex-col justify-between gap-2"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <div className="login-field">
+                    <label>Email</label>
+                    <input type="text" {...register("email")} className="login-input-field" />
                     {errors.email && (
                         <div className="text-sm text-red-900">{errors.email.message}</div>
                     )}
@@ -72,7 +66,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         <div className="text-sm text-red-900">{errors.password.message}</div>
                     )}
                     {errors.root && (
-                        <div className="text-sm text-red-900">{errors.root.message}</div>
+                        <div className="text-sm text-red-700 mt-4 mx-auto">{errors.root.message}</div>
                     )}
                 </div>
                 <div>

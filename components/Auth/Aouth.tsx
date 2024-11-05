@@ -3,6 +3,7 @@ import { getFormAction } from "@/utils/aouth";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { operation } from "../../types/auth";
 async function Aouth({ operation }: { operation: operation }) {
+
     async function handleAouth(formData: FormData) {
         "use server";
         const actionString: string = getFormAction(formData);

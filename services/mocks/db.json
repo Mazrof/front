@@ -149,14 +149,12 @@
       "id": 5
     }
   ],
-  "users": {
+  "login": {
     "email": "example@example.com",
-    "password": "nnnnnnnnnnnnn"
+    "password": "333333333333333"
   },
-  "google": {
-    "code": "4/0AVG7fiQpv_xPvnRNTe4Yc5WoL7e03EXDGI-d_S9hfaQWqTgGvoZDi1qgPFOCsL_fmlovjw"
-  },
-  "gitHub": {
-    "code": "88f5a777eefac0e62a7d"
+  "social-login": {
+    "provider": "google",
+    "access_token": "4/0AVG7fiS_dDdGaXWhMBWBS1tYvmZmyzEx91c0rY5OerHkgiTaD1NdiaBv1sn9ORNJTsqPew"
   }
 }

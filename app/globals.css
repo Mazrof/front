@@ -163,6 +163,7 @@ body {
         background-size: 100%;
         background-attachment: fixed;
     }
+
     .field {
         @apply flex flex-col items-start justify-between text-gray-400;
     }

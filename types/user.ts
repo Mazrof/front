@@ -5,5 +5,7 @@ export type SelectedChatId = {
 };
 
 export type UserToken = {
-    Token:String
-}
+    access_token?: string;
+    refresh_token?: string,
+    error?:string
+};
