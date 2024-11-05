@@ -25,7 +25,6 @@ function LoginForm({ children }: { children: React.ReactNode }) {
     } = useForm<LoginFormFields>({
         defaultValues: {
             email: "",
-            email: "",
             password: "",
         },
         resolver: zodResolver(LoginSchema),
