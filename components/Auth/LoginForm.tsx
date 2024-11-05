@@ -22,22 +22,22 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         formState: { errors, isSubmitting },
     } = useForm<LoginFormFields>({
         defaultValues: {
-            email: "example@example.com",
+            email: "",
             password: "",
         },
         resolver: zodResolver(LoginSchema),
     });
     const setErrorRoot = (message: string) => {
-        console.log(message)
+        console.log(message);
         setError("root", {
             type: "manual",
             message: message,
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const token: UserToken = await LoginWithEmail(data.email, data.password);
+        const token: UserToken = await LoginWithEmail(data.email.trim(), data.password);
         if (token.error) setErrorRoot(token.error);
-        else router.push("/")
+        else router.push("/");
     };
     const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -55,9 +55,14 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             >
                 <div className="login-field">
                     <label>Email</label>
-                    <input type="text" {...register("email")} className="login-input-field" />
+                    <input
+                        type="text"
+                        {...register("email")}
+                        className="login-input-field"
+                        placeholder="example@example.com"
+                    />
                     {errors.email && (
-                        <div className="text-sm text-red-700">{errors.email.message}</div>
+                        <div className="text-sm text-red-700" data-testid="email-error">{errors.email.message}</div>
                     )}
                 </div>
                 <div className="login-field">
@@ -66,12 +71,15 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         type="password"
                         {...register("password")}
                         className="login-input-field"
+                        placeholder="12345678"
                     />
                     {errors.password && (
-                        <div className="text-sm text-red-700">{errors.password.message}</div>
+                        <div className="text-sm text-red-700" data-testid="password-error">{errors.password.message}</div>
                     )}
                     {errors.root && (
-                        <div className="text-sm text-red-700 mt-4 mx-auto">{errors.root.message}</div>
+                        <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                            {errors.root.message}
+                        </div>
                     )}
                 </div>
                 <div>

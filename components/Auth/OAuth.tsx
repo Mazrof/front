@@ -1,10 +1,8 @@
 import { signIn } from "@/auth";
 import { GitHubIcon, GoogleIcon } from "@/utils/icons";
-import { getFormAction } from "@/utils/aouth";
-type OAuthProps = {
-    pageType: "Login" | "Sign up";
-};
-async function Aouth({ pageType }: OAuthProps) {
+import { getFormAction } from "@/utils/oAuth";
+import { OAuthProps } from "@/types/auth";
+async function OAuth({ pageType }: OAuthProps) {
     async function handleAouth(formData: FormData) {
         "use server";
         const actionString: string = getFormAction(formData);
@@ -28,4 +26,4 @@ async function Aouth({ pageType }: OAuthProps) {
         </form>
     );
 }
-export default Aouth;
+export default OAuth;
