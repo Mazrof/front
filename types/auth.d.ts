@@ -11,5 +11,5 @@ export type OTPState = {
     cleanOTPContext: () => void;
 }
 export type OAuthProps = {
-    pageType: "Login" | "Sign up";
+    operation: "Login" | "Sign up";
 };
