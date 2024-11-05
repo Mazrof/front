@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React from "react";
@@ -6,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import { UserToken } from "@/types/user";
+import Image from "next/image";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -28,7 +30,6 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         resolver: zodResolver(LoginSchema),
     });
     const setErrorRoot = (message: string) => {
-        console.log(message);
         setError("root", {
             type: "manual",
             message: message,
@@ -39,45 +40,39 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         if (token.error) setErrorRoot(token.error);
         else router.push("/");
     };
-    const handleSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        router.push("/signup");
-    };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         router.push("/forget-password");
     };
     return (
-        <div className="flex h-full flex-col items-center justify-between">
+        <div className="flex h-full flex-col items-center justify-between p-4">
+            <Image
+                src="/images/logo.jpg"
+                alt="Logo"
+                width={70}
+                height={70}
+                className="rounded-full"
+            />
+            <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
             <form
                 className="flex h-full flex-col justify-between gap-2"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="login-field">
                     <label>Email</label>
-                    <input
-                        type="text"
-                        {...register("email")}
-                        className="login-input-field"
-                        placeholder="example@example.com"
-                    />
+                    <input type="text" {...register("email")} className="input-field" />
                     {errors.email && (
-                        <div className="text-sm text-red-700" data-testid="email-error">{errors.email.message}</div>
+                        <div className="text-sm text-red-900">{errors.email.message}</div>
                     )}
                 </div>
-                <div className="login-field">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        {...register("password")}
-                        className="login-input-field"
-                        placeholder="12345678"
-                    />
+                <div className="field">
+                    <label className="label">Password</label>
+                    <input type="password" {...register("password")} className="input-field" />
                     {errors.password && (
-                        <div className="text-sm text-red-700" data-testid="password-error">{errors.password.message}</div>
+                        <div className="text-sm text-red-900">{errors.password.message}</div>
                     )}
                     {errors.root && (
-                        <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                        <div className="mx-auto mt-4 text-sm text-red-700">
                             {errors.root.message}
                         </div>
                     )}
@@ -87,30 +82,25 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         type="button"
                         disabled={isSubmitting}
                         onClick={(event) => handleForgetPassword(event)}
+                        className="my-1"
                     >
-                        Forget Password
+                        Forget Password?
                     </button>
                 </div>
                 <div>
-                    <button
-                        className="auth-buttons my-4 bg-blue-950 text-white"
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
+                    <button className="btn" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? "Loading..." : "Login"}
                     </button>
-                    <div>
-                        <span className="text-black">Don’t you have an account? </span>
-                        <button
-                            className="text-lg text-blue-900"
-                            disabled={isSubmitting}
-                            onClick={(event) => handleSignUp(event)}
-                        >
-                            Signup
-                        </button>
-                    </div>
                 </div>
             </form>
+            <div className="mt-4 flex justify-center">
+                <p>
+                    Do not have an account?
+                    <a className="cursor-pointer p-1 font-semibold text-blue-700" href="/signup">
+                        Sign Up
+                    </a>
+                </p>
+            </div>
             <div className={`${isSubmitting && "invisible"} w-full`}>{children}</div>
         </div>
     );
