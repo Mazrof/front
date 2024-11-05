@@ -25,6 +25,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
     } = useForm<LoginFormFields>({
         defaultValues: {
             email: "",
+            email: "",
             password: "",
         },
         resolver: zodResolver(LoginSchema),
@@ -36,7 +37,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const token: UserToken = await LoginWithEmail(data.email, data.password);
+        const token: UserToken = await LoginWithEmail(data.email.trim(), data.password);
         if (token.error) setErrorRoot(token.error);
         else router.push("/");
     };
