@@ -11,9 +11,10 @@ const ErrorPage = () => {
                 height={200}
             />
             <div className="text-center">
-                <h1 className="mb-7 text-2xl font-bold">Invalid access token or provider.</h1>
+                {/* <h1 className="mb-7 text-2xl font-bold">Invalid access token or provider.</h1> */}
+                <h1 className="mb-7 text-2xl font-bold"> Something went wrong</h1>
                 <Link href="/" className="text-xl hover:underline">
-                    Try again go back to Login
+                    Try again
                 </Link>
             </div>
         </div>
