@@ -2,7 +2,6 @@
 import Image from "next/image";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
-import { useState } from "react";
 import { PhoneInput } from "./PhoneNumber";
 
 function SignUpForm({ children }: { children: React.ReactNode }) {
