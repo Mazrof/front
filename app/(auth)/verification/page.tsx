@@ -36,12 +36,10 @@ export default function VerificationPage() {
                     className="rounded-full"
                 />
 
-
                 <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
                     OTP Verification
                 </h2>
                 <p className="mt-2 text-center text-gray-600 dark:text-gray-400">
-
                     Enter the verification code we sent to {email}
                 </p>
 
@@ -59,14 +57,14 @@ export default function VerificationPage() {
                         Didn&apos;t receive the OTP?
                         <Button
                             variant="link"
-                            className="ml-1 text-blue-600 hover:underline dark:text-blue-400"
+                            className="text-blue-600 hover:underline dark:text-blue-400"
                         >
                             Resend OTP
                         </Button>
                     </p>
                 </section>
                 <Button
-                    className="mt-6 w-full rounded-full bg-[#1c4b82] py-3 text-lg font-semibold text-white shadow-lg transition-transform duration-150 hover:scale-105 hover:bg-[#285182]"
+                    className="auth-buttons w-2/3 bg-blue-900 text-white"
                     onClick={handleVerifyOTP}
                 >
                     Verify

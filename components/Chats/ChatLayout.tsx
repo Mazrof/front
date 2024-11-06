@@ -14,7 +14,9 @@ async function ChatLayout() {
             <div className="container mx-auto w-1/2 px-4 lg:w-1/3">
                 {messages?.map((message: MessageType, index) => (
                     <Message message={message} key={index}>
+                        <MessageImage />
                         <MessageVideo />
+                        <MessageText />
                         <MessageCreatedAt />
                     </Message>
                 ))}

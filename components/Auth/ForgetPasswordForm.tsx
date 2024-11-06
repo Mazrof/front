@@ -5,8 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 
-import InputField from "./InputField";
-
 import { useOTPContext } from "@/store/OTPContext";
 export default function EmailInputForm() {
     const { setOTPContext } = useOTPContext();
@@ -25,28 +23,30 @@ export default function EmailInputForm() {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onSubmit: SubmitHandler<EmailSchema> = async (data) => {
+    const onSubmit: SubmitHandler<EmailSchema> = async ({ email }) => {
         // here comes the link we sent to backend.
-
-        setOTPContext("resetPassword", data.email);
+        console.log(email);
+        setOTPContext("resetPassword", email);
         router.push("/verification");
     };
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <InputField
+                    <label className="px-1">Email</label>
+                    <input
                         id="Email"
                         type="email"
                         {...register("email")}
                         placeholder="Enter your email"
+                        className="input-field"
                     />
                     {errors.email && (
                         <div className="m-1 text-sm text-red-700">{errors.email.message}</div>
                     )}
                 </div>
-                <button className="auth-buttons my-4 bg-blue-950 text-white" type="submit">
+                <button className="auth-buttons my-4 bg-blue-900 text-white" type="submit">
                     Reset password
                 </button>
             </form>

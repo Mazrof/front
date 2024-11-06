@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactPlayer from "react-player";
@@ -24,17 +24,20 @@ export function MessageVideo() {
                     className={`relative ${videoUrl.length === 1 ? "w-full" : "w-1/2"} `}
                     onClick={() => handleVideoClick(index)}
                 >
+                    {/** TODO : Add Thumbnails For  */}
                     <Image
-                        src={video}
-                        width={1000}
-                        height={1000}
+                        src={
+                            "https://media.istockphoto.com/id/1149317024/vector/emoticon-with-sorry-sign.jpg?s=612x612&w=0&k=20&c=wwaOI9ajJ9l8ImT7BgdD0joDR2if0tlydqXEyMUl3d8="
+                        }
+                        width={200}
+                        height={200}
                         alt={` video ${index + 1}`}
                         className="cursor-pointer rounded-md object-cover"
                     />
                     <p>{` video ${index + 1}`}</p>
-                    {index === 3 && videos.length > 4 && (
+                    {index === 3 && videoUrl.length > 4 && (
                         <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black bg-opacity-50 text-lg font-bold text-white">
-                            +{videos.length - 4}
+                            +{videoUrl.length - 4}
                         </div>
                     )}
                 </figure>
