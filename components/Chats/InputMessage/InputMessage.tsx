@@ -18,7 +18,7 @@ function InputMessage({ placeHolder }: { placeHolder: string }) {
                     <input
                         type="text"
                         placeholder={placeHolder}
-                        className="h-14 w-full rounded-xl bg-white px-14 py-3 text-xl outline-none placeholder:text-gray-500 dark:bg-black"
+                        className="h-14 w-full rounded-xl bg-white px-14 py-3 text-xl outline-none placeholder:text-gray-500 dark:bg-black dark:text-white"
                         value={textMessage}
                         onChange={(event) => handleOnChange(event)}
                         data-testid="inputMessageField"

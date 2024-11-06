@@ -1,7 +1,7 @@
 import { screen, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LoginForm from "@/components/Auth/LoginForm";
-import Aouth from "@/components/Auth/Aouth";
+import Oauth from "@/components/Auth/Oauth";
 import { OAuthProps } from "@/types/auth";
 import { LoginWithEmail } from "@/services/User";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ jest.mock("next/navigation", () => ({
 jest.mock("../../../services/User/index", () => ({
     LoginWithEmail: jest.fn(),
 }));
-jest.mock("../../../components/Auth/Aouth", () => ({
+jest.mock("../../../components/Auth/Oauth", () => ({
     __esModule: true, // This line is necessary for default exports
     default: jest.fn((props: OAuthProps) => <div data-testid="mock-button">{props.operation}</div>),
 }));
@@ -25,26 +25,26 @@ describe("LoginForm", () => {
         it("Should render an email input field", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
 
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const emailField = screen.getByTestId("email");
             expect(emailField).toBeInTheDocument();
         });
         it("Should render an password input field", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
+            const paswordField = screen.getByTestId("password");
             expect(paswordField).toBeInTheDocument();
         });
         it("Should render login button", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
             const login = screen.getByRole("button", { name: "Login" });
@@ -53,25 +53,25 @@ describe("LoginForm", () => {
         it("Should render forget password button", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const forgetPassword = screen.getByRole("button", { name: "Forget Password" });
+            const forgetPassword = screen.getByRole("button", { name: "Forget Password?" });
             expect(forgetPassword).toBeInTheDocument();
         });
         it("Should render signup button", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const signup = screen.getByRole("button", { name: "Signup" });
+            const signup = screen.getByRole("button", { name: "Sign Up" });
             expect(signup).toBeInTheDocument();
         });
         it("Should render OAuth Component", () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
             const oAuth = screen.getByTestId("mock-button");
@@ -82,10 +82,10 @@ describe("LoginForm", () => {
         it("should show error message if email format is wrong", async () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(emailField, "example@");
             await userEvent.click(login);
@@ -97,10 +97,10 @@ describe("LoginForm", () => {
         it("should show error message if password format is wrong", async () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
+            const paswordField = screen.getByTestId("password");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "123");
             await userEvent.click(login);
@@ -114,11 +114,11 @@ describe("LoginForm", () => {
             (LoginWithEmail as jest.Mock).mockReturnValue({ error: "Invalid" });
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const paswordField = screen.getByTestId("password");
+            const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "12345678");
             await userEvent.type(emailField, "example@example.com");
@@ -135,11 +135,11 @@ describe("LoginForm", () => {
             });
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const paswordField = screen.getByPlaceholderText("12345678");
-            const emailField = screen.getByPlaceholderText("example@example.com");
+            const paswordField = screen.getByTestId("password");
+            const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
             await userEvent.type(paswordField, "12345678");
             await userEvent.type(emailField, "example@example.com");
@@ -151,10 +151,10 @@ describe("LoginForm", () => {
         it("should go to signup page when click to Signup button", async () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const signupButton = screen.getByRole("button", { name: "Signup" });
+            const signupButton = screen.getByRole("button", { name: "Sign Up" });
             await userEvent.click(signupButton);
             await waitFor(() => {
                 expect(useRouter().push).toHaveBeenCalledWith("/signup");
@@ -163,10 +163,10 @@ describe("LoginForm", () => {
         it("should go to forget password page when click to Forget Password button", async () => {
             render(
                 <LoginForm>
-                    <Aouth operation="Login" />
+                    <Oauth operation="Login" />
                 </LoginForm>
             );
-            const forgetPasswordButton = screen.getByRole("button", { name: "Forget Password" });
+            const forgetPasswordButton = screen.getByRole("button", { name: "Forget Password?" });
             await userEvent.click(forgetPasswordButton);
             await waitFor(() => {
                 expect(useRouter().push).toHaveBeenCalledWith("/forget-password");
