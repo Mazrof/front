@@ -29,9 +29,9 @@ export default function ResetPasswordForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate role="form">
             <div>
-                <label>Password</label>
+                <label htmlFor="Password">Password</label>
                 <input
                     id="Password"
                     type="password"
@@ -44,7 +44,7 @@ export default function ResetPasswordForm() {
             </div>
 
             <div className="mt-4">
-                <label>Confirm Password</label>
+                <label htmlFor="Confirm Password">Confirm Password</label>
                 <input
                     id="Confirm Password"
                     type="password"
