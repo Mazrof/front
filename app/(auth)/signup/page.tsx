@@ -3,7 +3,7 @@ import Oauth from "@/components/Auth/Oauth";
 export default async function Login() {
     return (
         <SignUpForm>
-            <Oauth operation="Sign Up" />
+            <Oauth operation="Sign up" />
         </SignUpForm>
     );
 }

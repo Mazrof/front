@@ -1,9 +1,8 @@
 import { signIn } from "@/auth";
-import { getFormAction } from "@/utils/Oauth";
-import { FaGoogle, FaGithub } from "react-icons/fa";
-import { operation } from "../../types/auth";
 import { GitHubIcon, GoogleIcon } from "@/utils/icons";
-async function Oauth({ operation }: { operation: operation }) {
+import { getFormAction } from "@/utils/Oauth";
+import { OAuthProps } from "../../types/auth";
+async function Oauth({ operation }: OAuthProps) {
     async function handleOauth(formData: FormData) {
         "use server";
         const actionString: string = getFormAction(formData);

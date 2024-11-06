@@ -3,7 +3,7 @@ import LoginForm from "@/components/Auth/LoginForm";
 export default async function Login() {
     return (
         <LoginForm>
-            <Oauth operation="Log In" />
+            <Oauth operation="Login" />
         </LoginForm>
     );
 }
