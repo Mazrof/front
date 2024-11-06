@@ -150,11 +150,11 @@
     }
   ],
   "login": {
-    "email": "example@example.com",
-    "password": "333333333333333"
+    "email": "n@gmail.com",
+    "password": "122334444"
   },
   "social-login": {
-    "provider": "google",
-    "access_token": "4/0AVG7fiS_dDdGaXWhMBWBS1tYvmZmyzEx91c0rY5OerHkgiTaD1NdiaBv1sn9ORNJTsqPew"
+    "provider": "github",
+    "access_token": "de5ed41fd99571090f29"
   }
 }

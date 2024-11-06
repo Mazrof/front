@@ -10,4 +10,6 @@ export type OTPState = {
     setOTPContext: (context: OTPContextType, email: string) => void;
     cleanOTPContext: () => void;
 }
-
+export type OAuthProps = {
+    operation: "Login" | "Sign up";
+};
