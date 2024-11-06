@@ -15,8 +15,8 @@ async function ChatLayout() {
                 {messages?.map((message: MessageType, index) => (
                     <Message message={message} key={index}>
                         <MessageImage />
-                        <MessageText />
                         <MessageVideo />
+                        <MessageText />
                         <MessageCreatedAt />
                     </Message>
                 ))}
