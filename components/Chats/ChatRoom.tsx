@@ -12,11 +12,11 @@ function ChatRoom({ children }: ChatRoomProps) {
     const isSelectedChat = isSelectedChatId();
     return (
         <div
-            className={`  bg-light dark:bg-dark relative ${!isSelectedChat && "hidden"} min-h-screen flex-1 overflow-hidden md:block`}
+            className={`bg-light dark:bg-dark relative ${!isSelectedChat && "hidden"} min-h-screen flex-1 overflow-hidden md:block`}
         >
             {isSelectedChat && (
                 <>
-                    <InfoChatBar />
+                    <InfoChatBar name={"Ahmed Mostafa"} lastSeen={"10:00"} />
                     {children}
                     <UploadingAlert />
                     <InputMessage placeHolder="Message" />
