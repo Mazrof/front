@@ -24,7 +24,6 @@ function EmojiStickersGif() {
     const handleOnClickOption = (event: React.MouseEvent<HTMLButtonElement>,option:string) => {
         event.preventDefault()
         setselectedOption(option)
-    
     }
     useEffect(() => {
         if (isShowEmojiStickers) {

@@ -28,10 +28,10 @@ function StickersGifs({ option }: { option: string }) {
     return (
         <>
             {option !== "Emoji" && (
-                <div className="grid h-[440px] w-full grid-cols-3 gap-2 overflow-y-auto p-2">
+                <div className="grid h-[440px] w-full grid-cols-3 gap-2 overflow-y-auto p-2" data-testid={option} >
                     {data?.map((item) => (
                         <div key={item.id} className="h-[100px] w-[100px]">
-                            <Image src={item.url} width={100} height={100} alt={option} />
+                            <Image src={item.url} width={100} height={100} alt={option} data-testid={option + item.id} />
                         </div>
                     ))}
                 </div>
