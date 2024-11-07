@@ -16,9 +16,9 @@ export async function GET(
     const provider = params.oauth;
     //TO DO modify when backend
     if (!code) {
-        return NextResponse.rewrite("/error");
+        return NextResponse.redirect(new URL("/OAuthError", req.url));
     }
     const token: UserToken = await LoginWithOauth(code, provider);
-    if (token.error) return NextResponse.rewrite("/error");
-    else return NextResponse.redirect("/");
+    if (token.error) return NextResponse.redirect(new URL("/OAuthError", req.url));
+    else return NextResponse.redirect(new URL("/", req.url));
 }
