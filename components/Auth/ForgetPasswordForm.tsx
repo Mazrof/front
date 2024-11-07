@@ -34,7 +34,9 @@ export default function EmailInputForm() {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <label className="px-1">Email</label>
+                    <label className="px-1" htmlFor="Email">
+                        Email
+                    </label>
                     <input
                         id="Email"
                         type="email"
