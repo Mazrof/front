@@ -47,7 +47,7 @@ export default function VerificationPage() {
                     <h3 className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                         Type the 6-digit security code
                     </h3>
-                    <InputOTP maxLength={6}>
+                    <InputOTP maxLength={6} id="otp-input">
                         <InputOTPGroup className="flex justify-center space-x-2">
                             {OTPDigits}
                         </InputOTPGroup>
