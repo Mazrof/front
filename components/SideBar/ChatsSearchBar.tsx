@@ -2,7 +2,8 @@
 "use client";
 import { SetDarkMode, SetShowContacts, ShowContacts } from "@/types/SideBar";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 type ChatsSearchBarProps = {
     setDarkMode: SetDarkMode;
     showContacts: ShowContacts;
@@ -14,6 +15,7 @@ export default function ChatsSearchBar({
     showContacts,
     setShowContacts,
 }: ChatsSearchBarProps) {
+    const router = useRouter();
     const [darkMode, setDarkModeState] = useState(() => {
         if (typeof window !== "undefined") {
             const storedMode = localStorage.getItem("darkMode");
@@ -108,7 +110,12 @@ export default function ChatsSearchBar({
                                 />
                                 Saved Messages
                             </li>
-                            <li className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                            <li
+                                onClick={() => {
+                                    router.push("/stories");
+                                }}
+                                className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            >
                                 <Image
                                     src="/images/telegram-stories.gif"
                                     alt="telegram-stories icon"
