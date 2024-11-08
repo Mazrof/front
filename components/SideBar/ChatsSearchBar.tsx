@@ -123,7 +123,7 @@ export default function ChatsSearchBar({
                                     height={20}
                                     className="rounded-full"
                                 />
-                                My Stories
+                                Stories
                             </li>
                             <li
                                 onClick={toggleMode}
