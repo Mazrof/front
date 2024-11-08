@@ -2,14 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
 interface Story {
-    createdAt: number; // Timestamp of story creation (in milliseconds)
-    text: string;      // Example: Story text content
-    // You can add more properties here depending on the structure of your story
-  }
+  createdAt: number; // Timestamp of story creation (in milliseconds)
+  text: string; // Example: Story text content
+  color: string; // Color background for the story
+}
+
 export default function ViewStories() {
   const router = useRouter();
-  const [stories, setStories] =  useState<Story[]>([]);
+  const [stories, setStories] = useState<Story[]>([]);
   const [currentStoryIndex, setCurrentStoryIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function ViewStories() {
     console.log("Loaded stories from local storage:", storedStories);
 
     const now = Date.now();
-    const validStories = storedStories.filter((story:Story) => {
+    const validStories = storedStories.filter((story: Story) => {
       if (
         typeof story.createdAt !== "number" ||
         story.createdAt.toString().length !== 13
@@ -45,13 +47,14 @@ export default function ViewStories() {
   }, []);
 
   useEffect(() => {
-    if (stories.length > 0) {
+    // Automatically show the first story when the component loads or when index changes
+    if (stories.length > 0 && currentStoryIndex < stories.length) {
       const timer = setTimeout(() => {
-        handleNext();
+        handleNext(); // Move to next story after 5 seconds
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [currentStoryIndex, stories]);
+  }, [currentStoryIndex, stories]); // Depend on both currentStoryIndex and stories to ensure proper updates
 
   const handleNext = () => {
     // Check if all stories have been displayed
@@ -103,5 +106,3 @@ export default function ViewStories() {
     </div>
   );
 }
-
-
