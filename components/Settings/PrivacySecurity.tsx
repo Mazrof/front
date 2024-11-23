@@ -14,7 +14,7 @@ function PrivacySecurity() {
     async function toggleSwitch() {
         if (settings) {
             await updateProfile("readReceiptsEnabled", !settings?.readReceiptsEnabled);
-            let newSettings: SettingsObject = {
+            const newSettings: SettingsObject = {
                 ...settings,
                 readReceiptsEnabled: !settings.readReceiptsEnabled,
             };

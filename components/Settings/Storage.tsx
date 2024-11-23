@@ -28,7 +28,7 @@ function Storage() {
     async function saveToBackend(size: number[]) {
         await updateProfile("autoDownloadSizeLimit", size[0]);
         if (settings) {
-            let newSettings: SettingsObject = { ...settings, autoDownloadSizeLimit: size[0] };
+            const newSettings: SettingsObject = { ...settings, autoDownloadSizeLimit: size[0] };
             setSettings(newSettings);
         }
 
