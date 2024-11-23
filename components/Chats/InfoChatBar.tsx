@@ -1,4 +1,5 @@
 "use client";
+
 import {
     LeftArrowIcon,
     VoiceCallIcon,
@@ -12,16 +13,18 @@ import {
 } from "@/utils/icons";
 import Image from "next/image";
 import logo from "../../public/images/logo.jpg";
+
 import { useSelectedChatId } from "@/store/user";
 import { useState } from "react";
 function InfoChatBar({ name, lastSeen }) {
     const { setChatId } = useSelectedChatId();
+
     const [isOpen, setIsOpen] = useState(false);
     const [isMute, setIsMute] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-
+  
     function handleOnClickArrow(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setChatId(null);

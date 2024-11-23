@@ -14,6 +14,7 @@ async function apiHandler({ endpoint, method, headers, body, cache, revalidate }
         const response = await fetch(endpoint, options);
         if (!response.ok) {
             const errorMessage = await response.json();
+            //to do if 401 error remove locl storage 
             throw new Error(errorMessage.message || `An error occurred while Call this Endpoint: ${endpoint}`);
         }
         const data = await response.json();

@@ -8,4 +8,5 @@ const useSelectedChatId = create<SelectedChatId>((set) => ({
     return state.id !== null
   }
 }));
+
 export { useSelectedChatId };

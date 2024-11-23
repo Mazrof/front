@@ -21,8 +21,8 @@ export const KnowFileType = (file: File) => {
     const fileType = file.type.startsWith("image")
         ? "image"
         : file.type.startsWith("video")
-          ? "video"
-          : file.name.split(".")[1];
+            ? "video"
+            : file.name.split(".")[1];
     return fileType;
 };
 export const compressMedia = async (file: File | null) => {

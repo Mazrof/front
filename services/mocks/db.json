@@ -16,6 +16,10 @@
         "https://i0.wp.com/picjumbo.com/wp-content/uploads/pure-nature-landscape-single-tree-in-green-field-free-photo.jpg?w=600&quality=80",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s"
       ],
+      "videoUrl": [
+        "https://youtu.be/uWShfj2xmqQ",
+        "https://youtu.be/H8bs32EajtE"
+      ],
       "text": "Have You seen The New Episode of Mr. Robot?"
     },
     {
@@ -150,11 +154,30 @@
     }
   ],
   "login": {
-    "email": "example@example.com",
-    "password": "333333333333333"
+    "email": "rrrrrrrrrrrrrrr@gmial.com",
+    "password": "1234567788"
   },
   "social-login": {
     "provider": "google",
-    "access_token": "4/0AVG7fiS_dDdGaXWhMBWBS1tYvmZmyzEx91c0rY5OerHkgiTaD1NdiaBv1sn9ORNJTsqPew"
+
+    "access_token": "4/0AeanS0YjVUqDot3ZUe4Oq6EBLlsSykfZUrLDj91TkO2vZLhdH_6G2LWhkOZi2BTEakG_VA"
+  },
+  "profile": {
+    "picture": "images/default-avatar.gif",
+    "screenName": "Nesma Osama",
+    "bio": "I am an engineer",
+    "username": "Nesma",
+    "email": "nesma2172003@gmail.com",
+    "phoneNumber": "+201067193062",
+    "profilePicturePrivacy": "everyone",
+    "groupChatPrivacy": "everyone",
+    "storiesPrivacy": "everyone",
+    "lastSeenPrivacy": "everyone",
+    "readReceiptsEnabled": true,
+    "autoDownloadSizeLimit": 54,
+    "privateKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
+    "publicKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
+    "attribute": 50
+
   }
 }
