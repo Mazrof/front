@@ -260,6 +260,8 @@ export function LeftArrowIcon() {
         </svg>
     );
 }
+
+
 export function CloseIcon() {
     return (
         <svg
@@ -274,7 +276,6 @@ export function CloseIcon() {
             <g id="SVGRepo_iconCarrier">
                 {" "}
                 <g id="Menu / Close_LG">
-                    {" "}
                     <path
                         id="Vector"
                         d="M21 21L12 12M12 12L3 3M12 12L21.0001 3M12 12L3 21.0001"
@@ -302,7 +303,6 @@ export function CompressIcon() {
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
-                {" "}
                 <path fill="gray" d="M12 0h-12v12l1-1v-10h10z"></path>{" "}
                 <path fill="gray" d="M4 16h12v-12l-1 1v10h-10z"></path>{" "}
                 <path fill="gray" d="M7 9h-5l1.8 1.8-3.8 3.8 1.4 1.4 3.8-3.8 1.8 1.8z"></path>{" "}
@@ -388,6 +388,7 @@ export function StickersIcon() {
         </svg>
     );
 }
+
 
 export function GitHubIcon() {
     return (

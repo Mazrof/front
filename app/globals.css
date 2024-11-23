@@ -8,12 +8,14 @@ body {
 }
 
 .bg-light-gradient {
-    background: radial-gradient(circle,
-            #1c4b82 0%,
-            #285182 25%,
-            #325683 50%,
-            #285182 75%,
-            #1c4b82 100%);
+    background: radial-gradient(
+        circle,
+        #1c4b82 0%,
+        #285182 25%,
+        #325683 50%,
+        #285182 75%,
+        #1c4b82 100%
+    );
 }
 
 .glass {
@@ -140,11 +142,13 @@ body {
 
     .bg-light {
         background-image: url("../public/images/light-bg.png"),
-            linear-gradient(to bottom right,
+            linear-gradient(
+                to bottom right,
                 #dce68ce4 10%,
                 #b7e398f2 30%,
                 #a1c397e4 70%,
-                #cccfad 90%);
+                #cccfad 90%
+            );
     }
 
     .bg-dark {
@@ -181,5 +185,17 @@ body {
 
     .btn {
         @apply w-full rounded-md bg-blue-900 py-2 text-white hover:bg-blue-950;
+    }
+    .settings-layout {
+        @apply flex h-screen w-full flex-col items-start  gap-8 ;
+    }
+    .settings-icons {
+        @apply h-6 w-6 text-gray-500;
+    }
+    .settings-who-can{
+        @apply  flex flex-col items-start hover:bg-gray-500 w-full hover:rounded-md px-5
+    }
+    .settings-who-can h3{
+        @apply text-gray-700
     }
 }

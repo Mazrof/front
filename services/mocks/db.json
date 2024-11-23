@@ -160,5 +160,22 @@
   "social-login": {
     "provider": "google",
     "access_token": "4/0AeanS0YjVUqDot3ZUe4Oq6EBLlsSykfZUrLDj91TkO2vZLhdH_6G2LWhkOZi2BTEakG_VA"
+  },
+  "profile": {
+    "picture": "images/default-avatar.gif",
+    "screenName": "Nesma Osama",
+    "bio": "I am an engineer",
+    "username": "Nesma",
+    "email": "nesma2172003@gmail.com",
+    "phoneNumber": "+201067193062",
+    "profilePicturePrivacy": "everyone",
+    "groupChatPrivacy": "everyone",
+    "storiesPrivacy": "everyone",
+    "lastSeenPrivacy": "everyone",
+    "readReceiptsEnabled": true,
+    "autoDownloadSizeLimit": 54,
+    "privateKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
+    "publicKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
+    "attribute": 50
   }
 }

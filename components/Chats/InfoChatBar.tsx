@@ -1,10 +1,8 @@
 "use client";
 import { LeftArrowIcon } from "@/utils/icons";
-
 import { useSelectedChatId } from "@/store/user";
 function InfoChatBar() {
     const { setChatId } = useSelectedChatId();
-
     function handleOnClickArrow(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setChatId(null);

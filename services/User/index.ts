@@ -17,6 +17,7 @@ export async function LoginWithEmail(email: string, password: string): Promise<U
     return {
         access_token: response.email,
         refresh_token: response.password,
+      
     };
 }
 export async function LoginWithOauth(code: string, oathType: string): Promise<UserToken> {
@@ -33,5 +34,6 @@ export async function LoginWithOauth(code: string, oathType: string): Promise<Us
     return {
         access_token: response.provider,
         refresh_token: response.access_token,
+       
     };
 }
