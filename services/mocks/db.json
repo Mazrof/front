@@ -159,6 +159,7 @@
   },
   "social-login": {
     "provider": "google",
+
     "access_token": "4/0AeanS0YjVUqDot3ZUe4Oq6EBLlsSykfZUrLDj91TkO2vZLhdH_6G2LWhkOZi2BTEakG_VA"
   },
   "profile": {
@@ -177,5 +178,6 @@
     "privateKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
     "publicKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
     "attribute": 50
+
   }
 }

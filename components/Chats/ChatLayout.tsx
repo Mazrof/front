@@ -3,9 +3,9 @@ import ChatRoom from "./ChatRoom";
 import { MessageType } from "@/types/Message";
 import { Message } from "@/components/Chats/Message/Message";
 import { MessageImage } from "./Message/MessageImage";
-import { MessageVideo } from "./Message/MessageVideo";
 import { MessageText } from "./Message/MessageText";
 import { MessageCreatedAt } from "./Message/MessageCreatedAt";
+import { MessageVideo } from "./Message/MessageVideo";
 async function ChatLayout() {
     const messages: MessageType[] = await getMessages();
     const renderedMessages = (
