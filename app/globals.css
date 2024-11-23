@@ -186,6 +186,10 @@ body {
     .btn {
         @apply w-full rounded-md bg-blue-900 py-2 text-white hover:bg-blue-950;
     }
+
+    .call-bar {
+        @apply cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-300 ease-in hover:bg-gray-200;
+    }
     .settings-layout {
         @apply flex h-screen w-full flex-col items-start  gap-8 ;
     }
