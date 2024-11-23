@@ -1,4 +1,9 @@
-import { UserSettings, SettingsPageName, PageNameEnum } from "@/types/settings";
+import {
+    UserSettings,
+    SettingsPageName,
+    PageNameEnum,
+    WhoCanAttributes,
+} from "@/types/settings";
 import { create } from "zustand";
 
 const useSettings = create<UserSettings>((set) => ({
@@ -6,7 +11,13 @@ const useSettings = create<UserSettings>((set) => ({
     setSettings: (newSettings) => set({ settings: newSettings }),
 }));
 const useSettingsPageType = create<SettingsPageName>((set) => ({
-    settingPageName: "Personal Settings",
+    settingPageName: null,
     setPageName: (newName: PageNameEnum) => set({ settingPageName: newName }),
 }));
-export { useSettings, useSettingsPageType };
+const useWhoCanAttributes = create<WhoCanAttributes>((set) => ({
+    attribute: {title:"Profile Photo",privacyName:"phot",value:"everyone"},
+    setWhoCanAttributes: (newValues) => {
+        set({ attribute: newValues });
+    },
+}));
+export { useSettings, useSettingsPageType, useWhoCanAttributes };

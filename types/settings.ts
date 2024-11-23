@@ -1,16 +1,15 @@
 export type PrivacyOptionsEnum= "everyone" | "contacts" | "nobody"
 export type SettingsObject = {
-    picture: string;
+    photo: string;
     screenName: string;
     username: string;
     bio: string;
-    phoneNumber: string;
+    phone: string;
     email: string;
-    profilePicturePrivacy: PrivacyOptionsEnum;
-    groupChatPrivacy: PrivacyOptionsEnum;
-    storiesPrivacy: PrivacyOptionsEnum;
-    lastSeenPrivacy: PrivacyOptionsEnum;
-    readReceiptsEnabled: boolean;
+    profilePicVisiblity: PrivacyOptionsEnum;
+    storyVisiblity: PrivacyOptionsEnum;
+    lastSeenVisiblity: PrivacyOptionsEnum;
+    readReceiptsEnabled: PrivacyOptionsEnum;
     autoDownloadSizeLimit: number;
     privateKey: string;
     publicKey: string;
@@ -33,4 +32,13 @@ export type SettingsPageName = {
     settingPageName: PageNameEnum;
     setPageName: (pageName: PageNameEnum) => void;
 };
-
+export type PrivacyTitleEnum = "Last Seen" | "Profile Photo" | "Stories" | "Read Receipts"
+export type WhoCanAttributeObject = {
+    privacyName: string;
+    title: PrivacyTitleEnum;
+    value: PrivacyOptionsEnum;
+};
+export type WhoCanAttributes = {
+    attribute: WhoCanAttributeObject;
+    setWhoCanAttributes: (newValues: WhoCanAttributeObject) => void;
+};
