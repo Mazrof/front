@@ -2,7 +2,6 @@
 
 import { useSettingsPageType } from "@/store/settings";
 import { Database, HardDrive, Lock } from "lucide-react";
-import { PageNameEnum } from "@/types/settings";
 import { handleOnClick } from "@/utils/settings";
 function SettingsOptions() {
     const { setPageName } = useSettingsPageType();
