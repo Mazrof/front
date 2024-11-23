@@ -33,14 +33,13 @@ export function MessageVideo() {
                 >
                     <Image
                         src={
-                            "https://media.istockphoto.com/id/1149317024/vector/emoticon-with-sorry-sign.jpg?s=612x612&w=0&k=20&c=wwaOI9ajJ9l8ImT7BgdD0joDR2if0tlydqXEyMUl3d8="
+                            "https://png.pngtree.com/png-vector/20190215/ourmid/pngtree-play-video-icon-graphic-design-template-vector-png-image_530837.jpg"
                         }
                         width={200}
                         height={200}
                         alt={`video ${index + 1}`}
                         className="cursor-pointer rounded-md object-cover"
                     />
-                    <p>{` video ${index + 1}`}</p>
                     {index === 3 && videoUrl.length > 4 && (
                         <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black bg-opacity-50 text-lg font-bold text-white">
                             +{videoUrl.length - 4}
@@ -91,8 +90,6 @@ export function MessageVideo() {
                         </Button>
                     </div>
                 </DialogContent>
-
-                <div className="absolute inset-0" onClick={handleCloseDialog}></div>
             </Dialog>
         </div>
     );
