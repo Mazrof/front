@@ -16,7 +16,7 @@ function ChatRoom({ children }: ChatRoomProps) {
         >
             {isSelectedChat && (
                 <>
-                    <InfoChatBar />
+                    <InfoChatBar name={"Ahmed Mostafa"} lastSeen={"10:00"} />
                     {children}
                     <UploadingAlert />
                     <InputMessage placeHolder="Message" />

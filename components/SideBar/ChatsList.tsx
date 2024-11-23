@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Avatar from "./Avatar";
 import { useSelectedChatId } from "@/store/user";
+import { SetChat } from "@/types/SideBar";
 const chatData = [
     {
         id: 1,
@@ -118,6 +119,7 @@ const chatData = [
 const ChatList = () => {
     const [hasImage, setHasImage] = useState(true);
     const { setChatId } = useSelectedChatId();
+
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
             {chatData.map((chat, index) => (
