@@ -2,7 +2,7 @@ import apiHandler from "@/lib/apiHandler";
 import { ApiRequest } from "@/types/request";
 import { SettingsObject } from "@/types/settings";
 import { PrivacyOptionsEnum } from "@/types/settings";
-const server = "http://localhost:4000";
+const server = "http://localhost:3000/api/v1";
 export async function getProfile(): Promise<SettingsObject> {
     const request: ApiRequest = {
         endpoint: `${server}/profile`,
@@ -19,7 +19,7 @@ export async function updateProfile(
         endpoint: `${server}/profile`,
         method: "PATCH",
         cache: "no-store",
-        body: {[attribute]:value},
+        body: { [attribute]: value },
     };
     return await apiHandler(request);
 }

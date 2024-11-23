@@ -1,8 +1,11 @@
 import apiHandler from "@/lib/apiHandler";
 import { ApiRequest } from "@/types/request";
 import { UserToken } from "@/types/user";
-const server = "http://localhost:4000";
-
+const server = "http://localhost:3000/api/v1/auth";
+export type LoginResponse = {
+    status: string;
+    data: UserToken;
+};
 export async function LoginWithEmail(email: string, password: string): Promise<UserToken> {
     const request: ApiRequest = {
         endpoint: `${server}/login`,
@@ -13,12 +16,8 @@ export async function LoginWithEmail(email: string, password: string): Promise<U
             "Content-Type": "application/json",
         },
     };
-    const response = await apiHandler(request);
-    return {
-        access_token: response.email,
-        refresh_token: response.password,
-      
-    };
+    const response: LoginResponse = await apiHandler(request);
+    return response.data;
 }
 export async function LoginWithOauth(code: string, oathType: string): Promise<UserToken> {
     const request: ApiRequest = {
@@ -34,6 +33,5 @@ export async function LoginWithOauth(code: string, oathType: string): Promise<Us
     return {
         access_token: response.provider,
         refresh_token: response.access_token,
-       
     };
 }

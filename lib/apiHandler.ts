@@ -1,26 +1,27 @@
-import { ApiRequest } from '@/types/request';
+import { ApiRequest } from "@/types/request";
 async function apiHandler({ endpoint, method, headers, body, cache, revalidate }: ApiRequest) {
     try {
         const options = {
             method,
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 ...headers,
             },
             body: body ? JSON.stringify(body) : undefined,
             revalidate: revalidate ?? false,
-            cache
-        }
+            cache,
+        };
         const response = await fetch(endpoint, options);
         if (!response.ok) {
             const errorMessage = await response.json();
-            //to do if 401 error remove locl storage 
-            throw new Error(errorMessage.message || `An error occurred while Call this Endpoint: ${endpoint}`);
+            //to do if 401 error remove local storage
+            throw new Error(
+                errorMessage.message || `An error occurred while Call this Endpoint: ${endpoint}`
+            );
         }
         const data = await response.json();
         return data;
-    }
-    catch (error) {
+    } catch (error) {
         console.error(`An error occurred while Call this Endpoint: ${endpoint}`);
         throw error;
     }

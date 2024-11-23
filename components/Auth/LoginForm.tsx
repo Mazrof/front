@@ -6,8 +6,8 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
-import { UserToken } from "@/types/user";
 import Image from "next/image";
+import { setCookies } from "@/lib/cookiesActions";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -36,9 +36,17 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const token: UserToken = await LoginWithEmail(data.email.trim(), data.password);
+        const token = await LoginWithEmail(data.email.trim(), data.password);
+
+        console.log(token);
         if (token.error) setErrorRoot(token.error);
-        else router.push("/");
+        else {
+            await setCookies({
+                access_token: token.access_token,
+                refresh_token: token.refresh_token,
+            });
+            router.push("/");
+        }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -64,16 +72,30 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             >
                 <div className="login-field">
                     <label>Email</label>
-                    <input type="text" {...register("email")} className="input-field" data-testid="email" />
+                    <input
+                        type="text"
+                        {...register("email")}
+                        className="input-field"
+                        data-testid="email"
+                    />
                     {errors.email && (
-                        <div className="text-sm text-red-900" data-testid="email-error">{errors.email.message}</div>
+                        <div className="text-sm text-red-900" data-testid="email-error">
+                            {errors.email.message}
+                        </div>
                     )}
                 </div>
                 <div className="field">
                     <label className="label">Password</label>
-                    <input type="password" {...register("password")} className="input-field" data-testid="password" />
+                    <input
+                        type="password"
+                        {...register("password")}
+                        className="input-field"
+                        data-testid="password"
+                    />
                     {errors.password && (
-                        <div className="text-sm text-red-900" data-testid="password-error">{errors.password.message}</div>
+                        <div className="text-sm text-red-900" data-testid="password-error">
+                            {errors.password.message}
+                        </div>
                     )}
                     {errors.root && (
                         <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
@@ -100,7 +122,10 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             <div className="mt-4 flex justify-center">
                 <p>
                     Do not have an account?
-                    <button className="cursor-pointer p-1 font-semibold text-blue-700" onClick={event => handleSignup(event)}>
+                    <button
+                        className="cursor-pointer p-1 font-semibold text-blue-700"
+                        onClick={(event) => handleSignup(event)}
+                    >
                         Sign Up
                     </button>
                 </p>

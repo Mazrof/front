@@ -7,29 +7,31 @@ import PrivacySecurity from "./PrivacySecurity";
 import ProfileUpdate from "./UpdateProfile";
 import { getProfile } from "@/services/Settings";
 import { useSettings } from "@/store/settings";
-import { SettingsObject } from"@/types/settings"
+import { SettingsObject } from "@/types/settings";
 import { useEffect } from "react";
 import Storage from "./Storage";
 function Settings() {
-    const { settingPageName } = useSettingsPageType()
-    const isShowSettings = settingPageName !== null
-    const { setSettings } = useSettings()
+    const { settingPageName } = useSettingsPageType();
+    const isShowSettings = settingPageName !== null;
+    const { setSettings } = useSettings();
     const fetchProfile = async () => {
         const settings: SettingsObject = await getProfile();
         setSettings(settings);
     };
     useEffect(() => {
-        fetchProfile()
-    },[])
+        fetchProfile();
+    }, []);
     return (
-        <div className={`bg-white text-black dark:bg-black dark:text-white text-lg  w-full md:w-1/3 p-4 ${!isShowSettings && "hidden"} overflow-y-auto custom-scrollbar max-h-screen`}>
+        <div
+            className={`w-full bg-white p-4 text-lg text-black dark:bg-black dark:text-white md:w-1/3 ${!isShowSettings && "hidden"} custom-scrollbar max-h-screen overflow-y-auto`}
+        >
             <PersonalSettings />
             <Block />
             <Devices />
             <ProfileUpdate />
             <Privacy />
             <PrivacySecurity />
-            <Storage/>
+            <Storage />
         </div>
     );
 }
