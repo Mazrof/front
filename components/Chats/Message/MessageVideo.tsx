@@ -17,10 +17,6 @@ export function MessageVideo() {
         setIsOpen(true);
     };
 
-    const handleCloseDialog = () => {
-        setIsOpen(false); // Close the dialog
-    };
-
     videoUrl = videoUrl || [];
 
     return (
