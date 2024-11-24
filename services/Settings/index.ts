@@ -12,14 +12,14 @@ export async function getProfile(): Promise<SettingsObject> {
     return await apiHandler(request);
 }
 export async function updateProfile(
-    attribute: string,
-    value: number | string | boolean | PrivacyOptionsEnum
+    updates: Record<string, number | string | boolean | PrivacyOptionsEnum>
 ): Promise<SettingsObject> {
     const request: ApiRequest = {
         endpoint: `${server}/profile`,
         method: "PATCH",
         cache: "no-store",
-        body: { [attribute]: value },
+        body: updates, // Send the updates object directly
     };
+
     return await apiHandler(request);
 }

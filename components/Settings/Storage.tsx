@@ -18,20 +18,22 @@ function Storage() {
     const [value, setValue] = useState<number[]>(defaultSize);
 
     useEffect(() => {
-        setValue([settings?.autoDownloadSizeLimit ?? 50]);
-    }, [settings?.autoDownloadSizeLimit, settingPageName]);
+        if (isShowStorage) setValue([settings?.autoDownloadSizeLimit ?? 50]);
+    }, [settings?.autoDownloadSizeLimit, isShowStorage]);
 
     function handleValueChange(newValue: number[]) {
         setValue(newValue);
     }
 
     async function saveToBackend(size: number[]) {
-        await updateProfile("autoDownloadSizeLimit", size[0]);
+        const updates = {
+            autoDownloadSizeLimit:size[0]
+        }
+        await updateProfile(updates);
         if (settings) {
             const newSettings: SettingsObject = { ...settings, autoDownloadSizeLimit: size[0] };
             setSettings(newSettings);
         }
-
     }
 
     return (

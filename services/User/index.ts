@@ -1,6 +1,7 @@
 import apiHandler from "@/lib/apiHandler";
 import { ApiRequest } from "@/types/request";
 import { UserToken } from "@/types/user";
+import { BlockUser } from "@/types/user";
 const server = "http://localhost:3000/api/v1/auth";
 export type LoginResponse = {
     status: string;
@@ -34,4 +35,21 @@ export async function LoginWithOauth(code: string, oathType: string): Promise<Us
         access_token: response.provider,
         refresh_token: response.access_token,
     };
+}
+
+export async function getBlockedUsers(): Promise<BlockUser[]> {
+    const request: ApiRequest = {
+        endpoint: `${server}/blockedUsers`,
+        method: "GET",
+        cache: "no-store", // to avoid caching
+    };
+    return await apiHandler(request);
+}
+export async function unBlockUser(userId: string): Promise<{ message?: string }> {
+    const request: ApiRequest = {
+        endpoint: `${server}/users/${userId}/block`,
+        method: "DELETE",
+        cache: "no-store",
+    };
+    return await apiHandler(request);
 }

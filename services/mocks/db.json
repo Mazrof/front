@@ -154,30 +154,40 @@
     }
   ],
   "login": {
-    "email": "rrrrrrrrrrrrrrr@gmial.com",
-    "password": "1234567788"
+    "email": "nesma2171@gmail.com",
+    "password": "nesma22222222222"
   },
   "social-login": {
     "provider": "google",
-
     "access_token": "4/0AeanS0YjVUqDot3ZUe4Oq6EBLlsSykfZUrLDj91TkO2vZLhdH_6G2LWhkOZi2BTEakG_VA"
   },
   "profile": {
-    "picture": "images/default-avatar.gif",
+    "photo": "images/default-avatar.gif",
     "screenName": "Nesma Osama",
     "bio": "I am an engineer",
     "username": "Nesma",
     "email": "nesma2172003@gmail.com",
-    "phoneNumber": "+201067193062",
-    "profilePicturePrivacy": "everyone",
-    "groupChatPrivacy": "everyone",
-    "storiesPrivacy": "everyone",
-    "lastSeenPrivacy": "everyone",
-    "readReceiptsEnabled": true,
-    "autoDownloadSizeLimit": 54,
+    "phone": "+201067193062",
+    "profilePicVisiblity": "contacts",
+    "readReceiptsEnabled": "contacts",
+    "storyVisiblity": "nobody",
+    "lastSeenVisiblity": "nobody",
+    "autoDownloadSizeLimit": 68,
     "privateKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
-    "publicKey": "nnnnnnnnnnnnnnnnnnnnnnnnn",
-    "attribute": 50
-
-  }
+    "publicKey": "nnnnnnnnnnnnnnnnnnnnnnnnn"
+  },
+  "blockedUsers": [
+    {
+      "userId": "abc123",
+      "photo": "images/default-avatar.gif",
+      "phone": "+201067193062",
+      "username": "Nesma"
+    },
+    {
+      "userId": "abc1234",
+      "photo": "images/default-avatar.gif",
+      "phone": "+201067193062",
+      "username": "Osama"
+    }
+  ]
 }

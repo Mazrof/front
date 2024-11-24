@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+import { useSettingsPageType } from "@/store/settings";
 import { SetDarkMode, SetShowContacts, ShowContacts } from "@/types/SideBar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ export default function ChatsSearchBar({
     setShowContacts,
 }: ChatsSearchBarProps) {
     const router = useRouter();
+    const {setPageName}=useSettingsPageType()
     const [darkMode, setDarkModeState] = useState(() => {
         if (typeof window !== "undefined") {
             const storedMode = localStorage.getItem("darkMode");
@@ -90,7 +92,10 @@ export default function ChatsSearchBar({
                 {isMenuOpen && (
                     <div className="absolute right-0 top-20 z-10 w-48 rounded-lg bg-[#f3f3f3] py-2 text-slate-700 opacity-0 shadow-lg group-hover:opacity-100 dark:bg-[#201f1f] dark:text-gray-100">
                         <ul>
-                            <li className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                            <li className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                                onClick={() => {
+                                    setPageName("Personal Settings")
+                                }}>
                                 <Image
                                     src="/images/settings.gif"
                                     alt="settings icon"
