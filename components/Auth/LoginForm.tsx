@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { setCookies } from "@/lib/cookiesActions";
+import { checkCookies, setCookies } from "@/lib/cookiesActions";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -45,7 +45,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                 access_token: token.access_token,
                 refresh_token: token.refresh_token,
             });
-            router.push("/");
+            if (await checkCookies(["access_token", "refresh_token"])) router.push("/");
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {

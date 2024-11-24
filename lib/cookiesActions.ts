@@ -10,3 +10,8 @@ export async function deleteCookies(keys: string[]) {
     const cookieStore = await cookies();
     keys.map((key) => cookieStore.delete(key));
 }
+export async function checkCookies(keys: string[]) {
+    const cookieStore = await cookies();
+    const keysExist = keys.every((key) => cookieStore.has(key) === true);
+    return keysExist;
+}
