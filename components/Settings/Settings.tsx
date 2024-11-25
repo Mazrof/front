@@ -22,9 +22,8 @@ function Settings() {
         fetchProfile();
     }, []);
     return (
-        <div
-            className={`w-full bg-white p-4 text-lg text-black dark:bg-black dark:text-white md:w-1/3 ${!isShowSettings && "hidden"} custom-scrollbar max-h-screen overflow-y-auto`}
-        >
+
+        <div className={`bg-white text-black dark:bg-black dark:text-white text-lg  w-full md:w-2/3 lg:w-1/3 p-4 ${!isShowSettings && "hidden"} overflow-y-auto custom-scrollbar max-h-screen`}>
             <PersonalSettings />
             <Block />
             <Devices />

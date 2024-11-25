@@ -23,12 +23,14 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import React from "react";
+import { useSettings } from "@/store/settings";
 export function UploadingAlert() {
     const { isOpenAlert, setIsOpenAlert } = useOpenAlert();
     const { fileType, setFileType, setUrl } = useFileInfo();
     const { caption, setCaption, setUploadedFile } = useFileInput();
     const { textMessage, setTextMessage } = useInputTextMessage();
     const { setIsMaxSize, isMaxSize } = useIsMaxSizeError();
+    const {settings}=useSettings()
     const type = getFileType(fileType);
     function handleChangeCaption(event: React.ChangeEvent<HTMLInputElement>) {
         setCaption(event.target.value);
@@ -62,7 +64,7 @@ export function UploadingAlert() {
                         Send {capitalizeFirstLetter(type)}
                     </AlertDialogTitle>
                     <AlertDialogDescription className="text-center text-xl">
-                        {isMaxSize ? "This File is exceeding the maximum size 100MB" : ""}
+                        {isMaxSize ? `This File is exceeding the maximum size ${settings?.maxLimitFileSize}` : ""}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className={`max-h-96 w-full overflow-hidden ${isMaxSize ? "hidden" : ""}`}>

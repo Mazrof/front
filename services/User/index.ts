@@ -45,7 +45,16 @@ export async function getBlockedUsers(): Promise<BlockUser[]> {
     };
     return await apiHandler(request);
 }
-export async function unBlockUser(userId: string): Promise<{ message?: string }> {
+export async function logout(): Promise<BlockUser[]> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/logout`,
+        method: "POST",
+        cache: "no-store", // to avoid caching
+    };
+    return await apiHandler(request);
+}
+export async function unBlockUser(userId:string): Promise<{message?:string}> {
+
     const request: ApiRequest = {
         endpoint: `${server}/users/${userId}/block`,
         method: "DELETE",

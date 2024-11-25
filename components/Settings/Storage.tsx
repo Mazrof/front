@@ -12,26 +12,29 @@ function Storage() {
     const isShowStorage = settingPageName === "Storage";
     const { settings, setSettings } = useSettings();
 
-    const defaultSize =
+    const defaultSizeDownload =
         settings?.autoDownloadSizeLimit !== undefined ? [settings.autoDownloadSizeLimit] : [50];
+    const defaultSizeUpload =
+        settings?.maxLimitFileSize !== undefined ? [settings.maxLimitFileSize] : [50];
 
-    const [value, setValue] = useState<number[]>(defaultSize);
+    const [valueDownload, setValueDownload] = useState<number[]>(defaultSizeDownload);
+    const [valueUpload, setValueUpload] = useState<number[]>(defaultSizeUpload);
 
     useEffect(() => {
-        if (isShowStorage) setValue([settings?.autoDownloadSizeLimit ?? 50]);
-    }, [settings?.autoDownloadSizeLimit, isShowStorage]);
-
-    function handleValueChange(newValue: number[]) {
-        setValue(newValue);
-    }
-
-    async function saveToBackend(size: number[]) {
-        const updates = {
-            autoDownloadSizeLimit:size[0]
+        if (isShowStorage) {
+            setValueDownload([settings?.autoDownloadSizeLimit ?? 50]);
+            setValueUpload([settings?.maxLimitFileSize ?? 50]);
         }
+    }, [settings?.autoDownloadSizeLimit, settings?.maxLimitFileSize, isShowStorage]);
+
+    async function saveToBackend(sizeDownload: number[], sizeUpload: number[]) {
+        const updates = {
+            autoDownloadSizeLimit: sizeDownload[0],
+            maxLimitFileSize: sizeUpload[0],
+        };
         await updateProfile(updates);
         if (settings) {
-            const newSettings: SettingsObject = { ...settings, autoDownloadSizeLimit: size[0] };
+            const newSettings: SettingsObject = { ...settings, ...updates };
             setSettings(newSettings);
         }
     }
@@ -40,21 +43,38 @@ function Storage() {
         <div className={` ${!isShowStorage && "hidden"} settings-layout`}>
             <Nav />
             <h2 className="text-violet-500">Automatic media download</h2>
-            <div className="flex w-full justify-between">
-                <h2>Max Media Size</h2>
-                <h2>{value} MB</h2>
+            <div className="flex flex-col gap-11 w-full">
+                <div className="flex flex-col gap-5 w-full">
+                    <div className="flex w-full justify-between">
+                        <h2>Max Media Size Auto Download</h2>
+                        <h2>{valueDownload} MB</h2>
+                    </div>
+
+                    <Slider
+                        value={valueDownload}
+                        max={500}
+                        step={1}
+                        className="w-full"
+                        onValueChange={(size: number[]) => setValueDownload(size)}
+                    />
+                </div>
+                <div className="flex flex-col gap-5 w-full">
+                    <div className="flex w-full justify-between">
+                        <h2>Max Media Size Upload</h2>
+                        <h2>{valueUpload} MB</h2>
+                    </div>
+
+                    <Slider
+                        value={valueUpload}
+                        max={500}
+                        step={1}
+                        className="w-full"
+                        onValueChange={(size: number[]) => setValueUpload(size)}
+                    />
+                </div>
             </div>
-
-            <Slider
-                value={value}
-                max={100}
-                step={1}
-                className="w-full"
-                onValueChange={handleValueChange}
-            />
-
             <Button
-                onClick={() => saveToBackend(value)}
+                onClick={() => saveToBackend(valueDownload,valueUpload)}
                 variant="ghost"
                 className="mx-auto my-10 text-lg"
             >
