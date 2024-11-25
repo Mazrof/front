@@ -22,7 +22,6 @@ export default function Home() {
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? <ContactsSideBar {...sideBarProp} /> : <SideBar {...sideBarProp} />}
             <Settings />
-            <MainInfo />
             <Suspense
                 fallback={
                     <ChatRoom>
@@ -32,6 +31,7 @@ export default function Home() {
             >
                 <ChatLayout />
             </Suspense>
+            <MainInfo />
         </div>
     );
 }
