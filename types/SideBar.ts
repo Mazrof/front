@@ -8,6 +8,14 @@ export interface Chat {
     unreadCount: number;
     pinned: boolean;
 }
+
+export interface Contact {
+    id: number;
+    name: string;
+    avatar: string;
+    status: string;
+  }
+  
 export type ShowContacts = boolean;
 
 export type SetShowContacts = Dispatch<SetStateAction<ShowContacts>>;
