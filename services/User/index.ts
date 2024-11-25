@@ -1,13 +1,13 @@
 import apiHandler from "@/lib/apiHandler";
+import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
-import { UserToken } from "@/types/user";
-import { BlockUser } from "@/types/user";
+import { BlockUser, UserToken } from "@/types/user";
 const server = "http://localhost:3000/api/v1/auth";
-export type LoginResponse = {
-    status: string;
-    data: UserToken;
-};
-export async function LoginWithEmail(email: string, password: string): Promise<UserToken> {
+
+export async function LoginWithEmail(
+    email: string,
+    password: string
+): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
         endpoint: `${server}/login`,
         method: "POST",
@@ -17,10 +17,13 @@ export async function LoginWithEmail(email: string, password: string): Promise<U
             "Content-Type": "application/json",
         },
     };
-    const response: LoginResponse = await apiHandler(request);
-    return response.data;
+    const response = await apiHandler(request);
+    return response;
 }
-export async function LoginWithOauth(code: string, oathType: string): Promise<UserToken> {
+export async function LoginWithOauth(
+    code: string,
+    oathType: string
+): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
         endpoint: `${server}/social-login`,
         method: "POST",
@@ -31,10 +34,7 @@ export async function LoginWithOauth(code: string, oathType: string): Promise<Us
         },
     };
     const response = await apiHandler(request);
-    return {
-        access_token: response.provider,
-        refresh_token: response.access_token,
-    };
+    return response;
 }
 
 export async function getBlockedUsers(): Promise<BlockUser[]> {

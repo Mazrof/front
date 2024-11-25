@@ -12,13 +12,6 @@ async function apiHandler({ endpoint, method, headers, body, cache, revalidate }
             cache,
         };
         const response = await fetch(endpoint, options);
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            //to do if 401 error remove local storage
-            throw new Error(
-                errorMessage.message || `An error occurred while Call this Endpoint: ${endpoint}`
-            );
-        }
         const data = await response.json();
         return data;
     } catch (error) {

@@ -8,6 +8,8 @@ import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
 import { checkCookies, setCookies } from "@/lib/cookiesActions";
+import { UserToken } from "@/types/user";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -36,14 +38,20 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const token = await LoginWithEmail(data.email.trim(), data.password);
+        const response: genericResponse<UserToken> = await LoginWithEmail(
+            data.email.trim().toLowerCase(),
+            data.password
+        );
 
-        console.log(token);
-        if (token.error) setErrorRoot(token.error);
-        else {
+        console.log(response);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            const { access_token, refresh_token } = (response as successResponse<UserToken>).data;
             await setCookies({
-                access_token: token.access_token,
-                refresh_token: token.refresh_token,
+                access_token,
+                refresh_token,
             });
             if (await checkCookies(["access_token", "refresh_token"])) router.push("/");
         }
