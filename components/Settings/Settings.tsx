@@ -22,7 +22,7 @@ function Settings() {
         fetchProfile()
     },[])
     return (
-        <div className={`bg-white text-black dark:bg-black dark:text-white text-lg  w-full md:w-1/3 p-4 ${!isShowSettings && "hidden"} overflow-y-auto custom-scrollbar max-h-screen`}>
+        <div className={`bg-white text-black dark:bg-black dark:text-white text-lg  w-full md:w-2/3 lg:w-1/3 p-4 ${!isShowSettings && "hidden"} overflow-y-auto custom-scrollbar max-h-screen`}>
             <PersonalSettings />
             <Block />
             <Devices />

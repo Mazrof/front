@@ -11,6 +11,7 @@ export type SettingsObject = {
     lastSeenVisiblity: PrivacyOptionsEnum;
     readReceiptsEnabled: PrivacyOptionsEnum;
     autoDownloadSizeLimit: number;
+    maxLimitFileSize: number;
     privateKey: string;
     publicKey: string;
 };
