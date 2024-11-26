@@ -1,10 +1,37 @@
+import { useState } from "react";
+
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {}
-function InputField({ id, type, placeholder, ...rest }: InputFieldProps) {
+function InputField({
+    id,
+    type,
+    register,
+    error,
+}: {
+    id: string;
+    type: string;
+    register: any;
+    error?: string;
+}) {
+    const [input, setInput] = useState("");
     return (
-        <div>
-            <label className="label">{id}</label>
-            <input type={type} placeholder={placeholder} className="input-field" {...rest} />
+        <div className="relative w-full max-w-sm">
+            <label className="relative">
+                <input
+                    type={type}
+                    className={`text-1.5xl h-14 w-96 rounded-lg border-2 border-gray-200 px-6 text-gray-600 outline-none transition duration-200 focus:border-blue-500 ${error && "error-input"}`}
+                    {...register(id)}
+                    onChange={(e) => setInput(e.target.value)}
+                />
+                <span
+                    className={`input text-1.5sxl absolute bottom-0 left-0 mx-4 px-2 text-gray-500 transition duration-200 ${
+                        input.trim() ? "active" : ""
+                    } ${error && "error"}`}
+                >
+                    {id}
+                </span>
+            </label>
+            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
         </div>
     );
 }

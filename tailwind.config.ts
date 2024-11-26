@@ -59,6 +59,9 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontSize: {
+        '1.5xl': '1.5rem',
+      },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
