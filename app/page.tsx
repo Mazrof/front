@@ -4,6 +4,7 @@ import ChatRoom from "@/components/Chats/ChatRoom";
 import MessageLoading from "@/components/Chats/Message/MessageLoading";
 import ContactsSideBar from "@/components/Contacts/ContactsSideBar";
 import SideBar from "@/components/SideBar/SideBar";
+import Settings from "@/components/Settings/Settings";
 import { Suspense, useState } from "react";
 export default function Home() {
     const [showContacts, setShowContacts] = useState(false);
@@ -19,6 +20,7 @@ export default function Home() {
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? <ContactsSideBar {...sideBarProp} /> : <SideBar {...sideBarProp} />}
+            <Settings />
             <Suspense
                 fallback={
                     <ChatRoom>

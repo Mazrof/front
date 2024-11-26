@@ -6,8 +6,10 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
-import { UserToken } from "@/types/user";
 import Image from "next/image";
+import { checkCookies, setCookies } from "@/lib/cookiesActions";
+import { UserToken } from "@/types/user";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -36,13 +38,31 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const token: UserToken = await LoginWithEmail(data.email, data.password);
-        if (token.error) setErrorRoot(token.error);
-        else router.push("/");
+        const response: genericResponse<UserToken> = await LoginWithEmail(
+            data.email.trim().toLowerCase(),
+            data.password
+        );
+
+        console.log(response);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            const { access_token, refresh_token } = (response as successResponse<UserToken>).data;
+            await setCookies({
+                access_token,
+                refresh_token,
+            });
+            if (await checkCookies(["access_token", "refresh_token"])) router.push("/");
+        }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         router.push("/forget-password");
+    };
+    const handleSignup = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        router.push("/signup");
     };
     return (
         <div className="flex h-full flex-col items-center justify-between p-4">
@@ -57,19 +77,33 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="login-field">
                     <label>Email</label>
-                    <input type="text" {...register("email")} className="input-field" />
+                    <input
+                        type="text"
+                        {...register("email")}
+                        className="input-field"
+                        data-testid="email"
+                    />
                     {errors.email && (
-                        <div className="text-sm text-red-900">{errors.email.message}</div>
+                        <div className="text-sm text-red-900" data-testid="email-error">
+                            {errors.email.message}
+                        </div>
                     )}
                 </div>
                 <div className="field">
                     <label className="label">Password</label>
-                    <input type="password" {...register("password")} className="input-field" />
+                    <input
+                        type="password"
+                        {...register("password")}
+                        className="input-field"
+                        data-testid="password"
+                    />
                     {errors.password && (
-                        <div className="text-sm text-red-900">{errors.password.message}</div>
+                        <div className="text-sm text-red-900" data-testid="password-error">
+                            {errors.password.message}
+                        </div>
                     )}
                     {errors.root && (
-                        <div className="mx-auto mt-4 text-sm text-red-700">
+                        <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
                             {errors.root.message}
                         </div>
                     )}
@@ -93,9 +127,12 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             <div className="mt-4 flex justify-center">
                 <p>
                     Do not have an account?
-                    <a className="cursor-pointer p-1 font-semibold text-blue-700" href="/signup">
+                    <button
+                        className="cursor-pointer p-1 font-semibold text-blue-700"
+                        onClick={(event) => handleSignup(event)}
+                    >
                         Sign Up
-                    </a>
+                    </button>
                 </p>
             </div>
             <div className={`${isSubmitting && "invisible"} w-full`}>{children}</div>

@@ -9,7 +9,7 @@ export type ShowFileOptions = {
 };
 export type isRecordingOption = {
     isRecording: boolean;
-    setIsRecoding: (isRecording: boolean) => void;
+    setIsRecording: (isRecording: boolean) => void;
 };
 
 export type ShowSideBar = {

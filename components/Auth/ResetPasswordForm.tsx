@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import InputField from "./InputField";
 
 export default function ResetPasswordForm() {
     const passwordSchema = z
@@ -30,9 +29,10 @@ export default function ResetPasswordForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate role="form">
             <div>
-                <InputField
+                <label htmlFor="Password">Password</label>
+                <input
                     id="Password"
                     type="password"
                     {...register("password")}
@@ -44,7 +44,8 @@ export default function ResetPasswordForm() {
             </div>
 
             <div className="mt-4">
-                <InputField
+                <label htmlFor="Confirm Password">Confirm Password</label>
+                <input
                     id="Confirm Password"
                     type="password"
                     {...register("confirmPassword")}

@@ -45,6 +45,8 @@ export function MessageImage() {
                             onClick={() => {
                                 if (selectedImage) setSelectedImage(selectedImage - 1);
                             }}
+                            aria-label="Previous Image"
+                            disabled={selectedImage === 0}
                         >
                             <MoveLeftIcon />
                         </Button>
@@ -68,6 +70,8 @@ export function MessageImage() {
                                     setSelectedImage(selectedImage + 1);
                                 }
                             }}
+                            aria-label="Next Image"
+                            disabled={selectedImage === imageUrl.length - 1}
                         >
                             <MoveRightIcon />
                         </Button>

@@ -12,10 +12,10 @@ export default function ForgetPasswordPage() {
                     className="rounded-full"
                 />
 
-                <h2 className="mb-5 text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="my-4 text-2xl font-semibold text-gray-800 dark:text-white">
                     Forget Password
                 </h2>
-                <section className="mt-2 w-3/4">
+                <section className="mt-2">
                     <ForgetPasswordForm />
                 </section>
             </div>

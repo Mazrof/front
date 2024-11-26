@@ -1,9 +1,7 @@
 import apiHandler from "@/lib/apiHandler";
 import { MessageType } from "@/types/Message";
 import { ApiRequest } from "@/types/request";
-const server = "http://localhost:4000";
-
-
+const server = "http://localhost:5000";
 
 /**
  * Central API handler for interacting with the API and returning responses.
@@ -31,8 +29,8 @@ const server = "http://localhost:4000";
 export async function getMessages(): Promise<MessageType[]> {
     const request: ApiRequest = {
         endpoint: `${server}/messages`,
-        method: 'GET',
-        cache: 'no-store', // to avoid caching
-    }
+        method: "GET",
+        cache: "no-store", // to avoid caching
+    };
     return await apiHandler(request);
 }
