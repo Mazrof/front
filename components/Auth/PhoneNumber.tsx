@@ -24,7 +24,7 @@ type PhoneInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChan
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
     React.ElementRef<typeof RPNInput.default>,
     PhoneInputProps
->(({ className, onChange, ...props }, ref) => {
+>(({ className, error, onChange, ...props }, ref) => {
     return (
         <RPNInput.default
             ref={ref}
