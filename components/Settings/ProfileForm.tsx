@@ -6,9 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AvatarPhoto } from "./Avatar";
 import { Check, Edit, Trash } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "@/services/Settings";
 import { SettingsObject } from "@/types/settings";
+import { convertToBase64 } from "@/utils/inputMessage";
 const ProfileSchema = z.object({
     email: z.string().email(),
     photo: z.string(),
@@ -22,11 +23,13 @@ type ProfileFormFields = z.infer<typeof ProfileSchema>;
 function ProfileForm() {
     const router = useRouter();
     const fileInputRef = useRef<HTMLInputElement | null>(null); // Create a ref for the file input
+    const [isError, setIsError] = useState(false);
     const { settings, setSettings } = useSettings();
     const {
         register,
         reset,
         trigger,
+        setError,
         formState: { errors },
         watch,
     } = useForm<ProfileFormFields>({
@@ -47,33 +50,46 @@ function ProfileForm() {
         //to do if error but root error
     }
     const handleFieldClick = async (fieldName: keyof ProfileFormFields) => {
+        setIsError(false);
         const fieldValue = watch(fieldName);
         const isValid = await trigger(fieldName);
-        console.log(fieldValue);
         if (!isValid) return;
         await saveChange(fieldName, fieldValue);
     };
-    const handleImageClick = async() => {
+    const handleImageClick = async () => {
         if (fileInputRef.current) {
-            fileInputRef.current.click();  
+            fileInputRef.current.click();
         }
     };
+
     const handleChangeImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        event.preventDefault()
-        if (file) {
-            await saveChange("photo", URL.createObjectURL(file))
-        }
-    }
-    
+        event.preventDefault();
+
+        convertToBase64(file as File, async (base64, error) => {
+            if (error) {
+                setError("photo", { type: "manual", message: error });
+            } else {
+                await saveChange("photo", base64 as string);
+            }
+        });
+    };
+
     const handleDeleteImage = async () => {
         const response = await fetch("images/Avatar-2.png");
         const blob = await response.blob();
         const file = new File([blob], "avatar.png", { type: blob.type });
-        await saveChange("photo", URL.createObjectURL(file))
-    }
+        convertToBase64(file, async (base64, error) => {
+            if (error) {
+                setIsError(true);
+                setError("photo", { type: "manual", message: error });
+            } else {
+                await saveChange("photo", base64 as string);
+            }
+        });
+    };
     useEffect(() => {
-        if (settings) {
+        if (settings && !isError) {
             reset({
                 email: settings.email,
                 phone: settings.phone,
@@ -87,7 +103,7 @@ function ProfileForm() {
     return (
         <form className="flex h-full w-full flex-col gap-4">
             <div className="w-full">
-                <div className="mx-auto h-32 w-32" >
+                <div className="mx-auto h-32 w-32">
                     <AvatarPhoto prop={{ url: settings?.photo }} />
                 </div>
                 <input
@@ -98,14 +114,15 @@ function ProfileForm() {
                     onChange={handleChangeImage}
                     style={{ display: "none" }}
                 />
-                <div className="flex w-full justify-center gap-10 my-4">
-                    <button  type="button"onClick={handleDeleteImage} title="delete">
+                <div className="my-4 flex w-full justify-center gap-10">
+                    <button type="button" onClick={handleDeleteImage} title="delete">
                         <Trash color="red" size={30} />
                     </button>
-                    <button type="button"  onClick={handleImageClick} title="change">
+                    <button type="button" onClick={handleImageClick} title="change">
                         <Edit color="blue" size={30} />
                     </button>
                 </div>
+                {errors.photo && <div className="text-red-400 text-center w-full">{errors.photo.message}</div>}
             </div>
             <div className="flex w-full flex-col gap-2">
                 <label>Email</label>

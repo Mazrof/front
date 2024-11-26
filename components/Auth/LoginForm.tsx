@@ -74,10 +74,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                 className="rounded-full"
             />
             <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
-            <form
-                className="flex h-full flex-col justify-between gap-2"
-                onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="login-field">
                     <label>Email</label>
                     <input
