@@ -7,5 +7,10 @@ function handleOnClick(
     event.preventDefault();
     setPageName(pageName);
 }
-
-export {handleOnClick}
+function getIp(setIp:(ip:string)=>void) {
+    fetch("https://api.ipify.org?format=json")
+        .then((response) => response.json())
+        .then((data) => setIp(data.ip))
+        .catch((error) => console.error("Error fetching IP address:", error));
+}
+export { handleOnClick, getIp };

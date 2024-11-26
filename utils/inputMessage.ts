@@ -13,7 +13,7 @@ export function formatFileSize(size: number | undefined) {
         else return Math.round(size / (1024 * 1024)) + " MB";
     } else return "";
 }
-export function isAllowedFileSize(size: number,userMaxSize:number) {
+export function isAllowedFileSize(size: number, userMaxSize: number) {
     const maxSize = userMaxSize * 1024 * 1024; // 100 MB in bytes
     return size <= maxSize;
 }
@@ -21,8 +21,8 @@ export const KnowFileType = (file: File) => {
     const fileType = file.type.startsWith("image")
         ? "image"
         : file.type.startsWith("video")
-            ? "video"
-            : file.name.split(".")[1];
+          ? "video"
+          : file.name.split(".")[1];
     return fileType;
 };
 export const compressMedia = async (file: File | null) => {
@@ -82,3 +82,21 @@ export const convertFileToImageVideo = (
 export function getFileType(fileType: string) {
     return fileType === "" || fileType === "image" || fileType === "video" ? fileType : "file";
 }
+export const convertToBase64 = (
+    file: Blob | File,
+    callback: (base64: string | null, error: string | null) => void
+) => {
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+        const base64String = reader.result as string;
+        callback(base64String, null); 
+    };
+    
+    reader.onerror = (error) => {
+        callback(null, `Error: ${error}`); 
+    };
+
+
+    reader.readAsDataURL(file);
+};
