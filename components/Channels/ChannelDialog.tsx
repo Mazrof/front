@@ -78,7 +78,6 @@ function ChannelDialog() {
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Channel Name Input */}
                     <div className="space-y-2">
                         <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">
                             Channel Name
@@ -94,7 +93,6 @@ function ChannelDialog() {
                         )}
                     </div>
 
-                    {/* Channel Privacy Selection */}
                     <div className="space-y-2">
                         <Label className="text-gray-700 dark:text-gray-300">Channel Privacy</Label>
                         <Controller
@@ -140,7 +138,6 @@ function ChannelDialog() {
                         )}
                     </div>
 
-                    {/* Can Add Comments Checkbox */}
                     <div className="flex items-center space-x-2">
                         <Checkbox
                             {...register("canAddComments")}

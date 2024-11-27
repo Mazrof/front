@@ -12,3 +12,37 @@ export async function createChannel(body: ChannelData): Promise<genericResponse<
     };
     return await apiHandler(request);
 }
+export async function getChannelMembers(channelId: number): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/channels/${channelId}/members`,
+        method: "GET",
+        cache: "no-store",
+    };
+    return await apiHandler(request);
+}
+//TODO: Add Name >>> For Body
+export async function updateChannelSettings(
+    channelId: number,
+    body: object
+): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/channels/${channelId}/`,
+        method: "PATCH",
+        cache: "no-store",
+        body,
+    };
+    return await apiHandler(request);
+}
+
+export async function AddMembersToChannel(
+    body: object,
+    channelId: number
+): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/channels/${channelId}/`,
+        method: "POST",
+        cache: "no-store",
+        body,
+    };
+    return await apiHandler(request);
+}
