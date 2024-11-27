@@ -1,6 +1,6 @@
 "use client";
 
-import { LeftArrowIcon, VoiceCallIcon, VideoCallIcon, ThreeDotsIcon } from "@/utils/icons";
+import { LeftArrowIcon, VoiceCallIcon, VideoCallIcon } from "@/utils/icons";
 import Image from "next/image";
 import logo from "../../public/images/logo.jpg";
 
