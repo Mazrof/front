@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import ChatLayout from "@/components/Chats/ChatLayout";
 import ChatRoom from "@/components/Chats/ChatRoom";
@@ -15,7 +16,6 @@ export default function Home() {
         setDarkMode: setDarkMode,
         showContacts: showContacts,
         setShowContacts: setShowContacts,
-        setChat: setChat,
     };
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>

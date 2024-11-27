@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { logout } from "@/services/User";
+// import { logout } from "@/services/User";
 import { MoreVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
 export function Logout() {
