@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { Member } from "@/hooks/useChannelMembers";
-import { AddMembersToChannel } from "@/services/Channel";
+import { addAdminsToChannel } from "@/services/Channel";
 
 const adminSchema = z.object({
     selectedAdmins: z
@@ -57,7 +57,7 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
                 hasDownloadPermissions: admin.hasDownloadPermissions,
             }));
 
-            const response = await AddMembersToChannel({ admins: formattedAdmins }, channelId);
+            const response = await addAdminsToChannel({ admins: formattedAdmins }, channelId);
             console.log("Add Admins Response:", response);
 
             reset(); // Clear form

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,18 +8,48 @@ import {
 import { ThreeDotsIcon } from "@/utils/icons";
 import AddAdmins from "./AddAdmins";
 import { useState } from "react";
-import AddSubscribers from "./AddSubscribers";
 import ChannelSettings from "./ChannelSettings";
 import InviteLinkDialog from "./InviteLink";
+import { addMembersToChannel } from "@/services/Channel";
+import { failResponse } from "@/types/api";
+import { toast } from "@/hooks/use-toast";
+import { JoinRequest } from "@/types/channel";
 
 export default function ChannelDropDownMenu() {
     const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
-    const [isAddSubscribersOpen, setIsAddSubscribersOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
     const channelId: number = 1;
+    const handleJoiningChannel = async () => {
+        try {
+            const body: JoinRequest = { role: "member" };
+            const response = await addMembersToChannel(body, channelId);
+
+            if (response.status === "fail") {
+                const failApiResponse = response as failResponse;
+                toast({
+                    title: "Error Joining Channel",
+                    description: failApiResponse.message || "Something went wrong.",
+                    duration: 5000,
+                });
+            } else {
+                toast({
+                    title: "Joined Successfully",
+                    description: "You have successfully joined the channel.",
+                    duration: 5000,
+                });
+            }
+        } catch (error) {
+            toast({
+                title: "Unexpected Error",
+                description: "An unexpected error occurred. Please try again.",
+                duration: 5000,
+            });
+        }
+    };
+
     {
-        /**TODO : Backend Integration */
+        /** TODO : Backend Integration */
     }
     return (
         <>
@@ -30,9 +61,7 @@ export default function ChannelDropDownMenu() {
                     <DropdownMenuItem onClick={() => setIsAddAdminsOpen(true)}>
                         Add Admins
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsAddSubscribersOpen(true)}>
-                        Add Subscriber
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleJoiningChannel}>Join Channel</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
                         Settings
                     </DropdownMenuItem>
@@ -48,11 +77,6 @@ export default function ChannelDropDownMenu() {
                     channelId={channelId}
                     isOpen={isAddAdminsOpen}
                     onClose={() => setIsAddAdminsOpen(false)}
-                />
-                <AddSubscribers
-                    channelId={channelId}
-                    isOpen={isAddSubscribersOpen}
-                    onClose={() => setIsAddSubscribersOpen(false)}
                 />
                 <ChannelSettings
                     channelId={channelId}
