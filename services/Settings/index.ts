@@ -4,7 +4,7 @@ import { SettingResponse, SettingsObject, UpdatedSettingResponse } from "@/types
 import { PrivacyOptionsEnum } from "@/types/settings";
 import { WhoAmI } from "@/types/user";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
-const server = `${process.env.SERVER_IP}/api/v1`;
+const server = `${process.env.NEXT_SERVER_IP}/api/v1`;
 export async function getUserId(): Promise<genericResponse<WhoAmI>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/whoami`,

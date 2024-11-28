@@ -1,7 +1,7 @@
 import apiHandler from "@/lib/apiHandler";
 import { MessageType } from "@/types/Message";
 import { ApiRequest } from "@/types/request";
-const server = `${process.env.SERVER_IP}/api/v1`;
+const server = `${process.env.NEXT_SERVER_IP}/api/v1`;
 /**
  * Central API handler for interacting with the API and returning responses.
  *

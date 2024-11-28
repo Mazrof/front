@@ -2,7 +2,7 @@ import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
 import { BlockUser, UserToken } from "@/types/user";
-const server = `${process.env.SERVER_IP}/api/v1/auth`;
+const server = `${process.env.NEXT_SERVER_IP}/api/v1/auth`;
 export async function LoginWithEmail(
     email: string,
     password: string

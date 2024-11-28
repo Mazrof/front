@@ -15,6 +15,11 @@ const nextConfig = {
             },
         ],
     },
+    env: {
+        NEXT_SERVER_IP: "http://localhost:3000"
+        
+  },
 };
+
 
 export default nextConfig;
