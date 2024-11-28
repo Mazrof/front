@@ -2,7 +2,7 @@
 "use client";
 import { ShowGlobalSearch,SetShowGlobalSearch } from "@/types/SideBar";
 import Image from "next/image";
-export default function ContactsSearchBar({ShowGlobalSearch,setShowGlobalSearch}:{ ShowGlobalSearch:ShowGlobalSearch, setShowGlobalSearch:SetShowGlobalSearch }) {
+export default function ContactsSearchBar({showGlobalSearch,setShowGlobalSearch}:{ showGlobalSearch:ShowGlobalSearch, setShowGlobalSearch:SetShowGlobalSearch }) {
     function toggleGlobalSearch() {
         setShowGlobalSearch((ShowGlobalSearch)=>!ShowGlobalSearch);
     }

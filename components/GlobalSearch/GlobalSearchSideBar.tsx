@@ -4,7 +4,7 @@ import { DarkMode, SetDarkMode, SetShowGlobalSearch, ShowGlobalSearch } from "@/
 type SideBarProp = {
     darkMode: DarkMode;
     setDarkMode: SetDarkMode;
-    ShowGlobalSearch: ShowGlobalSearch;
+    showGlobalSearch: ShowGlobalSearch;
     setShowGlobalSearch: SetShowGlobalSearch;
 };
 export default function GlobalSearchSideBar(sideBarProp:SideBarProp) {
