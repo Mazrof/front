@@ -232,3 +232,19 @@ body {
 
     }
 }
+
+#comment-bar{
+    width : 1500px;
+    height : 100px;  
+}
+#comment-page{
+    width : 1500px;
+    height : 900px;
+    margin: 100;
+    padding: 0;
+    overflow: hidden;  
+}
+#comment-input{
+    width : 1500px;
+    height : 100px;  
+}
