@@ -18,6 +18,7 @@ export default function Home() {
         showContacts: showContacts,
         setShowContacts: setShowContacts,
     };
+  
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? <ContactsSideBar {...sideBarProp} /> : <SideBar {...sideBarProp} />}

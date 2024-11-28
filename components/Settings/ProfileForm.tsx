@@ -8,8 +8,9 @@ import { AvatarPhoto } from "./Avatar";
 import { Check, Edit, Trash } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "@/services/Settings";
-import { SettingsObject } from "@/types/settings";
 import { convertToBase64 } from "@/utils/inputMessage";
+import { SettingsObject, UpdatedSettingResponse } from "@/types/settings";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 const ProfileSchema = z.object({
     email: z.string().email(),
     photo: z.string(),
@@ -40,14 +41,43 @@ function ProfileForm() {
     }
     async function saveChange(fieldName: string, fieldValue: string) {
         if (!settings) return;
-        const update = {
+        const updates = {
             [fieldName]: fieldValue,
         };
-        await updateProfile(update);
-        checkEmail(fieldName);
-        const newSettings: SettingsObject = { ...settings, ...update };
-        setSettings(newSettings);
-        //to do if error but root error
+        callDB(updates, fieldName);
+    }
+    async function callDB(updates: { [x: string]: string }, fieldName: string) {
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
+        console.log(response)
+        if (response.status === "fail"||response.status==="error") {
+            const failApiResponse = response as failResponse;
+            if (
+                failApiResponse?.error?.statusCode === 401 ||
+                failApiResponse?.error?.statusCode === 404
+            ) {
+                router.push("/login");
+            } else if (failApiResponse?.error?.statusCode === 500) {
+                setIsError(true);
+                setError("root", {
+                    type: "manual",
+                    message: "username and email must be unique",
+                });
+            } else {
+                setIsError(true);
+                setError("root", {
+                    type: "manual",
+                    message: failApiResponse.message,
+                });
+            }
+        } else {
+            const data: UpdatedSettingResponse = (
+                response as successResponse<UpdatedSettingResponse>
+            ).data;
+
+            checkEmail(fieldName);
+            const user: SettingsObject = data.updatedUser;
+            setSettings(user);
+        }
     }
     const handleFieldClick = async (fieldName: keyof ProfileFormFields) => {
         setIsError(false);
@@ -122,7 +152,9 @@ function ProfileForm() {
                         <Edit color="blue" size={30} />
                     </button>
                 </div>
-                {errors.photo && <div className="text-red-400 text-center w-full">{errors.photo.message}</div>}
+                {errors.photo && (
+                    <div className="w-full text-center text-red-400">{errors.photo.message}</div>
+                )}
             </div>
             <div className="flex w-full flex-col gap-2">
                 <label>Email</label>
@@ -203,6 +235,7 @@ function ProfileForm() {
                 </div>
                 {errors.bio && <div className="text-sm text-red-900">{errors.bio.message}</div>}
             </div>
+            {errors.root && <div className="my-5 text-lg text-red-900">{errors.root.message}</div>}
         </form>
     );
 }

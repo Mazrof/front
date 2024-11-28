@@ -33,7 +33,7 @@ function PrivacySecurity() {
                         Blocked Users
                     </button>
                 </div>
-                <div className="flex w-full flex-col gap-6">
+                <div className="flex w-full flex-col  gap-6">
                     <h2 className="text-violet-500">Privacy</h2>
                     <button
                         className="settings-who-can"
@@ -41,13 +41,13 @@ function PrivacySecurity() {
                             handleWhoCan(
                                 event,
                                 "Stories",
-                                "storyVisiblity",
-                                settings.storyVisiblity
+                                "storyVisibility",
+                                settings.storyVisibility
                             )
                         }
                     >
                         <h2>Who can see my story?</h2>
-                        <h3>{settings?.storyVisiblity}</h3>
+                        <h3>{settings?.storyVisibility}</h3>
                     </button>
 
                     <button
@@ -56,13 +56,13 @@ function PrivacySecurity() {
                             handleWhoCan(
                                 event,
                                 "Profile Photo",
-                                "profilePicVisiblity",
-                                settings.profilePicVisiblity
+                                "profilePicVisibility",
+                                settings.profilePicVisibility
                             )
                         }
                     >
                         <h2>Who can see my profile photo?</h2>
-                        <h3>{settings?.profilePicVisiblity}</h3>
+                        <h3>{settings?.profilePicVisibility}</h3>
                     </button>
                     <button
                         className="settings-who-can"
@@ -70,13 +70,13 @@ function PrivacySecurity() {
                             handleWhoCan(
                                 event,
                                 "Last Seen",
-                                "lastSeenVisiblity",
-                                settings.lastSeenVisiblity
+                                "lastSeenVisibility",
+                                settings.lastSeenVisibility
                             )
                         }
                     >
                         <h2>Who can see my Last seen time?</h2>
-                        <h3>{settings?.lastSeenVisiblity}</h3>
+                        <h3>{settings?.lastSeenVisibility}</h3>
                     </button>
                     <button
                         className="settings-who-can"

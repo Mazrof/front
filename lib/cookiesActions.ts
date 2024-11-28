@@ -15,3 +15,14 @@ export async function checkCookies(keys: string[]) {
     const keysExist = keys.every((key) => cookieStore.has(key) === true);
     return keysExist;
 }
+export async function getCookies(keys: string[]): Promise<{ [key: string]: string | null }> {
+    const cookieStore = await cookies();
+    const result: { [key: string]: string | null } = {};
+
+    keys.forEach((key) => {
+        const cookie = cookieStore.get(key);
+        result[key] = cookie ? cookie.value : null; 
+    });
+
+    return result;
+}

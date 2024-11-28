@@ -1,5 +1,13 @@
 import { ApiRequest } from "@/types/request";
-async function apiHandler({ endpoint, method, headers, body, cache, revalidate }: ApiRequest) {
+async function apiHandler({
+    endpoint,
+    method,
+    credentials,
+    headers,
+    body,
+    cache,
+    revalidate,
+}: ApiRequest) {
     try {
         const options = {
             method,
@@ -10,6 +18,7 @@ async function apiHandler({ endpoint, method, headers, body, cache, revalidate }
             body: body ? JSON.stringify(body) : undefined,
             revalidate: revalidate ?? false,
             cache,
+            credentials
         };
         const response = await fetch(endpoint, options);
         const data = await response.json();

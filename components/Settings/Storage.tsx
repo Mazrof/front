@@ -5,13 +5,14 @@ import { Slider } from "@/components/ui/slider";
 import { useState, useEffect } from "react";
 import { updateProfile } from "@/services/Settings";
 import { Button } from "../ui/button";
-import { SettingsObject } from "@/types/settings";
-
+import { SettingsObject, UpdatedSettingResponse } from "@/types/settings";
+import { useRouter } from "next/navigation";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 function Storage() {
     const { settingPageName } = useSettingsPageType();
     const isShowStorage = settingPageName === "Storage";
     const { settings, setSettings } = useSettings();
-
+    const router = useRouter();
     const defaultSizeDownload =
         settings?.autoDownloadSizeLimit !== undefined ? [settings.autoDownloadSizeLimit] : [50];
     const defaultSizeUpload =
@@ -32,10 +33,22 @@ function Storage() {
             autoDownloadSizeLimit: sizeDownload[0],
             maxLimitFileSize: sizeUpload[0],
         };
-        await updateProfile(updates);
-        if (settings) {
-            const newSettings: SettingsObject = { ...settings, ...updates };
-            setSettings(newSettings);
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            if (
+                failApiResponse?.error?.statusCode === 401 ||
+                failApiResponse?.error?.statusCode === 404
+            ) {
+                router.push("/login");
+            } else throw new Error(failApiResponse?.message);
+        } else {
+            const data: UpdatedSettingResponse = (
+                response as successResponse<UpdatedSettingResponse>
+            ).data;
+            console.log(data);
+            const user: SettingsObject = data.updatedUser;
+            setSettings(user);
         }
     }
 
@@ -43,8 +56,8 @@ function Storage() {
         <div className={` ${!isShowStorage && "hidden"} settings-layout`}>
             <Nav />
             <h2 className="text-violet-500">Automatic media download</h2>
-            <div className="flex flex-col gap-11 w-full">
-                <div className="flex flex-col gap-5 w-full">
+            <div className="flex w-full flex-col gap-11">
+                <div className="flex w-full flex-col gap-5">
                     <div className="flex w-full justify-between">
                         <h2>Max Media Size Auto Download</h2>
                         <h2>{valueDownload} MB</h2>
@@ -58,7 +71,7 @@ function Storage() {
                         onValueChange={(size: number[]) => setValueDownload(size)}
                     />
                 </div>
-                <div className="flex flex-col gap-5 w-full">
+                <div className="flex w-full flex-col gap-5">
                     <div className="flex w-full justify-between">
                         <h2>Max Media Size Upload</h2>
                         <h2>{valueUpload} MB</h2>
@@ -74,7 +87,7 @@ function Storage() {
                 </div>
             </div>
             <Button
-                onClick={() => saveToBackend(valueDownload,valueUpload)}
+                onClick={() => saveToBackend(valueDownload, valueUpload)}
                 variant="ghost"
                 className="mx-auto my-10 text-lg"
             >

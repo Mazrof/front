@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 const publicRoutes = ["/login", "/signup"];
 
 export function middleware(request: NextRequest) {
-    const accessToken = request.cookies.get("access_token")?.value;
+    const accessToken = request.cookies.get("connect.sid")?.value;
 
     const isPublicRoute = publicRoutes.some((route) => request.nextUrl.pathname.startsWith(route));
 

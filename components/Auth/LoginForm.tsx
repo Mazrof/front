@@ -12,7 +12,7 @@ import { UserToken } from "@/types/user";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
 const LoginSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8),
+    password: z.string().min(6),
 });
 
 type LoginFormFields = z.infer<typeof LoginSchema>;
@@ -42,18 +42,11 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             data.email.trim().toLowerCase(),
             data.password
         );
-
-        console.log(response);
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
-        } else {
-            const { access_token, refresh_token } = (response as successResponse<UserToken>).data;
-            await setCookies({
-                access_token,
-                refresh_token,
-            });
-            if (await checkCookies(["access_token", "refresh_token"])) router.push("/");
+        } else {            
+            router.push("/");
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
