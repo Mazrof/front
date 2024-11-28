@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { useRouter } from "next/navigation";
 import {
     useShowFileOptions,
     useFileInput,
@@ -8,6 +9,8 @@ import {
     useIsMaxSizeError,
 } from "@/store/inputMessage";
 import { UploadImageIcon, UploadFileIcon, CompressIcon } from "@/utils/icons";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
+
 import { useEffect, useRef } from "react";
 import {
     checkClickOutside,
@@ -17,7 +20,7 @@ import {
 } from "@/utils/inputMessage";
 import { useSettings } from "@/store/settings";
 import { getProfile } from "@/services/Settings";
-import { SettingsObject } from "@/types/settings";
+import { SettingsObject, SettingResponse } from "@/types/settings";
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { settings, setSettings } = useSettings();
@@ -26,6 +29,7 @@ function UploadFilesOption() {
     const { setUrl, setFileType } = useFileInfo();
     const { setIsOpenAlert } = useOpenAlert();
     const { setIsMaxSize } = useIsMaxSizeError();
+    const router = useRouter();
     const handleClickOutside = (event: MouseEvent) => {
         if (checkClickOutside(event, optionRef.current)) {
             setIsShow();
@@ -39,8 +43,20 @@ function UploadFilesOption() {
         }
     };
     const getSettings = async () => {
-        const data: SettingsObject = await getProfile();
-        setSettings(data);
+        const response: genericResponse<SettingResponse> = await getProfile();
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            if (
+                failApiResponse?.error?.statusCode === 401 ||
+                failApiResponse?.error?.statusCode === 404
+            ) {
+                router.push("/login");
+            } else throw new Error(failApiResponse?.message);
+        } else {
+            const data: SettingResponse = (response as successResponse<SettingResponse>).data;
+            const user: SettingsObject = data.user;
+            setSettings(user);
+        }
     };
     const filesChecks = async (file: File | undefined) => {
         await getSettings();

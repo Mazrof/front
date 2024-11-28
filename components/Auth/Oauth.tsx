@@ -1,26 +1,24 @@
-import { signIn } from "@/auth";
+"use client";
 import { GitHubIcon, GoogleIcon } from "@/utils/icons";
-import { getFormAction } from "@/utils/Oauth";
 import { OAuthProps } from "../../types/auth";
-async function Oauth({ operation }: OAuthProps) {
-    async function handleOauth(formData: FormData) {
-        "use server";
-        const actionString: string = getFormAction(formData);
-        await signIn(actionString);
-    }
+function Oauth({ operation }: OAuthProps) {
     return (
-        <form action={handleOauth}>
+        <div>
             <div className="mt-6 space-y-3">
-                <button type="submit" name="action" value="google" className="auth-buttons">
+                <button className="auth-buttons">
                     <GoogleIcon />
-                    {operation} with Google
+                    <a href="http://localhost:3000/api/v1/auth/google">
+                        {operation} in with Google
+                    </a>
                 </button>
-                <button type="submit" name="action" value="github" className="auth-buttons">
+                <button className="auth-buttons">
                     <GitHubIcon />
-                    {operation} with GitHub
+                    <a href="http://localhost:3000/api/v1/auth/github">
+                        {operation} in with Google
+                    </a>
                 </button>
             </div>
-        </form>
+        </div>
     );
 }
 export default Oauth;

@@ -202,22 +202,24 @@ body {
     }
     .error-input {
         @apply !border-red-500;
-    .settings-layout {
-        @apply flex h-screen w-full flex-col items-start  gap-8 ;
     }
+    .settings-layout {
+        @apply flex h-screen w-full flex-col items-start gap-8;
+    }
+
     .settings-icons {
         @apply h-6 w-6 text-gray-500;
     }
-    .settings-who-can{
-        @apply  flex flex-col items-start hover:bg-gray-500 w-full hover:rounded-md px-5;
+    .settings-who-can {
+        @apply flex w-full flex-col items-start px-5 hover:rounded-md hover:bg-gray-500;
     }
-    .settings-who-can h3{
+    .settings-who-can h3 {
         @apply text-gray-700;
     }
-    .profile-form-field{
-       @apply flex w-full gap-4 align-middle;
+    .profile-form-field {
+        @apply flex w-full gap-4 align-middle;
     }
-    .profile-form-input{
-         @apply w-3/4 rounded-lg border-2 border-gray-500 bg-white px-2 py-1 text-black dark:bg-black dark:text-white;
+    .profile-form-input {
+        @apply w-3/4 rounded-lg border-2 border-gray-500 bg-white px-2 py-1 text-black dark:bg-black dark:text-white;
     }
 }

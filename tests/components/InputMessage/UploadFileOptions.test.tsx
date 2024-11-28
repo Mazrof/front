@@ -1,5 +1,6 @@
 import { screen, render, waitFor, fireEvent } from "@testing-library/react";
 import UploadFilesOption from "@/components/Chats/InputMessage/UploadFileOptions";
+import { useRouter } from "next/navigation";
 const testFile = new File(["file content"], "test-file.txt", {
     type: "text/plain",
 });
@@ -7,6 +8,7 @@ const isOpenMock = jest.fn();
 const compressMediaMock = jest.fn().mockReturnValue(testFile);
 const isAllowedFileSizeMock = jest.fn();
 const convertFileMock = jest.fn();
+const getProfileMock = jest.fn();
 jest.mock("../../../store/inputMessage", () => ({
     ...jest.requireActual("../../../store/inputMessage"), // Keep all real functions from inputMessage
     useOpenAlert: () => ({ setIsOpenAlert: isOpenMock }),
@@ -17,12 +19,26 @@ jest.mock("../../../utils/inputMessage", () => ({
     isAllowedFileSize: () => isAllowedFileSizeMock(),
     convertFileToImageVideo: () => convertFileMock(),
 }));
+jest.mock("../../../services/Settings/index.ts", () => ({
+    ...jest.requireActual("../../../services/Settings/index.ts"), // Keep all real functions from inputMessage
+    getProfile: () => getProfileMock(),
+  
+}));
+// Mock the next/router module
+jest.mock("next/navigation", () => ({
+    useRouter: jest.fn().mockReturnValue({
+        route: "/",
+        pathname: "",
+        push: jest.fn(),
+    }),
+}));
 describe("Upload File Options", () => {
     beforeEach(() => {
         compressMediaMock.mockReset();
         isOpenMock.mockReset();
         isAllowedFileSizeMock.mockReset();
         convertFileMock.mockReset();
+        getProfileMock.mockReset()
     });
     describe("Render", () => {
         it("should render Compress Media field ", () => {
@@ -44,6 +60,7 @@ describe("Upload File Options", () => {
     describe("Functionality", () => {
         it("should call setIsOpenAlert with true value when choose compress media", async () => {
             render(<UploadFilesOption />);
+            getProfileMock.mockReturnValue({status:"sucess",data:{user:{id:"20"}}})
             const compressMediaField = screen.getByTestId("Compress Media");
             fireEvent.change(compressMediaField, {
                 target: { files: [testFile] },
@@ -55,6 +72,7 @@ describe("Upload File Options", () => {
 
         it("should call compress function  when choose compress media", async () => {
             render(<UploadFilesOption />);
+            getProfileMock.mockReturnValue({ status: "sucess", data: { user: { id: "20" } } })
             compressMediaMock.mockReturnValue(testFile);
             const compressMediaField = screen.getByTestId("Compress Media");
             fireEvent.change(compressMediaField, {
@@ -67,6 +85,7 @@ describe("Upload File Options", () => {
         it("should call setOpenAlert with true value if isAllowedFileSize is false", async () => {
             isAllowedFileSizeMock.mockReturnValue(false);
             compressMediaMock.mockReturnValue(testFile);
+            getProfileMock.mockReturnValue({ status: "sucess", data: { user: { id: "20" } } })
             render(<UploadFilesOption />);
             const compressMediaField = screen.getByTestId("Compress Media");
             fireEvent.change(compressMediaField, {
@@ -79,6 +98,7 @@ describe("Upload File Options", () => {
         it("shouldnot call setIsOpenAlert if isAllowedFileSize is true", async () => {
             isAllowedFileSizeMock.mockReturnValue(true);
             compressMediaMock.mockReturnValue(testFile);
+            getProfileMock.mockReturnValue({ status: "sucess", data: { user: { id: "20" } } })
 
             render(<UploadFilesOption />);
             const compressMediaField = screen.getByTestId("Compress Media");
@@ -92,6 +112,7 @@ describe("Upload File Options", () => {
         it("should call convertFileToImageVideo if isAllowedFileSize is true", async () => {
             isAllowedFileSizeMock.mockReturnValue(true);
             compressMediaMock.mockReturnValue(testFile);
+            getProfileMock.mockReturnValue({ status: "sucess", data: { user: { id: "20" } } })
             render(<UploadFilesOption />);
             const compressMediaField = screen.getByTestId("Compress Media");
             fireEvent.change(compressMediaField, {
