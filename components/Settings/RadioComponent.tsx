@@ -1,80 +1,45 @@
-"use client"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { updateProfile } from "@/services/Settings";
+import { useSettings, useWhoCanAttributes } from "@/store/settings";
+import { PrivacyOptionsEnum, SettingsObject } from "@/types/settings";
+export function RadioGroupDemo() {
+    const { attribute, setWhoCanAttributes } = useWhoCanAttributes();
+    const { setSettings, settings } = useSettings();
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+    const handleChange = async (value: PrivacyOptionsEnum) => {
+        if (!attribute) return; 
 
-import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+        const newAttribute = { ...attribute, value };
+        setWhoCanAttributes(newAttribute);
 
-const FormSchema = z.object({
-    type: z.enum(["all", "mentions", "none"], {
-        required_error: "You need to select a notification type.",
-    }),
-})
+        const updates = {
+            [attribute.privacyName]: value,
+        };
+        await updateProfile(updates);
 
-export function RadioGroupForm() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-    })
+        if (settings) {
+            const newSettings: SettingsObject = { ...settings, [attribute.privacyName]: value };
+            setSettings(newSettings);
+        }
+    };
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
-    }
+    if (!attribute) return <div>Loading...</div>;
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-                <FormField
-                    control={form.control}
-                    name="type"
-                    render={({ field }) => (
-                        <FormItem className="space-y-3">
-                            <FormLabel>Notify me about...</FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                >
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="all" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                            All new messages
-                                        </FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="mentions" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                            Direct messages and mentions
-                                        </FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="none" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">Nothing</FormLabel>
-                                    </FormItem>
-                                </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
-    )
+        <RadioGroup value={attribute.value} onValueChange={handleChange} className="px-6">
+            <div className="flex items-center space-x-8">
+                <RadioGroupItem value="everyone" id="r1" />
+                <Label htmlFor="r1" className="text-lg">Everyone</Label>
+            </div>
+            <div className="flex items-center space-x-8">
+                <RadioGroupItem value="contacts" id="r2" />
+                <Label htmlFor="r2" className="text-lg">Contacts</Label>
+            </div>
+            <div className="flex items-center space-x-8">
+                <RadioGroupItem value="nobody" id="r3" />
+                <Label htmlFor="r3" className="text-lg">Nobody</Label>
+            </div>
+        </RadioGroup>
+    );
 }

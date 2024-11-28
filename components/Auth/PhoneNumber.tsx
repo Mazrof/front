@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
@@ -15,27 +16,30 @@ import { Input, InputProps } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 type PhoneInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value"> &
     Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
         onChange?: (value: RPNInput.Value) => void;
+        error?: string; // Add error prop
     };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
     React.ElementRef<typeof RPNInput.default>,
     PhoneInputProps
->(({ className, onChange, ...props }, ref) => {
+>(({ className, onChange, error, ...props }, ref) => {
     return (
-        <RPNInput.default
-            ref={ref}
-            className={cn("flex", className)}
-            flagComponent={FlagComponent}
-            countrySelectComponent={CountrySelect}
-            inputComponent={InputComponent}
-            international={true} // Enables international format, adding country code to input
-            onChange={(value) => onChange?.(value as RPNInput.Value)}
-            {...props}
-        />
+        <div>
+            <RPNInput.default
+                ref={ref}
+                className={cn("flex", className)}
+                flagComponent={FlagComponent}
+                countrySelectComponent={CountrySelect}
+                inputComponent={InputComponent}
+                international={true}
+                onChange={(value) => onChange?.(value as RPNInput.Value)}
+                {...props}
+            />
+            {error && <p className="text-red-500">{error}</p>}
+        </div>
     );
 });
 PhoneInput.displayName = "PhoneInput";

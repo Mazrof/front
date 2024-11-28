@@ -15,8 +15,12 @@ import {
     isAllowedFileSize,
     compressMedia,
 } from "@/utils/inputMessage";
+import { useSettings } from "@/store/settings";
+import { getProfile } from "@/services/Settings";
+import { SettingsObject } from "@/types/settings";
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
+    const { settings, setSettings } = useSettings();
     const { isShow, setIsShow } = useShowFileOptions();
     const { setUploadedFile } = useFileInput();
     const { setUrl, setFileType } = useFileInfo();
@@ -28,14 +32,20 @@ function UploadFilesOption() {
         }
     };
     const handleOnChooseCompress = async (event: React.ChangeEvent<HTMLInputElement>) => {
-       if (event.target.files && event.target.files.length > 0) {
+        if (event.target.files && event.target.files.length > 0) {
             setIsOpenAlert(true);
             const compress: File | undefined = await compressMedia(event.target.files[0]);
             filesChecks(compress); //if he close the alert before loading has been completed
         }
     };
-    const filesChecks = (file: File | undefined) => {
-        if (file && isAllowedFileSize(file.size)) {
+    const getSettings = async () => {
+        const data: SettingsObject = await getProfile();
+        setSettings(data);
+    };
+    const filesChecks = async (file: File | undefined) => {
+        await getSettings();
+        if (!settings) return;
+        if (file && isAllowedFileSize(file.size, settings?.maxLimitFileSize)) {
             convertFileToImageVideo(file, setFileType, setUrl, setIsOpenAlert);
             setUploadedFile(file);
         } else {
@@ -43,10 +53,10 @@ function UploadFilesOption() {
             setIsOpenAlert(true);
         }
     };
-    const handleOnChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOnChooseFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file: File = event.target.files[0];
-            filesChecks(file);
+            await filesChecks(file);
         }
     };
     useEffect(() => {
@@ -64,7 +74,7 @@ function UploadFilesOption() {
             className="absolute bottom-16 right-[8%] flex w-52 flex-col items-start rounded-md bg-gray-200 align-bottom dark:bg-gray-600"
             ref={optionRef}
         >
-            <div className="file-option-container" >
+            <div className="file-option-container">
                 <label htmlFor="compress-media-upload" className="file-option-label">
                     <CompressIcon />
                     <p>Compress Media</p>
@@ -92,7 +102,7 @@ function UploadFilesOption() {
                     data-testid="Photo or Video"
                 />
             </div>
-            <div className="file-option-container" >
+            <div className="file-option-container">
                 <label htmlFor="file-upload" className="file-option-label">
                     <UploadFileIcon />
                     <p>Document</p>

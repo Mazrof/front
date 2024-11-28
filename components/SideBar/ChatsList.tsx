@@ -126,7 +126,7 @@ const ChatList = () => {
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
-                    onClick={() => setChatId(chat.id)}
+                    onClick={() => setChatId(String(chat.id))}
                 >
                     {hasImage && index % 2 == 0 ? (
                         <Image

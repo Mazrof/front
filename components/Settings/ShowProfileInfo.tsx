@@ -6,10 +6,10 @@ import DisplayInfoList from "./DisplayInfoList";
 function ShowProfileInfo() {
     const { settings } = useSettings();
     return (
-      <div className="flex w-full flex-col gap-6 border-b-2  border-gray-600 ">
-            <div className="flex flex-col items-center gap-5">
-                <div>
-                    <AvatarPhoto props={settings?.picture} />
+        <div className="flex w-full flex-col gap-6 border-b-2 border-gray-600">
+            <div className="flex flex-col items-center gap-5 ">
+                <div  className="w-32 h-32">
+                    <AvatarPhoto prop={{ url: settings?.photo }} />
                 </div>
                 <h2>{settings?.screenName}</h2>
             </div>

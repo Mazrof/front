@@ -1,14 +1,15 @@
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar"
-
-export function AvatarPhoto({ props }: { props:string |undefined}) {
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+type AvatarProp = {
+    prop: {
+        url: string | undefined;
+      
+    };
+};
+export function AvatarPhoto({ prop }: AvatarProp) {
     return (
-        <Avatar className=" w-32 h-32">
-            <AvatarImage src={props} alt="@shadcn" />
+        <Avatar  className="w-full h-full">
+            <AvatarImage src={prop.url} alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-    )
+    );
 }
