@@ -2,7 +2,7 @@ import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ChannelData, JoinRequest } from "@/types/channel";
 import { ApiRequest } from "@/types/request";
-const server = "http://localhost:3000/api/v1";
+const server = `${process.env.SERVER_IP}/api/v1`;
 export async function createChannel(body: ChannelData): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/channels`,

@@ -18,7 +18,7 @@ async function apiHandler({
             body: body ? JSON.stringify(body) : undefined,
             revalidate: revalidate ?? false,
             cache,
-            credentials
+            credentials,
         };
         const response = await fetch(endpoint, options);
         const data = await response.json();
