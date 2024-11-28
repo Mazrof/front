@@ -1,11 +1,10 @@
 "use client";
-import React, { useState } from "react";
 import Image from "next/image";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
 import { PhoneInput } from "./PhoneNumber";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod schema for form validation
@@ -51,10 +50,10 @@ const signUpSchema = z
                     message: "Email must contain a valid domain between '@' and '.com'.",
                 }
             ),
-        /*phoneNumber: z
+        phoneNumber: z
             .string()
             .min(10, { message: "Name is required" })
-            .regex(/^\d{10}$/, { message: "Phone number must be a 10-digit number" }),*/
+            .regex(/^\d{10}$/, { message: "Phone number must be a 10-digit number" }),
 
         password: z
             .string()
@@ -79,6 +78,7 @@ type SignUpFormFields = z.infer<typeof signUpSchema>;
 
 export function SignUpForm({ children }: { children: React.ReactNode }) {
     const {
+        control,
         register,
         handleSubmit,
         formState: { errors },
@@ -131,13 +131,24 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 />
 
                 {/* Phone Number Input */}
-                <PhoneInput
-                    id="PhoneNumber"
-                    register={register}
-                    error={
-                        firstError && firstError[0] === "phoneNumber" && errors.phoneNumber?.message
-                    }
+                <Controller
+                    name="phoneNumber"
+                    control={control}
+                    rules={{
+                        required: "Phone number is required",
+                        validate: (value) =>
+                            (value?.length > 0 && value?.length < 12) ||
+                            "Please enter a valid phone number",
+                    }}
+                    render={({ field }) => (
+                        <PhoneInput
+                            id="PhoneNumber"
+                            {...field}
+                            error={errors.phoneNumber?.message}
+                        />
+                    )}
                 />
+                {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
 
                 {/* Password Input */}
                 <InputField

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import ChatLayout from "@/components/Chats/ChatLayout";
 import ChatRoom from "@/components/Chats/ChatRoom";
@@ -6,6 +7,7 @@ import ContactsSideBar from "@/components/Contacts/ContactsSideBar";
 import SideBar from "@/components/SideBar/SideBar";
 import Settings from "@/components/Settings/Settings";
 import { Suspense, useState } from "react";
+
 export default function Home() {
     const [showContacts, setShowContacts] = useState(false);
     const [chat, setChat] = useState(null);
@@ -15,7 +17,6 @@ export default function Home() {
         setDarkMode: setDarkMode,
         showContacts: showContacts,
         setShowContacts: setShowContacts,
-        setChat: setChat,
     };
   
     return (

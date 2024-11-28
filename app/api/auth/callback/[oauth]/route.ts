@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { LoginWithOauth } from "@/services/User";
 import { UserToken } from "@/types/user";
+import { genericResponse } from "@/types/api";
 export async function GET(
     req: Request,
     {
@@ -18,7 +19,7 @@ export async function GET(
     if (!code) {
         return NextResponse.redirect(new URL("/OAuthError", req.url));
     }
-    const token: UserToken = await LoginWithOauth(code, provider);
-    if (token.error) return NextResponse.redirect(new URL("/OAuthError", req.url));
+    const token: genericResponse<UserToken> = await LoginWithOauth(code, provider);
+    if (token.status === "fail") return NextResponse.redirect(new URL("/OAuthError", req.url));
     else return NextResponse.redirect(new URL("/", req.url));
 }
