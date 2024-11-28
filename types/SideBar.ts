@@ -16,9 +16,13 @@ export interface Contact {
     status: string;
   }
   
-export type ShowContacts = boolean;
+  export type ShowContacts = boolean;
 
-export type SetShowContacts = Dispatch<SetStateAction<ShowContacts>>;
+  export type SetShowContacts = Dispatch<SetStateAction<ShowContacts>>;
+
+  export type ShowGlobalSearch = boolean;
+
+  export type SetShowGlobalSearch = Dispatch<SetStateAction<ShowGlobalSearch>>;
 
 export type DarkMode = boolean;
 export type SetDarkMode = Dispatch<SetStateAction<DarkMode>>;

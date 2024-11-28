@@ -1,7 +1,6 @@
 "use client";
-
 import { useSelectedChatId } from "@/store/user";
-import { DarkMode, SetChat, SetDarkMode, SetShowContacts, ShowContacts } from "@/types/SideBar";
+import { DarkMode, SetChat, SetDarkMode, SetShowContacts, ShowContacts,SetShowGlobalSearch, ShowGlobalSearch } from "@/types/SideBar";
 import { useSettingsPageType } from "@/store/settings";
 import React from "react";
 import ChatList from "./ChatsList";
@@ -12,6 +11,8 @@ type SideBarProp = {
     setDarkMode: SetDarkMode;
     showContacts: ShowContacts;
     setShowContacts: SetShowContacts;
+    showGlobalSearch: ShowGlobalSearch;
+    setShowGlobalSearch: SetShowGlobalSearch;
     handleSelectChat: SetChat;
 };
 
