@@ -1,5 +1,6 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
+import { JoinRequest } from "@/types/channel";
 import { GroupData } from "@/types/group";
 import { ApiRequest } from "@/types/request";
 const server = "http://localhost:3000/api/v1";
@@ -9,6 +10,65 @@ export async function createGroup(body: GroupData): Promise<genericResponse<obje
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+
+export async function getGroupMembers(groupId: number): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/members`,
+        method: "GET",
+        cache: "no-store",
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+
+export async function updateGroupSettings(
+    groupId: number,
+    body: object
+): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/`,
+        method: "PATCH",
+        cache: "no-store",
+        body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function addAdminsToGroup(body: object, groupId: number) {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/members`,
+        method: "POST",
+        cache: "no-store",
+        body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function addMembersToGroup(
+    body: JoinRequest,
+    groupId: number
+): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/members`,
+        method: "POST",
+        cache: "no-store",
+        body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+
+export async function muteNotification(groupId: number, body: object) {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/mute`,
+        method: "POST",
+        cache: "no-store",
+        body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }

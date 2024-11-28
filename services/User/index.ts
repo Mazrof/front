@@ -57,8 +57,7 @@ export async function logout(): Promise<BlockUser[]> {
     };
     return await apiHandler(request);
 }
-export async function unBlockUser(userId:string): Promise<{message?:string}> {
-
+export async function unBlockUser(userId: string): Promise<{ message?: string }> {
     const request: ApiRequest = {
         endpoint: `${server}/users/${userId}/block`,
         method: "DELETE",

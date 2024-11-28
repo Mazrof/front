@@ -7,9 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { checkCookies, setCookies } from "@/lib/cookiesActions";
 import { UserToken } from "@/types/user";
-import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { failResponse, genericResponse } from "@/types/api";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
@@ -45,7 +44,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
-        } else {            
+        } else {
             router.push("/");
         }
     };

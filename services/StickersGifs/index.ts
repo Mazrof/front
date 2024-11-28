@@ -7,6 +7,7 @@ export async function getStickers(): Promise<StickerGif[]> {
         endpoint: `${server}/stickers`,
         method: "GET",
         cache: "no-store", // to avoid caching
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -15,6 +16,7 @@ export async function getGifs(): Promise<StickerGif[]> {
         endpoint: `${server}/gifs`,
         method: "GET",
         cache: "no-store", // to avoid caching
+        credentials: "include",
     };
     return await apiHandler(request);
 }

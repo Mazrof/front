@@ -1,6 +1,6 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import { ChannelData } from "@/types/channel";
+import { ChannelData, JoinRequest } from "@/types/channel";
 import { ApiRequest } from "@/types/request";
 const server = "http://localhost:3000/api/v1";
 export async function createChannel(body: ChannelData): Promise<genericResponse<object>> {
@@ -9,6 +9,7 @@ export async function createChannel(body: ChannelData): Promise<genericResponse<
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -17,6 +18,7 @@ export async function getChannelMembers(channelId: number): Promise<genericRespo
         endpoint: `${server}/channels/${channelId}/members`,
         method: "GET",
         cache: "no-store",
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -30,19 +32,30 @@ export async function updateChannelSettings(
         method: "PATCH",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
-
-export async function AddMembersToChannel(
-    body: object,
-    channelId: number
-): Promise<genericResponse<object>> {
+export async function addAdminsToChannel(body: object, channelId: number) {
     const request: ApiRequest = {
-        endpoint: `${server}/channels/${channelId}/`,
+        endpoint: `${server}/channels/${channelId}/members`,
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function addMembersToChannel(
+    body: JoinRequest,
+    channelId: number
+): Promise<genericResponse<object>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/channels/${channelId}/members`,
+        method: "POST",
+        cache: "no-store",
+        body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
