@@ -51,11 +51,11 @@ export default function ContactsList() {
                 {chat.name}
               </h3>
             </div>
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <p className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400">
                 {chat.status}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}

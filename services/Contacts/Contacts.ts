@@ -19,3 +19,20 @@ export async function getChatsList() {
     };
     return await apiHandler(request);
 }
+export async function sendQuery(query: string) {
+    const request: ApiRequest = {
+        endpoint: "https://retoolapi.dev/Ej9KTG/data",
+        method: "POST",
+        cache: "no-store", // Avoid caching
+        body: JSON.stringify({ query }),
+    };
+    return await apiHandler(request);
+}
+export async function getApi() {
+    const request: ApiRequest = {
+        endpoint: "https://retoolapi.dev/Ej9KTG/data",
+        method: "GET",
+        cache: "no-store", // Avoid caching
+    };
+    return await apiHandler(request);
+}

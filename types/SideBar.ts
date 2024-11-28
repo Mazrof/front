@@ -13,7 +13,7 @@ export interface Contact {
     id: number;
     name: string;
     avatar: string;
-    status: string;
+    // status: string;
   }
   
   export type ShowContacts = boolean;
