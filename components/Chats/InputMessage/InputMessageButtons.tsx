@@ -4,19 +4,22 @@ import {useState} from 'react';
 import { SendMsIcon, VoiceIcon, DeleteIcon } from "@/utils/icons";
 import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 function InputMessageButtons() {
-    const { textMessage } = useInputTextMessage();
-    const { isRecording, setIsRecoding } = useIsRecording();
-    
+    const { textMessage,setTextMessage } = useInputTextMessage();
+    const { isRecording, setIsRecording } = useIsRecording();
     const [recorder, setRecorder] = useState<MediaRecorder| null>(null);
     let audioURL:string='';
     let [recordingDuration, setRecordingDuration] = useState<number>(0);
     let [id,setId] = useState<NodeJS.Timeout>();
     let chunks : Blob[] = [];
     let [saveRecording,setSaveRecording] = useState<boolean>(true);
-
+    function handleOnSendMesage(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        setTextMessage("")
+    }
     async function handleOnClickVoice(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        setIsRecoding(true);
+        setIsRecording(true);
+        
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true } );
         
         const mediaRecorder = new MediaRecorder(stream);
@@ -46,7 +49,8 @@ function InputMessageButtons() {
     }
     function handleDeleteRecording(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        setIsRecoding(false);
+        setIsRecording(false);
+        
      
         setSaveRecording(false);
         
@@ -57,7 +61,8 @@ function InputMessageButtons() {
     }
     function handleSendRecording(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        setIsRecoding(false);
+        setIsRecording(false);
+       
         setSaveRecording(true);
         
         if (recorder) {
@@ -68,33 +73,37 @@ function InputMessageButtons() {
     return (
         <>
             {textMessage !== "" ? (
-                <button type="submit" className="input-message-button button-colors">
-                    <SendMsIcon />
+                <button className="input-message-button button-colors" data-testid="sendMsIcon" onClick={(event) => handleOnSendMesage(event)}
+>
+                    <SendMsIcon  />
                 </button>
             ) : (
                 <button
                     className={`input-message-button button-colors ${isRecording ? "hidden" : ""} `}
-                    onClick={(event) => handleOnClickVoice(event)}
+                        onClick={(event) => handleOnClickVoice(event)}
+                        data-testid="voiceIcon"
                 >
-                    <VoiceIcon />
+                        <VoiceIcon  />
                 </button>
             )}
             {isRecording && (
                 <>
                     <div className="dark:bg-red-500 dark:text-black mr-20 w-5 h-50">
-                    {Math.floor(recordingDuration / 60)} : {recordingDuration % 60} <SendMsIcon/>
+                    {Math.floor(recordingDuration / 60)} : {recordingDuration % 60} 
                     </div>
                     <button
                         className="input-message-button mr-20 bg-red-500"
                         onClick={(event) => handleDeleteRecording(event)}
+                        data-testid="deleteIcon" 
                     >
                         <DeleteIcon />
                     </button>
                     <button
                         className="input-message-button button-colors"
                         onClick={(event) => handleSendRecording(event)}
+                        data-testid="sendVoiceIcon"
                     >
-                        <SendMsIcon />
+                        <SendMsIcon  />
                     </button>
 
                 </>

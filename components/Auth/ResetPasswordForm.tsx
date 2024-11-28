@@ -29,14 +29,14 @@ export default function ResetPasswordForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate role="form">
             <div>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="Password">Password</label>
                 <input
-                    id="password"
+                    id="Password"
                     type="password"
                     {...register("password")}
-                    className="login-input-field"
+                    className="input-field"
                 />
                 {errors.password && (
                     <p className="m-1 text-sm text-red-700">{errors.password.message}</p>
@@ -44,12 +44,12 @@ export default function ResetPasswordForm() {
             </div>
 
             <div className="mt-4">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="Confirm Password">Confirm Password</label>
                 <input
-                    id="confirmPassword"
+                    id="Confirm Password"
                     type="password"
                     {...register("confirmPassword")}
-                    className="login-input-field"
+                    className="input-field"
                 />
                 {errors.confirmPassword && (
                     <p className="m-1 text-sm text-red-700">{errors.confirmPassword.message}</p>

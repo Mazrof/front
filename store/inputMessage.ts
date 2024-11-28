@@ -23,7 +23,7 @@ const useShowFileOptions = create<ShowFileOptions>((set) => ({
 }));
 const useIsRecording = create<isRecordingOption>((set) => ({
     isRecording: false,
-    setIsRecoding: (isRecord) => set({ isRecording: isRecord }),
+    setIsRecording: (isRecord) => set({ isRecording: isRecord }),
 }));
 const useShowSideBar = create<ShowSideBar>((set) => ({
     isShow: false,

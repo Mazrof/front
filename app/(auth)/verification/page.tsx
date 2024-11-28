@@ -15,6 +15,7 @@ export default function VerificationPage() {
             className="mx-1 h-8 w-8 rounded-lg border border-gray-300 bg-white text-center text-2xl font-semibold shadow transition-transform duration-150 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white md:h-12 md:w-12"
         />
     ));
+
     const handleVerifyOTP = () => {
         if (OTPContext === "verifyAccount") {
             // Verify account
@@ -46,7 +47,7 @@ export default function VerificationPage() {
                     <h3 className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                         Type the 6-digit security code
                     </h3>
-                    <InputOTP maxLength={6}>
+                    <InputOTP maxLength={6} id="otp-input">
                         <InputOTPGroup className="flex justify-center space-x-2">
                             {OTPDigits}
                         </InputOTPGroup>
@@ -56,15 +57,14 @@ export default function VerificationPage() {
                         Didn&apos;t receive the OTP?
                         <Button
                             variant="link"
-                            className="ml-1 text-blue-600 hover:underline dark:text-blue-400"
+                            className="text-blue-600 hover:underline dark:text-blue-400"
                         >
                             Resend OTP
                         </Button>
                     </p>
                 </section>
-
                 <Button
-                    className="mt-6 w-full rounded-full bg-[#1c4b82] py-3 text-lg font-semibold text-white shadow-lg transition-transform duration-150 hover:scale-105 hover:bg-[#285182]"
+                    className="auth-buttons w-2/3 bg-blue-900 text-white"
                     onClick={handleVerifyOTP}
                 >
                     Verify

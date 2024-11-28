@@ -28,7 +28,7 @@ function UploadFilesOption() {
         }
     };
     const handleOnChooseCompress = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
+       if (event.target.files && event.target.files.length > 0) {
             setIsOpenAlert(true);
             const compress: File | undefined = await compressMedia(event.target.files[0]);
             filesChecks(compress); //if he close the alert before loading has been completed
@@ -64,7 +64,7 @@ function UploadFilesOption() {
             className="absolute bottom-16 right-[8%] flex w-52 flex-col items-start rounded-md bg-gray-200 align-bottom dark:bg-gray-600"
             ref={optionRef}
         >
-            <div className="file-option-container">
+            <div className="file-option-container" >
                 <label htmlFor="compress-media-upload" className="file-option-label">
                     <CompressIcon />
                     <p>Compress Media</p>
@@ -75,6 +75,7 @@ function UploadFilesOption() {
                     className="hidden"
                     accept="image/jpeg, image/png, image/gif, image/webp,video/*"
                     onChange={(event) => handleOnChooseCompress(event)}
+                    data-testid="Compress Media"
                 />
             </div>
             <div className="file-option-container">
@@ -88,9 +89,10 @@ function UploadFilesOption() {
                     className="hidden"
                     accept="image/*,video/*"
                     onChange={(event) => handleOnChooseFile(event)}
+                    data-testid="Photo or Video"
                 />
             </div>
-            <div className="file-option-container">
+            <div className="file-option-container" >
                 <label htmlFor="file-upload" className="file-option-label">
                     <UploadFileIcon />
                     <p>Document</p>
@@ -100,6 +102,7 @@ function UploadFilesOption() {
                     type="file"
                     className="hidden"
                     onChange={(event) => handleOnChooseFile(event)}
+                    data-testid="Document"
                 />
             </div>
         </div>
