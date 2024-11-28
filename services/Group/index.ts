@@ -10,6 +10,7 @@ export async function createGroup(body: GroupData): Promise<genericResponse<obje
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -19,6 +20,7 @@ export async function getGroupMembers(groupId: number): Promise<genericResponse<
         endpoint: `${server}/groups/${groupId}/members`,
         method: "GET",
         cache: "no-store",
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -32,6 +34,7 @@ export async function updateGroupSettings(
         method: "PATCH",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -41,6 +44,7 @@ export async function addAdminsToGroup(body: object, groupId: number) {
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -53,6 +57,7 @@ export async function addMembersToGroup(
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -63,6 +68,7 @@ export async function muteNotification(groupId: number, body: object) {
         method: "POST",
         cache: "no-store",
         body,
+        credentials: "include",
     };
     return await apiHandler(request);
 }

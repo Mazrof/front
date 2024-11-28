@@ -31,6 +31,7 @@ export async function getMessages(): Promise<MessageType[]> {
         endpoint: `${server}/messages`,
         method: "GET",
         cache: "no-store", // to avoid caching
+        credentials: "include",
     };
     return await apiHandler(request);
 }

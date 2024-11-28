@@ -3,7 +3,6 @@ import { ApiRequest } from "@/types/request";
 import { SettingResponse, UpdatedSettingResponse } from "@/types/settings";
 import { PrivacyOptionsEnum } from "@/types/settings";
 import { WhoAmI } from "@/types/user";
-import { getCookies } from "@/lib/cookiesActions";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
 const server = "http://localhost:3000/api/v1";
 export async function getUserId(): Promise<genericResponse<WhoAmI>> {
