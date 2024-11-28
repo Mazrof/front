@@ -1,11 +1,16 @@
 "use client";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import React from "react";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
 import { PhoneInput } from "./PhoneNumber";
+import { SignupWithEmail } from "@/services/User";
 import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { failResponse, genericResponse } from "@/types/api";
+import { UserToken } from "@/types/user";
 
 // Zod schema for form validation
 const signUpSchema = z
@@ -26,9 +31,9 @@ const signUpSchema = z
             .min(1, { message: "Username is required" })
             .min(3, { message: "Username must have at least 3 characters" })
             .max(30, { message: "Username cannot be longer than 30 characters" })
-            .regex(/^[a-zA-Z0-9_]+$/, {
+            .regex(/^[a-z0-9_]+$/, {
                 message:
-                    "Username can only contain english alphanumeric characters and underscores",
+                    "Username can only contain english small alphanumeric characters, underscores and numbers",
             }),
         email: z
             .string()
@@ -52,7 +57,7 @@ const signUpSchema = z
             ),
         phoneNumber: z
             .string()
-            .min(10, { message: "Name is required" })
+            .min(10, { message: "phoneNumber is required" })
             .regex(/^\d{10}$/, { message: "Phone number must be a 10-digit number" }),
 
         password: z
@@ -77,21 +82,45 @@ const signUpSchema = z
 type SignUpFormFields = z.infer<typeof signUpSchema>;
 
 export function SignUpForm({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
     const {
         control,
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm<SignUpFormFields>({
         resolver: zodResolver(signUpSchema),
         shouldFocusError: true,
     });
-
-    const onSubmit = (data: SignUpFormFields) => {
-        console.log("Form Data Submitted:", data);
-        // Handle form submission (e.g., API call)
+    const setErrorRoot = (message: string) => {
+        setError("root", {
+            type: "manual",
+            message: message,
+        });
     };
+
     const firstError = Object.entries(errors)[0];
+    console.log(firstError);
+    const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
+        const response: genericResponse<UserToken> = await SignupWithEmail(
+            data.name,
+            data.username,
+            // data.phoneNumber,
+            data.email.trim().toLowerCase(),
+            data.password
+        );
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            router.push("/");
+        }
+    };
+    const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        router.push("/login");
+    };
     return (
         <div className="w-full max-w-md rounded-2xl bg-white p-8">
             {/* Logo */}
@@ -127,10 +156,15 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     id="email"
                     type="text"
                     register={register}
-                    error={firstError && firstError[0] === "email" && errors.email?.message}
+                    error={
+                        firstError &&
+                        firstError[0] !== "name" &&
+                        firstError[0] !== "username" &&
+                        errors.email &&
+                        errors.email?.message
+                    }
                 />
 
-                {/* Phone Number Input */}
                 <Controller
                     name="phoneNumber"
                     control={control}
@@ -144,18 +178,27 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         <PhoneInput
                             id="PhoneNumber"
                             {...field}
-                            error={errors.phoneNumber?.message}
+                            error={
+                                firstError &&
+                                firstError[0] === "phoneNumber" &&
+                                !errors.email &&
+                                errors.phoneNumber?.message
+                            }
                         />
                     )}
                 />
-                {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
 
                 {/* Password Input */}
                 <InputField
                     id="password"
                     type="password"
                     register={register}
-                    error={firstError && firstError[0] === "password" && errors.password?.message}
+                    error={
+                        firstError &&
+                        firstError[0] === "password" &&
+                        !errors.email &&
+                        errors.password?.message
+                    }
                 />
 
                 {/* Repeat Password Input */}
@@ -180,7 +223,11 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             <div className="mt-4 flex justify-center">
                 <p>
                     Do you have an account?{" "}
-                    <a className="cursor-pointer px-1 font-semibold text-blue-700" href="/login">
+                    <a
+                        className="cursor-pointer px-1 font-semibold text-blue-700"
+                        href="#"
+                        onClick={handleLogin}
+                    >
                         Log in
                     </a>
                 </p>

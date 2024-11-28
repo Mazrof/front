@@ -180,7 +180,7 @@ body {
     }
 
     .label {
-        @apply absolute -top-2.5 left-3 bg-white px-1 text-sm text-blue-500;
+        @apply absolute -top-2.5 left-3 bg-white px-1 text-sm text-blue-900;
     }
 
     .btn {
@@ -220,18 +220,16 @@ body {
         @apply flex w-full gap-4 align-middle;
     }
 
-    .profile-form-input{
-         @apply w-3/4 rounded-lg border-2 border-gray-500 bg-white px-2 py-1 text-black dark:bg-black dark:text-white;
-        }
-   
-    .no-scrollbar {
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
-    }
-    
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    .profile-form-input {
+        @apply w-3/4 rounded-lg border-2 border-gray-500 bg-white px-2 py-1 text-black dark:bg-black dark:text-white;
     }
 
-    
+    .no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 }
