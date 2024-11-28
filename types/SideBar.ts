@@ -15,7 +15,22 @@ export interface Contact {
     avatar: string;
     // status: string;
   }
-  
+export interface User {
+    id: number;
+    name: string;
+    photo: string | null; // Photo can be null
+}
+
+export interface Channel {
+    id: number;
+    name: string;
+}
+
+export interface Group {
+    id: number;
+    name: string;
+}
+
   export type ShowContacts = boolean;
 
   export type SetShowContacts = Dispatch<SetStateAction<ShowContacts>>;

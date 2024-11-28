@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { getApi, sendQuery } from "@/services/Contacts/Contacts";
-import { Contact, SetShowGlobalSearch, ShowGlobalSearch } from "@/types/SideBar";
+import { sendQuery } from "@/services/Contacts/Contacts";
+import {
+    Channel,
+    Contact,
+    Group,
+    SetShowGlobalSearch,
+    ShowGlobalSearch,
+    User,
+} from "@/types/SideBar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 export default function ContactsSearchBar({
@@ -20,10 +27,26 @@ export default function ContactsSearchBar({
         if (!query.trim()) return; // Avoid sending empty queries
         setIsLoading(true);
         try {
-            await sendQuery(query);
-
-            const result = await getApi();
-            onSearch(result);
+            const result = await sendQuery(query);
+            //turn result into valid array of Contact
+            const contacts = [
+                ...result.data.users.map((user: User) => ({
+                    id: user.id,
+                    name: user.name,
+                    avatar: user.photo || "", // If no photo, set avatar to empty string
+                })),
+                ...result.data.channels.map((channel: Channel) => ({
+                    id: channel.id,
+                    name: channel.name,
+                    avatar: "", // Empty avatar for channels
+                })),
+                ...result.data.groups.map((group: Group) => ({
+                    id: group.id,
+                    name: group.name,
+                    avatar: "", // Empty avatar for groups
+                })),
+            ];
+            onSearch(contacts);
         } catch (error) {
             console.error("Error fetching contacts:", error);
         } finally {
