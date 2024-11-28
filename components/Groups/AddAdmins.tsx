@@ -1,90 +1,80 @@
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import { useGroupMembers } from "@/hooks/useGroupMembers";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { Member, useChannelMembers } from "@/hooks/useChannelMembers";
-import { AddMembersToChannel } from "@/services/Channel";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
+import { Member } from "@/hooks/useGroupMembers";
+import { addAdminsToGroup } from "@/services/Group";
 
-// Zod schema for form validation
-const SubscriberSchema = z.object({
-    selectedSubscribers: z
+const adminSchema = z.object({
+    selectedAdmins: z
         .array(
             z.object({
                 userId: z.number(),
-                role: z.string().default("subscriber"),
+                role: z.string().default("admin"),
                 hasDownloadPermissions: z.boolean().default(false),
             })
         )
-        .min(1, "Please select at least one subscriber."),
+        .min(1, "Please select at least one admin."),
 });
 
-type SubscriberFormInputs = z.infer<typeof SubscriberSchema>;
+type AdminFormInputs = z.infer<typeof adminSchema>;
 
-type AddSubscribersProps = {
-    channelId: number;
+type AddAdminsProps = {
+    groupId: number;
     isOpen: boolean;
     onClose: () => void;
 };
 
-export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscribersProps) {
-    const { members, loading, error } = useChannelMembers(channelId);
+export default function AddAdmins({ groupId, isOpen, onClose }: AddAdminsProps) {
+    const { members, loading, error } = useGroupMembers(groupId);
 
     const {
         control,
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
-    } = useForm<SubscriberFormInputs>({
-        resolver: zodResolver(SubscriberSchema),
+    } = useForm<AdminFormInputs>({
+        resolver: zodResolver(adminSchema),
         defaultValues: {
-            selectedSubscribers: [],
+            selectedAdmins: [],
         },
     });
 
-    const onSubmit: SubmitHandler<SubscriberFormInputs> = async (data) => {
+    const onSubmit: SubmitHandler<AdminFormInputs> = async (data) => {
         try {
-            const formattedSubscribers = data.selectedSubscribers.map((subscriber) => ({
-                userId: subscriber.userId,
-                role: "member",
-                hasDownloadPermissions: subscriber.hasDownloadPermissions,
+            const formattedAdmins = data.selectedAdmins.map((admin) => ({
+                userId: admin.userId,
+                role: "admin",
+                hasDownloadPermissions: admin.hasDownloadPermissions,
             }));
 
-            const response = await AddMembersToChannel(
-                { subscribers: formattedSubscribers },
-                channelId
-            );
-            console.log("Add Subscribers Response:", response);
+            const response = await addAdminsToGroup({ admins: formattedAdmins }, groupId);
+            console.log("Add Admins Response:", response);
 
             reset(); // Clear form
             onClose(); // Close dialog
         } catch (err) {
-            console.error("Failed to add subscribers:", err);
+            console.error("Failed to add admins:", err);
         }
     };
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" className="w-full font-medium hover:bg-gray-200">
-                    Add Subscribers
-                </Button>
-            </DialogTrigger>
             <DialogContent className="bg-white dark:bg-gray-900 sm:max-w-[425px]">
                 <DialogHeader>
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                        Add new Subscribers
+                        Add new Admins
                     </h2>
                 </DialogHeader>
-
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         {loading ? (
@@ -94,10 +84,10 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                         ) : (
                             <>
                                 <p className="mb-2 text-gray-600 dark:text-gray-300">
-                                    Select users to make them subscribers:
+                                    Select users to make them admins:
                                 </p>
                                 <Controller
-                                    name="selectedSubscribers"
+                                    name="selectedAdmins"
                                     control={control}
                                     render={({ field }) => (
                                         <div className="space-y-2">
@@ -105,7 +95,7 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                                                 <div key={member.id} className="flex items-center">
                                                     <input
                                                         type="checkbox"
-                                                        id={`subscriber-${member.id}`}
+                                                        id={`member-${member.id}`}
                                                         value={member.id}
                                                         checked={field.value.some(
                                                             (selected) =>
@@ -116,7 +106,7 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                                                             if (e.target.checked) {
                                                                 selected.push({
                                                                     userId: member.id,
-                                                                    role: "subscriber",
+                                                                    role: "admin",
                                                                     hasDownloadPermissions: false,
                                                                 });
                                                             } else {
@@ -133,7 +123,7 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                                                         className="mr-2"
                                                     />
                                                     <label
-                                                        htmlFor={`subscriber-${member.id}`}
+                                                        htmlFor={`member-${member.id}`}
                                                         className="text-gray-800 dark:text-gray-200"
                                                     >
                                                         {member.name}
@@ -143,15 +133,14 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                                         </div>
                                     )}
                                 />
-                                {errors.selectedSubscribers && (
+                                {errors.selectedAdmins && (
                                     <p className="mt-1 text-sm text-red-500">
-                                        {errors.selectedSubscribers.message}
+                                        {errors.selectedAdmins.message}
                                     </p>
                                 )}
                             </>
                         )}
                     </div>
-
                     <DialogFooter className="mt-4">
                         <DialogClose asChild>
                             <Button type="button" variant="outline" className="mr-2">
@@ -160,7 +149,7 @@ export default function AddSubscribers({ channelId, isOpen, onClose }: AddSubscr
                         </DialogClose>
                         <Button
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || loading}
                             className="bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
                         >
                             {isSubmitting ? (
