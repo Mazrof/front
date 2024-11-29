@@ -21,6 +21,26 @@ export async function LoginWithEmail(
     const response = await apiHandler(request);
     return response;
 }
+export async function SignupWithEmail(
+    name: string,
+    username: string,
+    // phonenumber: string,
+    email: string,
+    password: string
+) {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/signup`,
+        method: "POST",
+        cache: "no-store",
+        body: { email, password, username },
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    };
+    const response = await apiHandler(request);
+    return response;
+}
 export async function LoginWithOauth(
     code: string,
     oathType: string
@@ -30,6 +50,23 @@ export async function LoginWithOauth(
         method: "POST",
         cache: "no-store", // to avoid caching
         body: { provider: oathType, access_token: code },
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    };
+    const response = await apiHandler(request);
+    return response;
+}
+export async function SignupWithOauth(
+    code: string,
+    oauthType: string
+): Promise<genericResponse<UserToken>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/social-signup`,
+        method: "POST",
+        cache: "no-store", // to avoid caching
+        body: { provider: oauthType, access_token: code },
         headers: {
             "Content-Type": "application/json",
         },
