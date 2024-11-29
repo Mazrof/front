@@ -2,14 +2,14 @@ import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
 import { BlockListResponse, UserToken } from "@/types/user";
-const server = `${process.env.NEXT_SERVER_IP}api/v1/auth`;
+const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 
 export async function LoginWithEmail(
     email: string,
     password: string
 ): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
-        endpoint: `${server}/login`,
+        endpoint: `${server}/auth/login`,
         method: "POST",
         cache: "no-store",
         body: { email, password },
@@ -41,41 +41,6 @@ export async function SignupWithEmail(
     const response = await apiHandler(request);
     return response;
 }
-export async function LoginWithOauth(
-    code: string,
-    oathType: string
-): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/social-login`,
-        method: "POST",
-        cache: "no-store", // to avoid caching
-        body: { provider: oathType, access_token: code },
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function SignupWithOauth(
-    code: string,
-    oauthType: string
-): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/social-signup`,
-        method: "POST",
-        cache: "no-store", // to avoid caching
-        body: { provider: oauthType, access_token: code },
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-
 export async function getBlockedUsers(): Promise<genericResponse<BlockListResponse>> {
     const request: ApiRequest = {
         endpoint: `${server}/user/block?blockerID=1`,
