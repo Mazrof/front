@@ -155,7 +155,7 @@ function ChannelDialog() {
                         </Label>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="max-h-[200px] space-y-2 overflow-y-auto">
                         <Label className="text-gray-700 dark:text-gray-300">Select Admins</Label>
                         {isLoading ? (
                             <p>Loading users...</p>

@@ -126,7 +126,7 @@ function GroupDialog() {
                         <Label htmlFor="canAddComments">Allow Comments</Label>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="max-h-[200px] space-y-2 overflow-y-auto">
                         <Label>Select Admins</Label>
                         {isLoading ? (
                             <p>Loading users...</p>
