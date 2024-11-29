@@ -14,25 +14,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Loader2 } from "lucide-react";
-import { createGroup } from "@/services/Group";
-import { failResponse, genericResponse } from "@/types/api";
+import { Checkbox } from "@/components/ui/checkbox";
 
-// Zod Schema for form validation
+import { failResponse, genericResponse } from "@/types/api";
+import { useUsers } from "@/hooks/useUsers";
+import { createGroup } from "@/services/Group";
 const groupSchema = z.object({
     name: z
         .string()
         .min(3, { message: "Group name must be at least 3 characters" })
         .max(50, { message: "Group name cannot exceed 50 characters" }),
     privacy: z.boolean(),
+    canAddComments: z.boolean(),
     groupSize: z
         .number()
         .min(10, { message: "Group size must be at least 10 members" })
         .max(1024, { message: "Group size cannot exceed 1024 members" }),
+    admins: z.array(z.string()), // New admins field
 });
 
 function GroupDialog() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { users, isLoading } = useUsers();
 
     const {
         control,
@@ -45,8 +48,10 @@ function GroupDialog() {
         resolver: zodResolver(groupSchema),
         defaultValues: {
             name: "",
-            privacy: false, // Default: public group
-            groupSize: 100, // Default: 100 members
+            privacy: false,
+            canAddComments: true,
+            groupSize: 100,
+            admins: [],
         },
     });
 
@@ -61,8 +66,8 @@ function GroupDialog() {
         const response: genericResponse<object> = await createGroup(data);
 
         if (response.status === "success") {
-            reset(); // Clear form on success
-            setIsOpen(false); // Close dialog
+            reset();
+            setIsOpen(false);
         } else {
             const failApiResponse = response as failResponse;
             setRootError(failApiResponse.message);
@@ -84,25 +89,16 @@ function GroupDialog() {
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Group Name Input */}
                     <div className="space-y-2">
-                        <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">
-                            Group Name
-                        </Label>
-                        <Input
-                            {...register("name")}
-                            id="name"
-                            placeholder="Enter group name"
-                            className="w-full border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        />
+                        <Label htmlFor="name">Group Name</Label>
+                        <Input {...register("name")} id="name" placeholder="Enter group name" />
                         {errors.name && (
                             <p className="text-sm text-red-500">{errors.name.message}</p>
                         )}
                     </div>
 
-                    {/* Group Privacy Selection */}
                     <div className="space-y-2">
-                        <Label className="text-gray-700 dark:text-gray-300">Group Privacy</Label>
+                        <Label>Group Privacy</Label>
                         <Controller
                             control={control}
                             name="privacy"
@@ -112,83 +108,54 @@ function GroupDialog() {
                                     value={field.value.toString()}
                                     className="flex space-x-4"
                                 >
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="false"
-                                            id="public"
-                                            className="text-blue-500 dark:text-blue-400"
-                                        />
-                                        <Label
-                                            htmlFor="public"
-                                            className="text-gray-700 dark:text-gray-300"
-                                        >
-                                            Public
-                                        </Label>
+                                    <div>
+                                        <RadioGroupItem value="false" id="public" />
+                                        <Label htmlFor="public">Public</Label>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="true"
-                                            id="private"
-                                            className="text-blue-500 dark:text-blue-400"
-                                        />
-                                        <Label
-                                            htmlFor="private"
-                                            className="text-gray-700 dark:text-gray-300"
-                                        >
-                                            Private
-                                        </Label>
+                                    <div>
+                                        <RadioGroupItem value="true" id="private" />
+                                        <Label htmlFor="private">Private</Label>
                                     </div>
                                 </RadioGroup>
                             )}
                         />
-                        {errors.privacy && (
-                            <p className="text-sm text-red-500">{errors.privacy.message}</p>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                        <Checkbox {...register("canAddComments")} id="canAddComments" />
+                        <Label htmlFor="canAddComments">Allow Comments</Label>
+                    </div>
+
+                    <div className="max-h-[200px] space-y-2 overflow-y-auto">
+                        <Label>Select Admins</Label>
+                        {isLoading ? (
+                            <p>Loading users...</p>
+                        ) : (
+                            users.map((user) => (
+                                <div key={user.id} className="flex items-center space-x-2">
+                                    <Checkbox
+                                        {...register("admins")}
+                                        value={user.id?.toString()}
+                                        id={`admin-${user.id}`}
+                                    />
+                                    <Label htmlFor={`admin-${user.id}`}>{user.username}</Label>
+                                </div>
+                            ))
                         )}
                     </div>
 
-                    {/* Group Size Input */}
-                    <div className="space-y-2">
-                        <Label htmlFor="groupSize" className="text-gray-700 dark:text-gray-300">
-                            Group Size
-                        </Label>
-                        <Input
-                            {...register("groupSize", { valueAsNumber: true })}
-                            id="groupSize"
-                            type="number"
-                            placeholder="Enter group size"
-                            className="w-full border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        />
-                        {errors.groupSize && (
-                            <p className="text-sm text-red-500">{errors.groupSize.message}</p>
-                        )}
-                    </div>
-
-                    {/* Root-Level Error */}
                     {errors.root && (
-                        <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
-                            {errors.root.message}
-                        </div>
+                        <div className="text-sm text-red-700">{errors.root.message}</div>
                     )}
 
-                    <DialogFooter className="mt-4">
+                    <DialogFooter>
                         <DialogClose asChild>
-                            <Button type="button" variant="outline" className="mr-2">
+                            <Button type="button" variant="outline">
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
-                        >
-                            {isSubmitting ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating...
-                                </>
-                            ) : (
-                                "Create Group"
-                            )}
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Creating..." : "Create Group"}
                         </Button>
                     </DialogFooter>
                 </form>

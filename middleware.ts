@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const publicRoutes = ["/login", "/signup"];
+const publicRoutes = ["/login", "/signup", "/forget-password"];
 
 export function middleware(request: NextRequest) {
     const accessToken = request.cookies.get("connect.sid")?.value;

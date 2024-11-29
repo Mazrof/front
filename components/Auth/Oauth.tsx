@@ -7,14 +7,14 @@ function Oauth({ operation }: OAuthProps) {
             <div className="mt-6 space-y-3">
                 <button className="auth-buttons">
                     <GoogleIcon />
-                    <a href="http://localhost:3000/api/v1/auth/google">
+                    <a href={`${process.env.NEXT_SERVER_IP}api/v1/auth/google`}>
                         {operation} in with Google
                     </a>
                 </button>
                 <button className="auth-buttons">
                     <GitHubIcon />
-                    <a href="http://localhost:3000/api/v1/auth/github">
-                        {operation} in with Google
+                    <a href={`${process.env.NEXT_SERVER_IP}api/v1/auth/github`}>
+                        {operation} in with Github
                     </a>
                 </button>
             </div>

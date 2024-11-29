@@ -8,6 +8,7 @@ import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
 import { UserToken } from "@/types/user";
+import logo from "../../public/images/logo.jpg";
 import { failResponse, genericResponse } from "@/types/api";
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -58,13 +59,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
     };
     return (
         <div className="flex h-full flex-col items-center justify-between p-4">
-            <Image
-                src="/images/logo.jpg"
-                alt="Logo"
-                width={70}
-                height={70}
-                className="rounded-full"
-            />
+            <Image src={logo} alt="Logo" width={70} height={70} className="rounded-full" />
             <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
             <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="login-field">
@@ -81,8 +76,8 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         </div>
                     )}
                 </div>
-                <div className="field">
-                    <label className="label">Password</label>
+                <div className="login-field">
+                    <label>Password</label>
                     <input
                         type="password"
                         {...register("password")}

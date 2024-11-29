@@ -1,10 +1,10 @@
 import apiHandler from "@/lib/apiHandler";
 import { ApiRequest } from "@/types/request";
-import { SettingResponse, UpdatedSettingResponse } from "@/types/settings";
+import { SettingResponse, SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { PrivacyOptionsEnum } from "@/types/settings";
 import { WhoAmI } from "@/types/user";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
-const server = "http://localhost:3000/api/v1";
+const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 export async function getUserId(): Promise<genericResponse<WhoAmI>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/whoami`,
@@ -45,4 +45,15 @@ export async function updateProfile(
 
         return await apiHandler(request);
     } else return idResponse as failResponse;
+}
+
+export async function getAllUsers(): Promise<genericResponse<{ users: SettingsObject[] }>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/profile`,
+        method: "GET",
+        cache: "no-store",
+        credentials: "include",
+    };
+    const response = await apiHandler(request);
+    return response;
 }

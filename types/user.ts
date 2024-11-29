@@ -1,12 +1,17 @@
+import { SettingsObject } from "./settings";
+
+export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
+    [Key in K1 | K2]: T[Key];
+};
+
 export type SelectedChatId = {
     id: string | null;
     setChatId: (newId: string | null) => void;
     isSelectedChatId: () => boolean;
 };
 export type UserType = {
-    id: string,
-    
-}
+    id: string;
+};
 
 export type UserToken = {
     access_token?: string;
@@ -16,11 +21,11 @@ export type UserToken = {
 };
 export type WhoAmI = {
     user: {
-        id: string,
-        username:string
-    }
+        id: string;
+        username: string;
+    };
 };
- 
+
 export type BlockUser = {
     id: string;
     photo: string;
@@ -35,3 +40,5 @@ export type BlockUsers = {
     setBlockUsers: (userList: BlockUser[]) => void;
     removeBlockUser: (user: BlockUser) => void;
 };
+
+export type User = PickTwoKeys<SettingsObject, "id", "username">;
