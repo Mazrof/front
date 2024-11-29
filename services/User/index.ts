@@ -24,7 +24,7 @@ export async function LoginWithEmail(
 export async function SignupWithEmail(
     name: string,
     username: string,
-    // phonenumber: string,
+    phone: string,
     email: string,
     password: string
 ) {
@@ -32,7 +32,7 @@ export async function SignupWithEmail(
         endpoint: `${server}/auth/signup`,
         method: "POST",
         cache: "no-store",
-        body: { email, password, username },
+        body: { email, password,phone, username },
         headers: {
             "Content-Type": "application/json",
         },

@@ -4,13 +4,14 @@ import Image from "next/image";
 import React from "react";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
-// import { PhoneInput } from "./PhoneNumber";
+import { PhoneInput } from "./PhoneNumber";
 import { SignupWithEmail } from "@/services/User";
 import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
 import { UserToken } from "@/types/user";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 // Zod schema for form validation
 const signUpSchema = z
@@ -36,6 +37,16 @@ const signUpSchema = z
                     "Username can only contain english small alphanumeric characters, underscores and numbers",
             }),
         email: z.string().email(),
+        phoneNumber: z.string().refine(
+            (value) => {
+                const phoneNumber = parsePhoneNumberFromString(value); // No country specified
+                return phoneNumber && phoneNumber.isValid(); // Validates internationally
+            },
+            {
+                message: "Invalid phone number",
+            }
+        ),
+
         password: z
             .string()
             .min(8, { message: "Password must be at least 8 characters" })
@@ -60,7 +71,7 @@ type SignUpFormFields = z.infer<typeof signUpSchema>;
 export function SignUpForm({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const {
-        // control,
+        control,
         register,
         handleSubmit,
         setError,
@@ -77,13 +88,11 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
     };
 
     const firstError = Object.entries(errors)[0];
-    console.log(firstError);
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
-        console.log(data);
         const response: genericResponse<UserToken> = await SignupWithEmail(
             data.name,
             data.username,
-            // data.phoneNumber,
+            data.phoneNumber,
             data.email.trim().toLowerCase(),
             data.password
         );
@@ -91,7 +100,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
-            router.push("/");
+            router.push("/login");
         }
     };
     const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -142,7 +151,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     }
                 />
 
-                {/* <Controller
+                <Controller
                     name="phoneNumber"
                     control={control}
                     rules={{
@@ -151,19 +160,21 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                             (value?.length > 0 && value?.length < 12) ||
                             "Please enter a valid phone number",
                     }}
-                    render={({ field }) => (
-                        <PhoneInput
-                            id="PhoneNumber"
-                            {...field}
-                            error={
-                                firstError &&
-                                firstError[0] === "phoneNumber" &&
-                                !errors.email &&
-                                errors.phoneNumber?.message
-                            }
-                        />
-                    )}
-                /> */}
+                    render={({ field }) => {
+                        return (
+                            <PhoneInput
+                                id="PhoneNumber"
+                                {...field}
+                                error={
+                                    firstError &&
+                                    firstError[0] === "phoneNumber" &&
+                                    !errors.email &&
+                                    errors.phoneNumber?.message
+                                }
+                            />
+                        )
+                    }}
+                />
 
                 {/* Password Input */}
                 <InputField
@@ -189,7 +200,11 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         errors.repeatPassword?.message
                     }
                 />
-
+                    {errors.root && (
+                        <div className="mx-auto mt-4  text-sm text-red-700" data-testid="root-error">
+                            {errors.root.message}
+                        </div>
+                    )}
                 {/* Submit Button */}
                 <button type="submit" className="btn">
                     Create Account

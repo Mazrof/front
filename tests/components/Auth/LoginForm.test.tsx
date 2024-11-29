@@ -123,7 +123,7 @@ describe("LoginForm", () => {
             const paswordField = screen.getByTestId("password");
             const emailField = screen.getByTestId("email");
             const login = screen.getByRole("button", { name: "Login" });
-            await userEvent.type(paswordField, "12345678");
+            await userEvent.type(paswordField, "Ne@12345678");
             await userEvent.type(emailField, "example@example.com");
             await userEvent.click(login);
             await waitFor(() => {
