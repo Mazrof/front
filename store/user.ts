@@ -17,7 +17,7 @@ const useBlockUsers = create<BlockUsers>((set) => ({
     removeBlockUser: (user) => {
         set((state) => ({
             blockUsers: state.blockUsers
-                ? state.blockUsers.filter((blockUser) => blockUser.userId !== user.userId)
+                ? state.blockUsers.filter((blockUser) => blockUser.id !== user.id)
                 : null,
         }));
     },

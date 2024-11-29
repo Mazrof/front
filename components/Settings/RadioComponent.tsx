@@ -28,7 +28,7 @@ export function RadioGroupDemo() {
                 failApiResponse?.error?.statusCode === 404
             ) {
                 router.push("/login");
-            } else throw new Error(failApiResponse?.message);
+            } else router.push("Error");
         } else {
             const data: UpdatedSettingResponse = (
                 response as successResponse<UpdatedSettingResponse>

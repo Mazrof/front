@@ -22,11 +22,14 @@ export type WhoAmI = {
 };
  
 export type BlockUser = {
-    userId: string;
+    id: string;
     photo: string;
-    phone: string;
     username: string;
+    phone?:string
 };
+export type BlockListResponse={
+    blockList:{blockedUser: BlockUser}[]
+}
 export type BlockUsers = {
     blockUsers: BlockUser[] | null;
     setBlockUsers: (userList: BlockUser[]) => void;
