@@ -1,25 +1,31 @@
 /** @type {import('next').NextConfig} */
+import { config } from 'dotenv';
+config();
+
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const nextConfig = {
     images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '**', // Allows images from any domain
-                port: '', // Optional, can specify if needed
-                pathname: '/**', // Matches any path
-            },{
+                hostname: '**', 
+                port: '', 
+                pathname: '/**', 
+            },
+            {
                 protocol: 'http',
-                hostname: '**', // Allows images from any domain
-                port: '', // Optional, can specify if needed
-                pathname: '/**', // Matches any path
+                hostname: '**', 
+                port: '', 
+                pathname: '/**', 
             },
         ],
     },
     env: {
-        NEXT_SERVER_IP: "http://localhost:3000"
-        
-  },
+        NEXT_SERVER_IP: isDevelopment 
+            ? process.env.SERVER_IP 
+            : process.env.NEXT_SERVER_IP, 
+    },
 };
-
 
 export default nextConfig;
