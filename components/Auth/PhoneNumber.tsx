@@ -38,7 +38,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
                 onChange={(value) => onChange?.(value as RPNInput.Value)}
                 {...props}
             />
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
         </div>
     );
 });
