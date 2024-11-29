@@ -18,8 +18,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import { createChannel } from "@/services/Channel";
 import { failResponse, genericResponse } from "@/types/api";
+import { useUsers } from "@/hooks/useUsers";
 
-// Zod Schema for form validation
 const channelSchema = z.object({
     name: z
         .string()
@@ -27,10 +27,12 @@ const channelSchema = z.object({
         .max(50, { message: "Channel name cannot exceed 50 characters" }),
     privacy: z.boolean(),
     canAddComments: z.boolean(),
+    admins: z.array(z.string()),
 });
 
 function ChannelDialog() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { users, isLoading } = useUsers();
     const {
         control,
         register,
@@ -42,8 +44,9 @@ function ChannelDialog() {
         resolver: zodResolver(channelSchema),
         defaultValues: {
             name: "",
-            privacy: false, // Default: public
-            canAddComments: true, // Default: can add comments
+            privacy: false,
+            canAddComments: true,
+            admins: [],
         },
     });
     const setErrorRoot = (message: string) => {
@@ -151,6 +154,36 @@ function ChannelDialog() {
                             Allow comments in the channel
                         </Label>
                     </div>
+
+                    <div className="max-h-[200px] space-y-2 overflow-y-auto">
+                        <Label className="text-gray-700 dark:text-gray-300">Select Admins</Label>
+                        {isLoading ? (
+                            <p>Loading users...</p>
+                        ) : (
+                            <div className="space-y-2">
+                                {users.map((member) => (
+                                    <div key={member.id} className="flex items-center space-x-2">
+                                        <Checkbox
+                                            {...register("admins")}
+                                            value={member.id?.toString()}
+                                            id={`admin-${member.id}`}
+                                            className="text-blue-500 dark:text-blue-400"
+                                        />
+                                        <Label
+                                            htmlFor={`admin-${member.id}`}
+                                            className="text-gray-700 dark:text-gray-300"
+                                        >
+                                            {member.username}
+                                        </Label>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        {errors.admins && (
+                            <p className="text-sm text-red-500">{errors.admins.message}</p>
+                        )}
+                    </div>
+
                     {errors.root && (
                         <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
                             {errors.root.message}

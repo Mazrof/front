@@ -2,14 +2,14 @@ import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
 import { BlockListResponse, UserToken } from "@/types/user";
-const server = "http://localhost:3000/api/v1";
+const server = `${process.env.NEXT_SERVER_IP}/api/v1/auth`;
 
 export async function LoginWithEmail(
     email: string,
     password: string
 ): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
-        endpoint: `${server}/auth/login`,
+        endpoint: `${server}/login`,
         method: "POST",
         cache: "no-store",
         body: { email, password },
