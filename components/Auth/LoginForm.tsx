@@ -81,8 +81,8 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         </div>
                     )}
                 </div>
-                <div className="field">
-                    <label className="label">Password</label>
+                <div className="login-field">
+                    <label>Password</label>
                     <input
                         type="password"
                         {...register("password")}
