@@ -23,8 +23,8 @@ const nextConfig = {
     },
     env: {
         NEXT_SERVER_IP: isDevelopment 
-        ? process.env.NEXT_SERVER_IP 
-            : process.env.SERVER_IP ,
+            ? process.env.SERVER_IP 
+            : process.env.NEXT_SERVER_IP, 
     },
 };
 

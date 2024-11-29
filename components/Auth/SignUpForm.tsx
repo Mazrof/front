@@ -4,10 +4,10 @@ import Image from "next/image";
 import React from "react";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
-import { PhoneInput } from "./PhoneNumber";
+// import { PhoneInput } from "./PhoneNumber";
 import { SignupWithEmail } from "@/services/User";
 import { z } from "zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
 import { UserToken } from "@/types/user";
@@ -35,31 +35,7 @@ const signUpSchema = z
                 message:
                     "Username can only contain english small alphanumeric characters, underscores and numbers",
             }),
-        email: z
-            .string()
-            .refine((email) => email.includes("@"), {
-                message: "Email must contain '@'.",
-            })
-            .refine((email) => email.includes(".com"), {
-                message: "Email must contain '.com'.",
-            })
-            .refine((email) => !email.includes("gamil"), {
-                message: "Email must not contain 'gamil'.",
-            })
-            .refine(
-                (email) => {
-                    const domainPart = email.split("@")[1]?.split(".com")[0];
-                    return domainPart && domainPart.length > 0; // domain part should exist and not be empty
-                },
-                {
-                    message: "Email must contain a valid domain between '@' and '.com'.",
-                }
-            ),
-        phoneNumber: z
-            .string()
-            .min(10, { message: "phoneNumber is required" })
-            .regex(/^\d{10}$/, { message: "Phone number must be a 10-digit number" }),
-
+        email: z.string().email(),
         password: z
             .string()
             .min(8, { message: "Password must be at least 8 characters" })
@@ -84,7 +60,7 @@ type SignUpFormFields = z.infer<typeof signUpSchema>;
 export function SignUpForm({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const {
-        control,
+        // control,
         register,
         handleSubmit,
         setError,
@@ -103,6 +79,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
     const firstError = Object.entries(errors)[0];
     console.log(firstError);
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
+        console.log(data);
         const response: genericResponse<UserToken> = await SignupWithEmail(
             data.name,
             data.username,
@@ -165,7 +142,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     }
                 />
 
-                <Controller
+                {/* <Controller
                     name="phoneNumber"
                     control={control}
                     rules={{
@@ -186,7 +163,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                             }
                         />
                     )}
-                />
+                /> */}
 
                 {/* Password Input */}
                 <InputField
