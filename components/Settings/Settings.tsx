@@ -26,7 +26,7 @@ function Settings() {
                 failApiResponse?.error?.statusCode === 404
             ) {
                 router.push("/login");
-            } else throw new Error(failApiResponse?.message);
+            } else router.push("Error");
         } else {
             const data: SettingResponse = (response as successResponse<SettingResponse>).data;
             const user: SettingsObject = data.user;

@@ -4,12 +4,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 // import { logout } from "@/services/User";
 import { MoreVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { logout } from "@/services/User";
 export function Logout() {
     const router = useRouter();
     async function onLogout() {
+        await logout();
         router.push("/login");
-        //todo must remove token
-        //  await logout(); when connect to db
     }
     return (
         <TooltipProvider>
