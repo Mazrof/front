@@ -3,7 +3,7 @@ import { genericResponse } from "@/types/api";
 import { JoinRequest } from "@/types/channel";
 import { GroupData } from "@/types/group";
 import { ApiRequest } from "@/types/request";
-const server = `${process.env.NEXT_SERVER_IP}/api/v1`;
+const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 export async function createGroup(body: GroupData): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/groups`,
