@@ -14,7 +14,7 @@ import MuteNotification from "./MuteNotification";
 import { addMembersToGroup } from "@/services/Group";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
-import { JoinRequest } from "@/types/channel";
+import { MemberRole } from "@/types/user";
 
 export default function GroupDropDownMenu() {
     const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
@@ -23,11 +23,11 @@ export default function GroupDropDownMenu() {
     const [isMembersListOpen, setIsMembersListOpen] = useState(false);
     const [isMuteNotificationsOpen, setIsMuteNotificationsOpen] = useState(false);
 
-    const groupId: number = 1;
+    const groupId: number = 4;
 
     const handleJoiningGroup = async () => {
         try {
-            const body: JoinRequest = { role: "member" };
+            const body: MemberRole = { role: "member" };
             const response = await addMembersToGroup(body, groupId);
 
             if (response.status === "fail") {
@@ -59,7 +59,7 @@ export default function GroupDropDownMenu() {
                 <DropdownMenuTrigger>
                     <ThreeDotsIcon />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent className="dark:bg-black dark:text-white">
                     <DropdownMenuItem onClick={() => setIsAddAdminsOpen(true)}>
                         Add Admins
                     </DropdownMenuItem>

@@ -6,6 +6,8 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 
 import { useOTPContext } from "@/store/OTPContext";
+import { resetPassword } from "@/services/User";
+import { failResponse } from "@/types/api";
 export default function EmailInputForm() {
     const { setOTPContext } = useOTPContext();
     const emailSchema = z.object({
@@ -16,18 +18,30 @@ export default function EmailInputForm() {
     const router = useRouter();
     const {
         register,
+        setError,
         handleSubmit,
         formState: { errors },
     } = useForm<EmailSchema>({
         resolver: zodResolver(emailSchema),
     });
 
+    const setErrorRoot = (message: string) => {
+        setError("root", {
+            type: "manual",
+            message: message,
+        });
+    };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onSubmit: SubmitHandler<EmailSchema> = async ({ email }) => {
         // here comes the link we sent to backend.
-        console.log(email);
-        setOTPContext("resetPassword", email);
-        router.push("/verification");
+        const response = await resetPassword(email);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            setOTPContext("resetPassword", email);
+            router.push("/verification");
+        }
     };
 
     return (

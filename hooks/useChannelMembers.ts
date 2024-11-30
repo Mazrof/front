@@ -1,11 +1,7 @@
 import { getChannelMembers } from "@/services/Channel";
 import { successResponse } from "@/types/api";
+import { Member } from "@/types/user";
 import { useEffect, useState } from "react";
-
-export interface Member {
-    id: number;
-    name: string;
-}
 
 export function useChannelMembers(channelId: number) {
     const [members, setMembers] = useState<Member[]>([]);
@@ -18,8 +14,9 @@ export function useChannelMembers(channelId: number) {
                 setLoading(true);
                 const response = await getChannelMembers(channelId);
                 if (response.status === "success") {
-                    const successApiResponse = response as successResponse<object>;
-                    setMembers(successApiResponse.data as Member[]);
+                    const successApiResponse = response as successResponse<{ members: Member[] }>;
+                    console.log(successApiResponse.data);
+                    setMembers(successApiResponse.data.members);
                 } else {
                     setError("Failed to fetch members.");
                 }

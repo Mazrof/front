@@ -34,7 +34,7 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
     return (
         <>
             {isOpen && <Voicecall setIsOpen={setIsOpen} name={name} />}
-            <div className="flex h-16 w-full items-center justify-between border-2 border-gray-200 bg-white px-5 dark:border-slate-800 dark:bg-black">
+            <div className="flex h-16 w-full items-center justify-between border-2 border-gray-200 bg-white px-5 dark:border-slate-800 dark:bg-black dark:text-white">
                 <div className="flex gap-6 hover:bg-gray-200 hover:bg-opacity-45">
                     <button
                         className="rounded-full hover:bg-gray-300"
@@ -51,7 +51,7 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                 <div className="flex items-center gap-2">
                     <div className="call-bar" onClick={handleVideoCallClick}>
                         <a>
-                            <span>
+                            <span className="dark:text-white">
                                 <VideoCallIcon color="black" />
                             </span>
                         </a>

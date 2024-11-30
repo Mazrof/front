@@ -32,41 +32,7 @@ export async function SignupWithEmail(
         endpoint: `${server}/auth/signup`,
         method: "POST",
         cache: "no-store",
-        body: { email, password, username },
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function LoginWithOauth(
-    code: string,
-    oathType: string
-): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/social-login`,
-        method: "POST",
-        cache: "no-store", // to avoid caching
-        body: { provider: oathType, access_token: code },
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function SignupWithOauth(
-    code: string,
-    oauthType: string
-): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/social-signup`,
-        method: "POST",
-        cache: "no-store", // to avoid caching
-        body: { provider: oauthType, access_token: code },
+        body: { email, password, phone, username },
         headers: {
             "Content-Type": "application/json",
         },
@@ -102,4 +68,16 @@ export async function unBlockUser(userId: string): Promise<genericResponse<null>
         credentials: "include",
     };
     return await apiHandler(request);
+}
+
+export async function resetPassword(email: string): Promise<genericResponse<{ message: string }>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/request-password-reset`,
+        method: "POST",
+        cache: "no-store",
+        body: { email },
+        credentials: "include",
+    };
+    const response = await apiHandler(request);
+    return response;
 }
