@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useSettingsPageType } from "@/store/settings";
-import { SetDarkMode, SetShowContacts, ShowContacts } from "@/types/SideBar";
+import { SetDarkMode, SetShowContacts, ShowContacts, SetShowGlobalSearch, ShowGlobalSearch } from "@/types/SideBar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,12 +9,16 @@ type ChatsSearchBarProps = {
     setDarkMode: SetDarkMode;
     showContacts: ShowContacts;
     setShowContacts: SetShowContacts;
+    showGlobalSearch: ShowGlobalSearch;
+    setShowGlobalSearch: SetShowGlobalSearch;
 };
 
 export default function ChatsSearchBar({
     setDarkMode,
     showContacts,
     setShowContacts,
+    showGlobalSearch,
+    setShowGlobalSearch,
 }: ChatsSearchBarProps) {
     const router = useRouter();
     const {setPageName}=useSettingsPageType()
@@ -43,7 +47,10 @@ export default function ChatsSearchBar({
     function toggleContacts() {
         setShowContacts((showContactsValue) => !showContactsValue);
     }
-
+    function toggleGlobalSearch() {
+        setShowGlobalSearch((showContactsValue) => !showContactsValue);
+    }
+    
     return (
         <div>
             <header className="flex items-center justify-between bg-[#fcfcfc] p-4 shadow-md dark:bg-[#2C2F33]">
@@ -60,13 +67,13 @@ export default function ChatsSearchBar({
                     </h1>
                 </div>
 
-                <div className="relative mx-4 flex-grow">
+                {/* <div className="relative mx-4 flex-grow">
                     <input
                         type="text"
                         placeholder="Search"
                         className="w-full rounded-full bg-[#f3f2f2] px-4 py-2 text-black focus:outline-none dark:bg-[#3E4146] dark:text-white"
                     />
-                </div>
+                </div> */}
 
                 <div className="flex space-x-4">
                     <button
@@ -143,6 +150,13 @@ export default function ChatsSearchBar({
                             >
                                 <span>📞</span>
                                 Contacts
+                            </li>
+                            <li
+                                onClick={toggleGlobalSearch}
+                                className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            >
+                                <span>🔍</span>
+                                Global Search
                             </li>
                         </ul>
                     </div>
