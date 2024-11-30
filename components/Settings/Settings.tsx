@@ -7,29 +7,48 @@ import PrivacySecurity from "./PrivacySecurity";
 import ProfileUpdate from "./UpdateProfile";
 import { getProfile } from "@/services/Settings";
 import { useSettings } from "@/store/settings";
-import { SettingsObject } from"@/types/settings"
+import { SettingsObject, SettingResponse } from "@/types/settings";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Storage from "./Storage";
 function Settings() {
-    const { settingPageName } = useSettingsPageType()
-    const isShowSettings = settingPageName !== null
-    const { setSettings } = useSettings()
+    const { settingPageName } = useSettingsPageType();
+    const isShowSettings = settingPageName !== null;
+    const { setSettings } = useSettings();
+    const router = useRouter();
     const fetchProfile = async () => {
-        const settings: SettingsObject = await getProfile();
-        setSettings(settings);
+        const response: genericResponse<SettingResponse> = await getProfile();
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            if (
+                failApiResponse?.error?.statusCode === 401 ||
+                failApiResponse?.error?.statusCode === 404
+            ) {
+                router.push("/login");
+            } else router.push("Error");
+        } else {
+            const data: SettingResponse = (response as successResponse<SettingResponse>).data;
+            const user: SettingsObject = data.user;
+            setSettings(user);
+        }
     };
     useEffect(() => {
-        fetchProfile()
-    },[])
+        if (isShowSettings) {
+            fetchProfile();
+        }
+    }, [isShowSettings]);
     return (
-        <div className={`bg-white text-black dark:bg-black dark:text-white text-lg  w-full md:w-1/3 p-4 ${!isShowSettings && "hidden"} overflow-y-auto custom-scrollbar max-h-screen`}>
+        <div
+            className={`w-full bg-white p-4 text-lg text-black dark:bg-black dark:text-white md:w-2/3 lg:w-1/3 ${!isShowSettings && "hidden"} custom-scrollbar max-h-screen overflow-y-auto`}
+        >
             <PersonalSettings />
             <Block />
             <Devices />
             <ProfileUpdate />
             <Privacy />
             <PrivacySecurity />
-            <Storage/>
+            <Storage />
         </div>
     );
 }

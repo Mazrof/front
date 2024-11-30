@@ -1,10 +1,13 @@
 import apiHandler from "@/lib/apiHandler";
+import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
-import { UserToken } from "@/types/user";
-import { BlockUser } from "@/types/user";
-const server = "http://localhost:4000";
+import { BlockListResponse, UserToken } from "@/types/user";
+const server = `${process.env.NEXT_SERVER_IP}api/v1/auth`;
 
-export async function LoginWithEmail(email: string, password: string): Promise<UserToken> {
+export async function LoginWithEmail(
+    email: string,
+    password: string
+): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
         endpoint: `${server}/login`,
         method: "POST",
@@ -13,14 +16,35 @@ export async function LoginWithEmail(email: string, password: string): Promise<U
         headers: {
             "Content-Type": "application/json",
         },
+        credentials: "include",
     };
     const response = await apiHandler(request);
-    return {
-        access_token: response.email,
-        refresh_token: response.password,
-    };
+    return response;
 }
-export async function LoginWithOauth(code: string, oathType: string): Promise<UserToken> {
+export async function SignupWithEmail(
+    name: string,
+    username: string,
+    // phonenumber: string,
+    email: string,
+    password: string
+) {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/signup`,
+        method: "POST",
+        cache: "no-store",
+        body: { email, password, username },
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    };
+    const response = await apiHandler(request);
+    return response;
+}
+export async function LoginWithOauth(
+    code: string,
+    oathType: string
+): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
         endpoint: `${server}/social-login`,
         method: "POST",
@@ -29,27 +53,53 @@ export async function LoginWithOauth(code: string, oathType: string): Promise<Us
         headers: {
             "Content-Type": "application/json",
         },
+        credentials: "include",
     };
     const response = await apiHandler(request);
-    return {
-        access_token: response.provider,
-        refresh_token: response.access_token,
+    return response;
+}
+export async function SignupWithOauth(
+    code: string,
+    oauthType: string
+): Promise<genericResponse<UserToken>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/social-signup`,
+        method: "POST",
+        cache: "no-store", // to avoid caching
+        body: { provider: oauthType, access_token: code },
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
     };
+    const response = await apiHandler(request);
+    return response;
 }
 
-export async function getBlockedUsers(): Promise<BlockUser[]> {
+export async function getBlockedUsers(): Promise<genericResponse<BlockListResponse>> {
     const request: ApiRequest = {
-        endpoint: `${server}/blockedUsers`,
+        endpoint: `${server}/user/block?blockerID=1`,
         method: "GET",
         cache: "no-store", // to avoid caching
+        credentials: "include",
     };
     return await apiHandler(request);
 }
-export async function unBlockUser(userId:string): Promise<{message?:string}> {
+export async function logout(): Promise<genericResponse<null>> {
     const request: ApiRequest = {
-        endpoint: `${server}/users/${userId}/block`,
+        endpoint: `${server}/auth/logout`,
+        method: "POST",
+        cache: "no-store", // to avoid caching
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function unBlockUser(userId: string): Promise<genericResponse<null>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/user/${userId}/block?blockerID=1`,
         method: "DELETE",
         cache: "no-store",
+        credentials: "include",
     };
     return await apiHandler(request);
 }

@@ -1,18 +1,35 @@
 export type PrivacyOptionsEnum= "everyone" | "contacts" | "nobody"
 export type SettingsObject = {
+    id?:string,
     photo: string;
     screenName: string;
     username: string;
     bio: string;
     phone: string;
     email: string;
-    profilePicVisiblity: PrivacyOptionsEnum;
-    storyVisiblity: PrivacyOptionsEnum;
-    lastSeenVisiblity: PrivacyOptionsEnum;
+    profilePicVisibility: PrivacyOptionsEnum;
+    storyVisibility: PrivacyOptionsEnum;
+    lastSeenVisibility: PrivacyOptionsEnum;
     readReceiptsEnabled: PrivacyOptionsEnum;
     autoDownloadSizeLimit: number;
-    privateKey: string;
+    maxLimitFileSize: number;
+    privateKey: string|null;
     publicKey: string;
+    IsEmailVerified?: boolean;
+    IsPhoneVerified?: boolean;
+    password?: string;
+    passwordChangedAt?: Date | null;
+    status?: boolean;
+    lastSeen?: null|Date;
+    activeNow?: boolean;
+    providerType?: null;
+    providerId?: null;
+};
+export type SettingResponse = {
+    user:SettingsObject
+}
+export type UpdatedSettingResponse = {
+    updatedUser: SettingsObject;
 };
 export type UserSettings = {
     settings: null | SettingsObject;

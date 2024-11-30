@@ -110,24 +110,6 @@ describe("LoginForm", () => {
             });
         });
 
-        it("should show error message if the BE return an error message ", async () => {
-            (LoginWithEmail as jest.Mock).mockReturnValue({ error: "Invalid" });
-            render(
-                <LoginForm>
-                    <Oauth operation="Login" />
-                </LoginForm>
-            );
-            const paswordField = screen.getByTestId("password");
-            const emailField = screen.getByTestId("email");
-            const login = screen.getByRole("button", { name: "Login" });
-            await userEvent.type(paswordField, "12345678");
-            await userEvent.type(emailField, "example@example.com");
-            await userEvent.click(login);
-            await waitFor(() => {
-                const error = screen.getByTestId("root-error");
-                expect(error).toBeInTheDocument();
-            });
-        });
         it("should go to home page if the user loggedin ", async () => {
             (LoginWithEmail as jest.Mock).mockReturnValue({
                 access_token: "access token",

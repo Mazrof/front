@@ -8,6 +8,7 @@ import GlobalSearchSideBar from "@/components/GlobalSearch/GlobalSearchSideBar";
 import Settings from "@/components/Settings/Settings";
 import SideBar from "@/components/SideBar/SideBar";
 import { Suspense, useState } from "react";
+
 export default function Home() {
     const [showContacts, setShowContacts] = useState(false);
     const [showGlobalSearch, setShowGlobalSearch] = useState(false);
@@ -20,8 +21,8 @@ export default function Home() {
         setShowContacts: setShowContacts,
         showGlobalSearch: showGlobalSearch,
         setShowGlobalSearch: setShowGlobalSearch,
-        setChat: setChat,
     };
+  
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? (
