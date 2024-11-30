@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useSettings } from "@/store/settings";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AvatarPhoto } from "./Avatar";
@@ -11,13 +11,42 @@ import { updateProfile } from "@/services/Settings";
 import { convertToBase64 } from "@/utils/inputMessage";
 import { SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { PhoneInput } from "../Auth/PhoneNumber";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 const ProfileSchema = z.object({
     email: z.string().email(),
     photo: z.string(),
-    phone: z.string().min(11),
-    username: z.string().min(5),
-    screenName: z.string().min(3),
+    phone: z.string().refine(
+        (value) => {
+            const phoneNumber = parsePhoneNumberFromString(value); // No country specified
+            return phoneNumber && phoneNumber.isValid(); // Validates internationally
+        },
+        {
+            message: "Invalid phone number",
+        }
+    ),
     bio: z.string(),
+    screenName: z
+        .string()
+        .min(1, { message: "Screen Name is required" })
+        .min(3, { message: "Screen Name must have at least 3 characters" })
+        .max(50, { message: "Screen Name cannot be longer than 50 characters" })
+        .regex(/^[a-zA-Z0-9\s]+$/, {
+            message: "Screen Name can only contain letters, numbers, and spaces",
+        })
+        .regex(/[a-zA-Z]/, {
+            message: "Screen Name must contain at least one letter",
+        }),
+    username: z
+        .string()
+        .min(1, { message: "Username is required" })
+        .min(3, { message: "Username must have at least 3 characters" })
+        .max(30, { message: "Username cannot be longer than 30 characters" })
+        .regex(/^[a-z0-9_]+$/, {
+            message:
+                "Username can only contain english small alphanumeric characters, underscores and numbers",
+        }),
 });
 
 type ProfileFormFields = z.infer<typeof ProfileSchema>;
@@ -27,6 +56,7 @@ function ProfileForm() {
     const [isError, setIsError] = useState(false);
     const { settings, setSettings } = useSettings();
     const {
+        control,
         register,
         reset,
         trigger,
@@ -48,8 +78,8 @@ function ProfileForm() {
     }
     async function callDB(updates: { [x: string]: string }, fieldName: string) {
         const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
-        console.log(response)
-        if (response.status === "fail"||response.status==="error") {
+        console.log(response);
+        if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             if (
                 failApiResponse?.error?.statusCode === 401 ||
@@ -174,7 +204,22 @@ function ProfileForm() {
             <div className="flex flex-col gap-2">
                 <label>Phone</label>
                 <div className="profile-form-field">
-                    <input type="text" {...register("phone")} className="profile-form-input" />
+                    <Controller
+                        name="phone"
+                        control={control}
+                        rules={{
+                            required: "Phone number is required",
+                            validate: (value) =>
+                                (value?.length > 0 && value?.length < 12) ||
+                                "Please enter a valid phone number",
+                        }}
+                        render={({ field }) => {
+                            return (
+                                <PhoneInput id="Phone" {...field}  />
+                            );
+                        }}
+                    />
+
                     <button
                         type="button"
                         title="save"
