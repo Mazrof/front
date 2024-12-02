@@ -8,7 +8,7 @@ export async function getContactsList() {
         endpoint: `${server}/contactsList`,
         method: "GET",
         cache: "no-store", // Avoid caching
-        credentials: "include",
+        // credentials: "include",
     };
     return await apiHandler(request);
 }
@@ -17,7 +17,7 @@ export async function getChatsList() {
         endpoint: `${server}/chatsList`,
         method: "GET",
         cache: "no-store", // Avoid caching
-        credentials: "include",
+        // credentials: "include",
     };
     return await apiHandler(request);
 }

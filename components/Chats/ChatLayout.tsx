@@ -6,8 +6,9 @@ import { MessageImage } from "./Message/MessageImage";
 import { MessageText } from "./Message/MessageText";
 import { MessageCreatedAt } from "./Message/MessageCreatedAt";
 import { MessageVideo } from "./Message/MessageVideo";
+import { getMessages } from "@/services/Messages";
 async function ChatLayout() {
-    const messages: MessageType[] = [];
+    const messages: MessageType[] = await getMessages();
     const renderedMessages = (
         <div className="mb-32 max-h-[85vh] overflow-y-scroll transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
             <div className="container mx-auto w-1/2 px-4 lg:w-1/3">
