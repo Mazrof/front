@@ -12,6 +12,7 @@ function DisplayInfoList() {
                     infoType: "email",
                     infoContent: settings?.email,
                     icon: <Mail className="settings-icons" />,
+                    dataTest: "settings-email",
                 }}
             />
 
@@ -20,6 +21,7 @@ function DisplayInfoList() {
                     infoType: "phone",
                     infoContent: settings?.phone,
                     icon: <Phone className="settings-icons" />,
+                    dataTest: "settings-phone",
                 }}
             />
 
@@ -28,6 +30,7 @@ function DisplayInfoList() {
                     infoType: "UserName",
                     infoContent: settings?.username,
                     icon: <AtSign className="settings-icons" />,
+                    dataTest: "settings-username",
                 }}
             />
 
@@ -36,6 +39,7 @@ function DisplayInfoList() {
                     infoType: "bio",
                     infoContent: settings?.bio,
                     icon: <Info className="settings-icons" />,
+                    dataTest: "settings-bio",
                 }}
             />
         </div>

@@ -90,9 +90,12 @@ function ChannelDialog() {
                             id="name"
                             placeholder="Enter channel name"
                             className="w-full border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                            data-test="channel-name"
                         />
                         {errors.name && (
-                            <p className="text-sm text-red-500">{errors.name.message}</p>
+                            <p className="text-sm text-red-500" data-test="channel-name-error">
+                                {errors.name.message}
+                            </p>
                         )}
                     </div>
 
@@ -112,6 +115,7 @@ function ChannelDialog() {
                                             value="false"
                                             id="public"
                                             className="text-blue-500 dark:text-blue-400"
+                                            data-test="channel-privacy-public"
                                         />
                                         <Label
                                             htmlFor="public"
@@ -125,6 +129,7 @@ function ChannelDialog() {
                                             value="true"
                                             id="private"
                                             className="text-blue-500 dark:text-blue-400"
+                                            data-test="channel-privacy-private"
                                         />
                                         <Label
                                             htmlFor="private"
@@ -146,6 +151,7 @@ function ChannelDialog() {
                             {...register("canAddComments")}
                             id="canAddComments"
                             className="text-blue-500 dark:text-blue-400"
+                            data-test="channel-canAddComments"
                         />
                         <Label
                             htmlFor="canAddComments"
@@ -168,6 +174,7 @@ function ChannelDialog() {
                                             value={member.id?.toString()}
                                             id={`admin-${member.id}`}
                                             className="text-blue-500 dark:text-blue-400"
+                                            data-test="channel-selectAdmins"
                                         />
                                         <Label
                                             htmlFor={`admin-${member.id}`}
@@ -191,7 +198,12 @@ function ChannelDialog() {
                     )}
                     <DialogFooter className="mt-4">
                         <DialogClose asChild>
-                            <Button type="button" variant="outline" className="mr-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="mr-2"
+                                data-test="channel-cancelButton"
+                            >
                                 Cancel
                             </Button>
                         </DialogClose>
@@ -199,6 +211,7 @@ function ChannelDialog() {
                             type="submit"
                             disabled={isSubmitting}
                             className="bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
+                            data-test="channel-createButton"
                         >
                             {isSubmitting ? (
                                 <>

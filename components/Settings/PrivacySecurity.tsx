@@ -33,10 +33,11 @@ function PrivacySecurity() {
                         Blocked Users
                     </button>
                 </div>
-                <div className="flex w-full flex-col  gap-6">
+                <div className="flex w-full flex-col gap-6">
                     <h2 className="text-violet-500">Privacy</h2>
                     <button
                         className="settings-who-can"
+                        data-test="settings-privacySecurity-seeStory"
                         onClick={(event) =>
                             handleWhoCan(
                                 event,
@@ -52,6 +53,7 @@ function PrivacySecurity() {
 
                     <button
                         className="settings-who-can"
+                        data-test="settings-privacySecurity-seePhoto"
                         onClick={(event) =>
                             handleWhoCan(
                                 event,
@@ -64,8 +66,10 @@ function PrivacySecurity() {
                         <h2>Who can see my profile photo?</h2>
                         <h3>{settings?.profilePicVisibility}</h3>
                     </button>
+
                     <button
                         className="settings-who-can"
+                        data-test="settings-privacySecurity-seeLastSeen"
                         onClick={(event) =>
                             handleWhoCan(
                                 event,
@@ -78,8 +82,10 @@ function PrivacySecurity() {
                         <h2>Who can see my Last seen time?</h2>
                         <h3>{settings?.lastSeenVisibility}</h3>
                     </button>
+                    
                     <button
                         className="settings-who-can"
+                        data-test="settings-privacySecurity-seeReadReceipts"
                         onClick={(event) =>
                             handleWhoCan(
                                 event,

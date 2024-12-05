@@ -7,7 +7,7 @@ import logo from "../../public/images/logo.jpg";
 import { useSelectedChatId } from "@/store/user";
 import { useState } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
-import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
+// import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
 type InfoChatBarProps = {
     name: string;
     lastSeen: string;
@@ -39,13 +39,26 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                     <button
                         className="rounded-full hover:bg-gray-300"
                         onClick={(event) => handleOnClickArrow(event)}
+                        // data-test="chatList-chatRoom-LeftArrowButton"
                     >
                         <LeftArrowIcon />
                     </button>
-                    <Image className="rounded-full" src={logo} alt="logo" width={50} height={50} />
+                    <Image
+                        data-test="chatList-chatRoom-image"
+                        className="rounded-full"
+                        src={logo}
+                        alt="logo"
+                        width={50}
+                        height={50}
+                    />
                     <div className="flex flex-col">
-                        <p className="font-semibold">{name}</p>
-                        <p className="text-gray-700"> {`last seen was ${lastSeen} am`}</p>
+                        <p className="font-semibold" data-test="chatList-chatRoom-name">
+                            {name}
+                        </p>
+                        <p className="text-gray-700" data-test="chatList-chatRoom-lastSeen">
+                            {" "}
+                            {`last seen was ${lastSeen} am`}
+                        </p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -63,9 +76,7 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                             </span>
                         </a>
                     </div>
-                    <button className="call-bar">
-                        <GroupDropDownMenu />
-                    </button>
+                    <button className="call-bar">{/* <GroupDropDownMenu  /> */}</button>
                 </div>
             </div>
         </>

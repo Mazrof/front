@@ -6,21 +6,29 @@ import { handleOnClick } from "@/utils/settings";
 function SettingsOptions() {
     const { setPageName } = useSettingsPageType();
 
-   
     return (
         <div className="flex w-full flex-col items-start gap-3">
-            <button className="flex gap-6" onClick={(event) => handleOnClick(event, "Storage",setPageName)}>
+            <button
+                className="flex gap-6"
+                onClick={(event) => handleOnClick(event, "Storage", setPageName)}
+                data-test="settings-storageButton"
+            >
                 <Database className="settings-icons" />
                 <h2>Data and Storage</h2>
             </button>
             <button
                 className="flex gap-6"
-          onClick={(event) => handleOnClick(event, "Privacy Settings", setPageName)}
+                onClick={(event) => handleOnClick(event, "Privacy Settings", setPageName)}
+                data-test="settings-privacySecurityButton"
             >
                 <Lock className="settings-icons" />
                 <h2>Privacy and Security</h2>
             </button>
-        <button className="flex gap-6" onClick={(event) => handleOnClick(event, "Devices", setPageName)}>
+            <button
+                className="flex gap-6"
+                onClick={(event) => handleOnClick(event, "Devices", setPageName)}
+                data-test="settings-devicesButton"
+            >
                 <HardDrive className="settings-icons" />
                 <h2>Devices</h2>
             </button>

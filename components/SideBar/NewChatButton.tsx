@@ -15,6 +15,7 @@ export default function NewChatButton() {
             <button
                 onClick={toggleMenu}
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition hover:bg-blue-600 focus:outline-none"
+                data-test="newChatButton"
             >
                 {isMenuOpen ? (
                     <svg
@@ -46,13 +47,22 @@ export default function NewChatButton() {
             {isMenuOpen && (
                 <div className="absolute -top-36 right-0 z-10 w-48 rounded-lg bg-[#f3f3f3] py-2 text-slate-700 shadow-lg dark:bg-[#201f1f] dark:text-gray-100">
                     <ul>
-                        <li className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                        <li
+                            className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            data-test="newChatButton-channel"
+                        >
                             <ChannelDialog />
                         </li>
-                        <li className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                        <li
+                            className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            data-test="newChatButton-group"
+                        >
                             <GroupDialog />
                         </li>
-                        <li className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                        <li
+                            className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            data-test="newChatButton-message"
+                        >
                             New Message
                         </li>
                     </ul>

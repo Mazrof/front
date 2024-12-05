@@ -33,6 +33,7 @@ export default function CreateStory() {
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Write your story here..."
                 className="w-full bg-transparent text-center text-2xl text-white focus:outline-none"
+                data-test="story-text"
             />
             <div className="mt-4 flex gap-4">
                 {colors.map((clr) => (
@@ -41,15 +42,21 @@ export default function CreateStory() {
                         onClick={() => setColor(clr)}
                         style={{ backgroundColor: clr }}
                         className="h-8 w-8 rounded-full"
+                        data-test="story-color"
                     ></button>
                 ))}
             </div>
-            <button onClick={handleSubmit} className="mt-4 mb-4 ml-4 rounded bg-white p-2 text-black">
+            <button
+                onClick={handleSubmit}
+                className="mb-4 ml-4 mt-4 rounded bg-white p-2 text-black"
+                data-test="story-submitButton"
+            >
                 Submit Story
             </button>
             <button
                 onClick={() => router.push("/stories")}
                 className="mb-4 ml-4 rounded-lg bg-red-600 p-4 text-white"
+                data-test="story-goToStories"
             >
                 Go to Stories
             </button>

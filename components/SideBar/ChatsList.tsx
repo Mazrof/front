@@ -127,6 +127,7 @@ const ChatList = () => {
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                     onClick={() => setChatId(String(chat.id))}
+                    data-test="chatList-chat"
                 >
                     {hasImage && index % 2 == 0 ? (
                         <Image
@@ -135,35 +136,53 @@ const ChatList = () => {
                             width={50}
                             height={50}
                             className="rounded-full object-cover"
+                            data-test="chatList-chat-avatar"
                         />
                     ) : (
-                        <div className="rounded-full object-cover">
+                        <div className="rounded-full object-cover" data-test="chatList-chat-avatar">
                             <Avatar name={chat.name} />
                         </div>
                     )}
                     <div className="ml-4 flex-grow">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold text-black dark:text-white">
+                            <h3
+                                className="text-lg font-semibold text-black dark:text-white"
+                                data-test="chatList-chat-name"
+                            >
                                 {chat.name}
                             </h3>
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                            <span
+                                className="text-xs text-gray-400 dark:text-gray-500"
+                                data-test="chatList-chat-lastSeen"
+                            >
                                 {chat.time}
                             </span>
                         </div>
                         <div className="flex items-center justify-between">
-                            <p className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400">
+                            <p
+                                className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400"
+                                data-test="chatList-chat-lastMessage"
+                            >
                                 {chat.lastMessage}
                             </p>
                             <div className="flex min-w-7 items-center space-x-1">
                                 {chat.unreadCount > 0 ? (
-                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white">
+                                    <span
+                                        className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white"
+                                        data-test="chatList-chat-unReadCount"
+                                    >
                                         {chat.unreadCount}
                                     </span>
                                 ) : (
-                                    <span>✔️</span>
+                                    <span data-test="chatList-chat-lastMessageStatus">✔️</span>
                                 )}
                                 {chat.pinned && (
-                                    <span className="rounded-full hover:bg-slate-600">📌</span>
+                                    <span
+                                        className="rounded-full hover:bg-slate-600"
+                                        data-test="chatList-chat-pinned"
+                                    >
+                                        📌
+                                    </span>
                                 )}
                             </div>
                         </div>
