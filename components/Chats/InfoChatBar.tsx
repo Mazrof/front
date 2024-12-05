@@ -7,7 +7,7 @@ import logo from "../../public/images/logo.jpg";
 import { useSelectedChatId } from "@/store/user";
 import { useState } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
-import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
+// import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
 import ChannelDropDownMenu from "../Channels/ChannelDropDownMenu";
 type InfoChatBarProps = {
     name: string;

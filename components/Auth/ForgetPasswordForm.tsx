@@ -6,6 +6,9 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 
 import { useOTPContext } from "@/store/OTPContext";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { toast } from "@/hooks/use-toast";
+import { resetPassword } from "@/services/User";
 export default function EmailInputForm() {
     const { setOTPContext } = useOTPContext();
     const emailSchema = z.object({
@@ -16,18 +19,32 @@ export default function EmailInputForm() {
     const router = useRouter();
     const {
         register,
+        setError,
         handleSubmit,
         formState: { errors },
     } = useForm<EmailSchema>({
         resolver: zodResolver(emailSchema),
     });
+    const setErrorRoot = (message: string) => {
+        setError("root", {
+            type: "manual",
+            message,
+        });
+    };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onSubmit: SubmitHandler<EmailSchema> = async ({ email }) => {
-        // here comes the link we sent to backend.
-        console.log(email);
-        setOTPContext("resetPassword", email);
-        router.push("/verification");
+        const response: genericResponse<{ message: string }> = await resetPassword(email);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            const successApiResponse = response as successResponse<{ message: string }>;
+            toast({
+                title: "Reset Password",
+                description: successApiResponse.data.message,
+                duration: 5000,
+            });
+        }
     };
 
     return (
@@ -51,6 +68,11 @@ export default function EmailInputForm() {
                 <button className="auth-buttons my-4 bg-blue-900 text-white" type="submit">
                     Reset password
                 </button>
+                {errors.root && (
+                    <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                        {errors.root.message}
+                    </div>
+                )}
             </form>
             <div className="mt-4 flex items-center justify-center gap-2">
                 <span className="block w-4 text-blue-900">
