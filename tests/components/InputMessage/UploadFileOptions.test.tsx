@@ -1,6 +1,5 @@
 import { screen, render, waitFor, fireEvent } from "@testing-library/react";
 import UploadFilesOption from "@/components/Chats/InputMessage/UploadFileOptions";
-import { useRouter } from "next/navigation";
 const testFile = new File(["file content"], "test-file.txt", {
     type: "text/plain",
 });
