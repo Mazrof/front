@@ -29,11 +29,10 @@ function SideBar(sideBarProp: SideBarProp) {
     if (settingPageName) {
         return null; // Return nothing when settings page is active
     }
-    return (        
-      <div
-            className={`${isSelectedChat && "hidden md:block"} sm:w-full md:w-1/4 ${settingPageName && "hidden"}`}
+    return (
+        <div
+            className={`${isSelectedChat && "hidden md:block"} sm:w-full md:w-1/3 ${settingPageName && "hidden"}`}
         >
-
             <div
                 className={`group relative max-h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
             >

@@ -8,6 +8,7 @@ import { useSelectedChatId } from "@/store/user";
 import { useState } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
 import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
+import ChannelDropDownMenu from "../Channels/ChannelDropDownMenu";
 type InfoChatBarProps = {
     name: string;
     lastSeen: string;
@@ -64,7 +65,7 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                         </a>
                     </div>
                     <button className="call-bar">
-                        <GroupDropDownMenu />
+                        <ChannelDropDownMenu />
                     </button>
                 </div>
             </div>
