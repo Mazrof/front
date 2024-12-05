@@ -37,28 +37,8 @@ export default function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onSubmit: SubmitHandler<ResetPasswordFormData> = async ({ password }) => {
-        const [token, userId] = [searchParams.get("token") || "", searchParams.get("id") || ""]; //fallback to avoid null type
-        const body = {
-            token,
-            userId: Number(userId),
-            newPassword: password,
-        };
-        const response: genericResponse<{ message: string }> = await changePassword(body);
-        if (response.status === "fail") {
-            const failApiResponse = response as failResponse;
-            setErrorRoot(failApiResponse.message);
-        } else {
-            const successApiResponse = response as successResponse<{ message: string }>;
-            toast({
-                title: "You have Now New password ",
-                description: successApiResponse.data.message,
-                duration: 1500,
-            });
-            setTimeout(() => {
-                router.push("/login");
-            }, 1750);
-        }
+    const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
+        // Here you can send the data to the server and reset your password
     };
 
     return (
