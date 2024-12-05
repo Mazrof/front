@@ -3,6 +3,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter, useSearchParams } from "next/navigation";
+import { changePassword } from "@/services/User";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { toast } from "@/hooks/use-toast";
 
 export default function ResetPasswordForm() {
     const passwordSchema = z
@@ -17,15 +21,44 @@ export default function ResetPasswordForm() {
     type ResetPasswordFormData = z.infer<typeof passwordSchema>;
     const {
         register,
+        setError,
         handleSubmit,
         formState: { errors },
     } = useForm<ResetPasswordFormData>({
         resolver: zodResolver(passwordSchema),
     });
+    const setErrorRoot = (message: string) => {
+        setError("root", {
+            type: "manual",
+            message,
+        });
+    };
 
+    const searchParams = useSearchParams();
+    const router = useRouter();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
-        // Here you can send the data to the server and reset your password
+    const onSubmit: SubmitHandler<ResetPasswordFormData> = async ({ password }) => {
+        const [token, userId] = [searchParams.get("token") || "", searchParams.get("id") || ""]; //fallback to avoid null type
+        const body = {
+            token,
+            userId: Number(userId),
+            newPassword: password,
+        };
+        const response: genericResponse<{ message: string }> = await changePassword(body);
+        if (response.status === "fail") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            const successApiResponse = response as successResponse<{ message: string }>;
+            toast({
+                title: "You have Now New password ",
+                description: successApiResponse.data.message,
+                duration: 1500,
+            });
+            setTimeout(() => {
+                router.push("/login");
+            }, 1750);
+        }
     };
 
     return (
@@ -59,6 +92,11 @@ export default function ResetPasswordForm() {
             <button className="auth-buttons my-4 bg-blue-950 text-white" type="submit">
                 Update Password
             </button>
+            {errors.root && (
+                <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                    {errors.root.message}
+                </div>
+            )}
         </form>
     );
 }
