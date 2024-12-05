@@ -42,7 +42,7 @@ export async function getChatsList() {
 // }
 export async function sendQuery(query: string) {
     const request: ApiRequest = {
-        endpoint: `${process.env.NEXT_SERVER_IP}/api/v1/search/?query=${query}`, // Adjust to filter data by name
+        endpoint: `${process.env.NEXT_SERVER_IP}api/v1/search/?query=${query}`, // Adjust to filter data by name
         method: "GET", // Use GET to filter data directly
         cache: "no-store",
         credentials: "include",

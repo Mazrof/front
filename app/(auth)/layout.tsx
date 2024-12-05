@@ -11,7 +11,7 @@ export default function AuthLayout({
                     Your world is just one chat away!
                 </p>
             </div>
-            <div className="flex h-3/4 w-1/2 flex-col items-center justify-around rounded-2xl border-2 bg-white pt-3 text-blue-900 shadow-lg lg:w-1/3">
+            <div className="flex h-3/4 flex-col items-center justify-center rounded-2xl border-2 bg-white pt-3 text-blue-900 shadow-lg sm:w-1/2 lg:w-1/3">
                 {children}
             </div>
         </div>

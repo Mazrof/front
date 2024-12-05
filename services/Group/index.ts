@@ -1,8 +1,9 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import { JoinRequest } from "@/types/channel";
+import { MemberRole } from "@/types/user";
 import { GroupData } from "@/types/group";
 import { ApiRequest } from "@/types/request";
+import { GroupMember } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 export async function createGroup(body: GroupData): Promise<genericResponse<object>> {
     const request: ApiRequest = {
@@ -15,7 +16,9 @@ export async function createGroup(body: GroupData): Promise<genericResponse<obje
     return await apiHandler(request);
 }
 
-export async function getGroupMembers(groupId: number): Promise<genericResponse<object>> {
+export async function getGroupMembers(
+    groupId: number
+): Promise<genericResponse<{ members: GroupMember[] }>> {
     const request: ApiRequest = {
         endpoint: `${server}/groups/${groupId}/members`,
         method: "GET",
@@ -49,7 +52,7 @@ export async function addAdminsToGroup(body: object, groupId: number) {
     return await apiHandler(request);
 }
 export async function addMembersToGroup(
-    body: JoinRequest,
+    body: MemberRole,
     groupId: number
 ): Promise<genericResponse<object>> {
     const request: ApiRequest = {

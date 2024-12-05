@@ -1,7 +1,8 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import { ChannelData, JoinRequest } from "@/types/channel";
+import { ChannelData } from "@/types/channel";
 import { ApiRequest } from "@/types/request";
+import { ChannelMember, MemberRole } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 export async function createChannel(body: ChannelData): Promise<genericResponse<object>> {
     const request: ApiRequest = {
@@ -13,7 +14,9 @@ export async function createChannel(body: ChannelData): Promise<genericResponse<
     };
     return await apiHandler(request);
 }
-export async function getChannelMembers(channelId: number): Promise<genericResponse<object>> {
+export async function getChannelMembers(
+    channelId: number
+): Promise<genericResponse<{ members: ChannelMember[] }>> {
     const request: ApiRequest = {
         endpoint: `${server}/channels/${channelId}/members`,
         method: "GET",
@@ -47,7 +50,7 @@ export async function addAdminsToChannel(body: object, channelId: number) {
     return await apiHandler(request);
 }
 export async function addMembersToChannel(
-    body: JoinRequest,
+    body: MemberRole,
     channelId: number
 ): Promise<genericResponse<object>> {
     const request: ApiRequest = {

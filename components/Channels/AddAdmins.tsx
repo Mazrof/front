@@ -1,5 +1,5 @@
 import { useChannelMembers } from "@/hooks/useChannelMembers";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -11,8 +11,9 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Member } from "@/hooks/useChannelMembers";
 import { addAdminsToChannel } from "@/services/Channel";
+import { ChannelMember } from "@/types/user";
+import { Checkbox } from "../ui/checkbox";
 
 const adminSchema = z.object({
     selectedAdmins: z
@@ -38,16 +39,36 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
     const { members, loading, error } = useChannelMembers(channelId);
 
     const {
-        control,
+        register,
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
+        setValue,
+        getValues,
     } = useForm<AdminFormInputs>({
         resolver: zodResolver(adminSchema),
         defaultValues: {
             selectedAdmins: [],
         },
     });
+    const toggleAdmin = (userId: number) => {
+        const selected = getValues("selectedAdmins");
+        const index = selected.findIndex((admin) => admin.userId === userId);
+
+        if (index > -1) {
+            // Remove admin
+            selected.splice(index, 1);
+        } else {
+            // Add admin
+            selected.push({
+                userId,
+                role: "admin",
+                hasDownloadPermissions: false,
+            });
+        }
+
+        setValue("selectedAdmins", selected, { shouldValidate: true });
+    };
 
     const onSubmit: SubmitHandler<AdminFormInputs> = async (data) => {
         try {
@@ -86,53 +107,27 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
                                 <p className="mb-2 text-gray-600 dark:text-gray-300">
                                     Select users to make them admins:
                                 </p>
-                                <Controller
-                                    name="selectedAdmins"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <div className="space-y-2">
-                                            {members.map((member: Member) => (
-                                                <div key={member.id} className="flex items-center">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`member-${member.id}`}
-                                                        value={member.id}
-                                                        checked={field.value.some(
-                                                            (selected) =>
-                                                                selected.userId === member.id
-                                                        )}
-                                                        onChange={(e) => {
-                                                            const selected = [...field.value];
-                                                            if (e.target.checked) {
-                                                                selected.push({
-                                                                    userId: member.id,
-                                                                    role: "admin",
-                                                                    hasDownloadPermissions: false,
-                                                                });
-                                                            } else {
-                                                                const index = selected.findIndex(
-                                                                    (item) =>
-                                                                        item.userId === member.id
-                                                                );
-                                                                if (index > -1) {
-                                                                    selected.splice(index, 1);
-                                                                }
-                                                            }
-                                                            field.onChange(selected);
-                                                        }}
-                                                        className="mr-2"
-                                                    />
-                                                    <label
-                                                        htmlFor={`member-${member.id}`}
-                                                        className="text-gray-800 dark:text-gray-200"
-                                                    >
-                                                        {member.name}
-                                                    </label>
-                                                </div>
-                                            ))}
+                                <div className="space-y-2">
+                                    {members?.map((member: ChannelMember) => (
+                                        <div key={member.userId} className="flex items-center">
+                                            <Checkbox
+                                                id={`member-${member.userId}`}
+                                                checked={getValues("selectedAdmins").some(
+                                                    (selected) => selected.userId === member.userId
+                                                )}
+                                                onCheckedChange={() => toggleAdmin(member.userId)}
+                                                {...register("selectedAdmins")}
+                                                className="mr-2"
+                                            />
+                                            <label
+                                                htmlFor={`member-${member.userId}`}
+                                                className="text-gray-800 dark:text-gray-200"
+                                            >
+                                                {member.users.username}
+                                            </label>
                                         </div>
-                                    )}
-                                />
+                                    ))}
+                                </div>
                                 {errors.selectedAdmins && (
                                     <p className="mt-1 text-sm text-red-500">
                                         {errors.selectedAdmins.message}
