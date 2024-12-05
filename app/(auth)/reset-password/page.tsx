@@ -1,5 +1,7 @@
+import FormLoading from "@/components/Auth/FormLoading";
 import ResetPasswordForm from "@/components/Auth/ResetPasswordForm";
 import Image from "next/image";
+import { Suspense } from "react";
 export default function ResetPasswordPage() {
     return (
         <main className="flex items-center justify-center">
@@ -12,12 +14,14 @@ export default function ResetPasswordPage() {
                     className="rounded-full"
                 />
 
-                <h2 className="mb-5 text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="mb-5 text-3xl font-semibold text-blue-800 dark:text-white">
                     Reset Password
                 </h2>
-                <section className="mt-2 w-3/4">
-                    <ResetPasswordForm />
-                </section>
+                <Suspense fallback={<FormLoading />}>
+                    <section className="mt-2 w-3/4">
+                        <ResetPasswordForm />
+                    </section>
+                </Suspense>
             </div>
         </main>
     );

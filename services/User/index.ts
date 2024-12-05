@@ -32,7 +32,7 @@ export async function SignupWithEmail(
         endpoint: `${server}/auth/signup`,
         method: "POST",
         cache: "no-store",
-        body: { email, password,phone, username },
+        body: { email, password, phone, username },
         headers: {
             "Content-Type": "application/json",
         },
@@ -64,6 +64,30 @@ export async function unBlockUser(userId: string): Promise<genericResponse<null>
         endpoint: `${server}/user/${userId}/block?blockerID=1`,
         method: "DELETE",
         cache: "no-store",
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function resetPassword(email: string): Promise<genericResponse<{ message: string }>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/request-password-reset`,
+        method: "POST",
+        cache: "no-store",
+        body: { email }, // to avoid caching
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function changePassword(body: {
+    userId: number;
+    token: string;
+    newPassword: string;
+}): Promise<genericResponse<{ message: string }>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/reset-password`,
+        method: "POST",
+        cache: "no-store",
+        body,
         credentials: "include",
     };
     return await apiHandler(request);

@@ -3,7 +3,3 @@ export type ChannelData = {
     canAddComments: boolean;
     privacy: boolean;
 };
-
-export type JoinRequest = {
-    role: "member" | "admin";
-};

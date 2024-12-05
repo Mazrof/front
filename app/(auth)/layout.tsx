@@ -12,6 +12,7 @@ export default function AuthLayout({
                 </p>
             </div>
             <div className="flex h-3/4 md:w-1/2 w-3/4 flex-col items-center justify-around rounded-2xl border-2 bg-white pt-3 text-blue-900 shadow-lg lg:w-1/3">
+
                 {children}
             </div>
         </div>

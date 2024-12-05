@@ -1,14 +1,10 @@
 import { getChannelMembers } from "@/services/Channel";
-import { successResponse } from "@/types/api";
+import { genericResponse, successResponse } from "@/types/api";
+import { ChannelMember } from "@/types/user";
 import { useEffect, useState } from "react";
 
-export interface Member {
-    id: number;
-    name: string;
-}
-
 export function useChannelMembers(channelId: number) {
-    const [members, setMembers] = useState<Member[]>([]);
+    const [members, setMembers] = useState<ChannelMember[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -16,10 +12,13 @@ export function useChannelMembers(channelId: number) {
         const fetchMembers = async () => {
             try {
                 setLoading(true);
-                const response = await getChannelMembers(channelId);
+                const response: genericResponse<{ members: ChannelMember[] }> =
+                    await getChannelMembers(channelId);
                 if (response.status === "success") {
-                    const successApiResponse = response as successResponse<object>;
-                    setMembers(successApiResponse.data as Member[]);
+                    const successApiResponse = response as successResponse<{
+                        members: ChannelMember[];
+                    }>;
+                    setMembers(successApiResponse.data.members);
                 } else {
                     setError("Failed to fetch members.");
                 }

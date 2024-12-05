@@ -13,16 +13,16 @@ import InviteLinkDialog from "./InviteLink";
 import { addMembersToChannel } from "@/services/Channel";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
-import { JoinRequest } from "@/types/channel";
+import { MemberRole } from "@/types/user";
 
 export default function ChannelDropDownMenu() {
     const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
-    const channelId: number = 1;
+    const channelId: number = 16;
     const handleJoiningChannel = async () => {
         try {
-            const body: JoinRequest = { role: "member" };
+            const body: MemberRole = { role: "member" };
             const response = await addMembersToChannel(body, channelId);
 
             if (response.status === "fail") {

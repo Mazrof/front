@@ -30,11 +30,11 @@ export type BlockUser = {
     id: string;
     photo: string;
     username: string;
-    phone?:string
+    phone?: string;
 };
-export type BlockListResponse={
-    blockList:{blockedUser: BlockUser}[]
-}
+export type BlockListResponse = {
+    blockList: { blockedUser: BlockUser }[];
+};
 export type BlockUsers = {
     blockUsers: BlockUser[] | null;
     setBlockUsers: (userList: BlockUser[]) => void;
@@ -42,3 +42,22 @@ export type BlockUsers = {
 };
 
 export type User = PickTwoKeys<SettingsObject, "id", "username">;
+export type MemberRole = {
+    role: "member" | "admin";
+};
+
+type Member = {
+    active: boolean;
+    hasDownloadPermissions: boolean;
+    role: MemberRole;
+    userId: number;
+    users: {
+        username: string;
+    };
+};
+export type ChannelMember = Member & {
+    channelId: number;
+};
+export type GroupMember = Member & {
+    groupId: number;
+};
