@@ -108,7 +108,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
         router.push("/login");
     };
     return (
-        <div className="w-full max-w-md rounded-2xl bg-white p-8">
+        <div className="max-w-md rounded-2xl bg-white p-4">
             {/* Logo */}
             <div className="mb-6 flex justify-center">
                 <div className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-full bg-blue-100">
@@ -124,7 +124,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
                 {/* Name Input */}
                 <InputField
-                    id="name"
+                    id="Name"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "name" && errors.name?.message}
@@ -133,7 +133,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Username Input */}
                 <InputField
-                    id="username"
+                    id="Username"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "username" && errors.username?.message}
@@ -141,7 +141,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 />
                 {/* email*/}
                 <InputField
-                    id="email"
+                    id="Email"
                     type="text"
                     register={register}
                     error={
@@ -175,13 +175,13 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                                     errors.phoneNumber?.message
                                 }
                             />
-                        )
+                        );
                     }}
                 />
 
                 {/* Password Input */}
                 <InputField
-                    id="password"
+                    id="Password"
                     type="password"
                     register={register}
                     error={
@@ -195,7 +195,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Repeat Password Input */}
                 <InputField
-                    id="repeatPassword"
+                    id="RepeatPassword"
                     type="password"
                     register={register}
                     error={
@@ -205,11 +205,11 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     }
                     dataTest="signup-repeatPassword"
                 />
-                    {errors.root && (
-                        <div className="mx-auto mt-4  text-sm text-red-700" data-testid="root-error">
-                            {errors.root.message}
-                        </div>
-                    )}
+                {errors.root && (
+                    <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                        {errors.root.message}
+                    </div>
+                )}
                 {/* Submit Button */}
                 <button type="submit" className="btn" data-test="signup-submit">
                     Create Account

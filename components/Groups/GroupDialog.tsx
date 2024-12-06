@@ -28,8 +28,8 @@ const groupSchema = z.object({
     canAddComments: z.boolean(),
     groupSize: z
         .number()
-        .min(10, { message: "Group size must be at least 10 members" })
-        .max(1024, { message: "Group size cannot exceed 1024 members" }),
+        .min(3, { message: "Group size must be at least 3 members" })
+        .max(500000, { message: "Group size cannot exceed 500000 members" }),
     admins: z.array(z.string()), // New admins field
 });
 

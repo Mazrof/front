@@ -1,14 +1,10 @@
 import { getGroupMembers } from "@/services/Group";
-import { successResponse } from "@/types/api";
+import { genericResponse, successResponse } from "@/types/api";
+import { GroupMember } from "@/types/user";
 import { useEffect, useState } from "react";
 
-export interface Member {
-    id: number;
-    name: string;
-}
-
 export function useGroupMembers(GroupId: number) {
-    const [members, setMembers] = useState<Member[]>([]);
+    const [members, setMembers] = useState<GroupMember[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -16,10 +12,13 @@ export function useGroupMembers(GroupId: number) {
         const fetchMembers = async () => {
             try {
                 setLoading(true);
-                const response = await getGroupMembers(GroupId);
+                const response: genericResponse<{ members: GroupMember[] }> =
+                    await getGroupMembers(GroupId);
                 if (response.status === "success") {
-                    const successApiResponse = response as successResponse<object>;
-                    setMembers(successApiResponse.data as Member[]);
+                    const successApiResponse = response as successResponse<{
+                        members: GroupMember[];
+                    }>;
+                    setMembers(successApiResponse.data.members);
                 } else {
                     setError("Failed to fetch members.");
                 }

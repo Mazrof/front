@@ -5,7 +5,7 @@ import { useBlockUsers } from "@/store/user";
 import { BlockUser, BlockListResponse } from "@/types/user";
 import React, { useEffect } from "react";
 import Nav from "./Nav";
-import { AvatarPhoto } from "./Avatar";
+import  AvatarPhoto  from "./Avatar";
 import { Unlock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { genericResponse, failResponse, successResponse } from "@/types/api";

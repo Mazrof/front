@@ -11,8 +11,8 @@ function DisplayInfo({ prop }: InfoProp) {
     return (
         prop.infoContent && (
             <div className="flex w-full items-center gap-8">
-                {prop?.icon}
-                prop
+                <div data-testid="icon">{prop?.icon}</div>
+
                 <div className="flex flex-col items-start justify-center">
                     <h2 data-test={prop.dataTest}>{prop?.infoContent}</h2>
                     <h3 className="text-gray-500">{prop?.infoType}</h3>

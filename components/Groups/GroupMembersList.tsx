@@ -1,4 +1,4 @@
-// import { useGroupMembers } from "@/hooks/useGroupMembers";
+import { useGroupMembers } from "@/hooks/useGroupMembers";
 import {
     Dialog,
     DialogContent,
@@ -16,7 +16,7 @@ interface GroupMembersDialogProps {
 }
 
 export default function GroupMembersDialog({ groupId, isOpen, onClose }: GroupMembersDialogProps) {
-    // const { members, loading, error } = useGroupMembers(groupId);
+    const { members, loading, error } = useGroupMembers(groupId);
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -24,7 +24,7 @@ export default function GroupMembersDialog({ groupId, isOpen, onClose }: GroupMe
                 <DialogHeader>
                     <DialogTitle>Group Members</DialogTitle>
                 </DialogHeader>
-                {/* <div className="max-h-80 space-y-4 overflow-y-auto">
+                <div className="max-h-80 space-y-4 overflow-y-auto">
                     {loading ? (
                         <>
                             {[...Array(5)].map((_, index) => (
@@ -35,17 +35,17 @@ export default function GroupMembersDialog({ groupId, isOpen, onClose }: GroupMe
                         <p className="text-red-500">{error}</p>
                     ) : (
                         <ul className="space-y-2">
-                            {members.map((member) => (
+                            {members?.map((member) => (
                                 <li
-                                    key={member.id}
+                                    key={member.userId}
                                     className="rounded-md border bg-gray-100 p-2 dark:bg-gray-800"
                                 >
-                                    {member.name}
+                                    {member.users.username}
                                 </li>
                             ))}
                         </ul>
                     )}
-                </div> */}
+                </div>
                 <DialogFooter>
                     <Button onClick={onClose} className="bg-blue-600">
                         Close

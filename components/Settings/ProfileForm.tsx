@@ -4,7 +4,7 @@ import { useSettings } from "@/store/settings";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AvatarPhoto } from "./Avatar";
+import  AvatarPhoto  from "./Avatar";
 import { Check, Edit, Trash } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "@/services/Settings";
