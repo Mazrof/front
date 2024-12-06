@@ -35,12 +35,12 @@ export default function GroupMembersDialog({ groupId, isOpen, onClose }: GroupMe
                         <p className="text-red-500">{error}</p>
                     ) : (
                         <ul className="space-y-2">
-                            {members.map((member) => (
+                            {members?.map((member) => (
                                 <li
-                                    key={member.id}
+                                    key={member.userId}
                                     className="rounded-md border bg-gray-100 p-2 dark:bg-gray-800"
                                 >
-                                    {member.name}
+                                    {member.users.username}
                                 </li>
                             ))}
                         </ul>

@@ -15,7 +15,7 @@ const useSettingsPageType = create<SettingsPageName>((set) => ({
     setPageName: (newName: PageNameEnum) => set({ settingPageName: newName }),
 }));
 const useWhoCanAttributes = create<WhoCanAttributes>((set) => ({
-    attribute: {title:"Profile Photo",privacyName:"phot",value:"everyone"},
+    attribute: {title:"Profile Photo",privacyName:"photo",value:"everyone"},
     setWhoCanAttributes: (newValues) => {
         set({ attribute: newValues });
     },
