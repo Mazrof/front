@@ -10,7 +10,7 @@ function DisplayInfo({ prop }: InfoProp) {
     return (
         prop.infoContent && (
             <div className="flex items-center gap-8 w-full ">
-                {prop?.icon}
+                <div data-testid="icon">{prop?.icon}</div> 
 
                 <div className="flex flex-col items-start justify-center">
                     <h2>{prop?.infoContent}</h2>

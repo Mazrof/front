@@ -69,6 +69,7 @@ function Storage() {
                         step={1}
                         className="w-full"
                         onValueChange={(size: number[]) => setValueDownload(size)}
+                        data-testid="download"
                     />
                 </div>
                 <div className="flex w-full flex-col gap-5">
@@ -83,6 +84,7 @@ function Storage() {
                         step={1}
                         className="w-full"
                         onValueChange={(size: number[]) => setValueUpload(size)}
+                        data-testid="upload"
                     />
                 </div>
             </div>
