@@ -1,65 +1,29 @@
 "use client";
-
+import React from "react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 
-export default function CreateStory() {
+export default function MainPage() {
     const router = useRouter();
-    const [text, setText] = useState("");
-    const [color, setColor] = useState("blue");
-    const colors = ["blue", "green", "yellow"];
-
-    const handleSubmit = () => {
-        const story = {
-            text,
-            color,
-            createdAt: Date.now(), // Adding a timestamp
-        };
-
-        const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
-        const updatedStories = [...existingStories, story];
-        localStorage.setItem("stories", JSON.stringify(updatedStories));
-
-        router.push("/stories");
-    };
 
     return (
-        <div
-            className="flex h-screen w-screen flex-col items-center justify-center"
-            style={{ backgroundColor: color }}
-        >
-            <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Write your story here..."
-                className="w-full bg-transparent text-center text-2xl text-white focus:outline-none"
-                data-test="story-text"
-            />
-            <div className="mt-4 flex gap-4">
-                {colors.map((clr) => (
-                    <button
-                        key={clr}
-                        onClick={() => setColor(clr)}
-                        style={{ backgroundColor: clr }}
-                        className="h-8 w-8 rounded-full"
-                        data-test="story-color"
-                    ></button>
-                ))}
+        <div className="flex h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-6">
+            <h1 className="mb-10 text-4xl font-extrabold tracking-wide text-white drop-shadow-md">
+                Create a New Story
+            </h1>
+            <div className="space-x-4 space-y-4">
+                <button
+                    onClick={() => router.push("/stories/create/photo")}
+                    className="transform rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 p-5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                >
+                    Take Photo
+                </button>
+                <button
+                    onClick={() => router.push("/stories/create/write")}
+                    className="transform rounded-lg bg-gradient-to-r from-green-400 to-green-600 p-5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                >
+                    Upload Photo
+                </button>
             </div>
-            <button
-                onClick={handleSubmit}
-                className="mb-4 ml-4 mt-4 rounded bg-white p-2 text-black"
-                data-test="story-submitButton"
-            >
-                Submit Story
-            </button>
-            <button
-                onClick={() => router.push("/stories")}
-                className="mb-4 ml-4 rounded-lg bg-red-600 p-4 text-white"
-                data-test="story-goToStories"
-            >
-                Go to Stories
-            </button>
         </div>
     );
 }

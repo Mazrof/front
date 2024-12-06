@@ -1,128 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Avatar from "./Avatar";
 import { useSelectedChatId } from "@/store/user";
 import { SetChat } from "@/types/SideBar";
-const chatData = [
-    {
-        id: 1,
-        name: "John Doe",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Hey! How are you?",
-        time: "10:30 AM",
-        unreadCount: 2,
-        pinned: true,
-    },
-    {
-        id: 2,
-        name: "Jane Smith",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 3,
-        name: "Jane Smith",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 4,
-        name: "Jane Smith",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 5,
-        name: "Jane Smith",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "10:20 PM",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 6,
-        name: "Mike Tyson",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "See you tomorrow at 3!",
-        time: "2 days ago",
-        unreadCount: 5,
-        pinned: true,
-    },
-    {
-        id: 7,
-        name: "Nathan",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 0,
-        pinned: true,
-    },
-    {
-        id: 8,
-        name: "Harith",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "I will kill you watch out",
-        time: "Oct 15",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 9,
-        name: "Arther",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 1,
-        pinned: false,
-    },
-    {
-        id: 10,
-        name: "Ali",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Yesterday",
-        unreadCount: 5,
-        pinned: false,
-    },
-    {
-        id: 11,
-        name: "Ahmed",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Sep 28",
-        unreadCount: 0,
-        pinned: false,
-    },
-    {
-        id: 12,
-        name: "Jade",
-        avatar: "/images/default-avatar.gif",
-        lastMessage: "Got the files. Thanks!",
-        time: "Aug 9",
-        unreadCount: 3,
-        pinned: false,
-    },
-];
+import { getChatsList } from "@/services/Contacts/Contacts";
+import { Chat } from "@/types/SideBar";
 
 const ChatList = () => {
     const [hasImage, setHasImage] = useState(true);
     const { setChatId } = useSelectedChatId();
+    const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
 
+
+    useEffect(() => {
+        async function fetchChatsData() {
+            try {
+                const chatsData = await getChatsList();
+                setChatsList(chatsData);
+            } catch (error) {
+                console.error("Error fetching contacts:", error);
+            } 
+        }
+        fetchChatsData();
+    }, []);
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
-            {chatData.map((chat, index) => (
+            {chatsList.map((chat, index) => (
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"

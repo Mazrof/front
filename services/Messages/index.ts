@@ -27,10 +27,10 @@ const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 
 export async function getMessages(): Promise<MessageType[]> {
     const request: ApiRequest = {
-        endpoint: `${server}/messages`,
+        endpoint: `http://localhost:4000/messages`,
         method: "GET",
         cache: "no-store", // to avoid caching
-        credentials: "include",
+        // credentials: "include",
     };
     return await apiHandler(request);
 }
