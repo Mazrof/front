@@ -15,12 +15,12 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Write Env file
-        run: |
-         echo $DOR_ENV >> ./.env
-        shell: bash
-        env:
-          DOR_ENV : ${{vars.FRONT_ENV}}
+      # - name: Write Env file
+      #   run: |
+      #    echo $DOR_ENV >> ./.env
+      #   shell: bash
+      #   env:
+      #     DOR_ENV : ${{vars.FRONT_ENV}}
       - name: build image
         run: docker build -t ${{ vars.DOCKER_USERNAME }}/front-app:${{ github.run_number }} .
       - name: tag image
