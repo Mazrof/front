@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import ChatLayout from "@/components/Chats/ChatLayout";
 import ChatRoom from "@/components/Chats/ChatRoom";
 import MessageLoading from "@/components/Chats/Message/MessageLoading";
 import ContactsSideBar from "@/components/Contacts/ContactsSideBar";
@@ -33,15 +32,16 @@ export default function Home() {
                 <SideBar {...sideBarProp} />
             )}
             <Settings />
-            <Suspense
+            {/* <Suspense
                 fallback={
                     <ChatRoom>
                         <MessageLoading />
                     </ChatRoom>
                 }
             >
-                <ChatLayout />
-            </Suspense>
+                <ChatRoom />
+            </Suspense> */}
+            <ChatRoom/>
         </div>
     );
 }

@@ -4,7 +4,7 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
 };
-export type MessageType = {
+export type MessageTypeBE = {
     id?: number;
     createdAt: string;
     inputMessageMentions: null | number[];

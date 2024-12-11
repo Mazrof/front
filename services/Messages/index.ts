@@ -1,5 +1,6 @@
 import apiHandler from "@/lib/apiHandler";
-import { MessageType } from "@/types/Message";
+import { genericResponse } from "@/types/api";
+import {  MessageTypeBE } from "@/types/Message";
 import { ApiRequest } from "@/types/request";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 /**
@@ -25,9 +26,17 @@ const server = `${process.env.NEXT_SERVER_IP}api/v1`;
  * };
  */
 
-export async function getMessages(): Promise<MessageType[]> {
+export async function getMessages({
+    id,
+    page,
+    limit,
+}: {
+    id: number;
+    page: number;
+    limit: number;
+}): Promise<genericResponse<MessageTypeBE[]>> {
     const request: ApiRequest = {
-        endpoint: `http://localhost:4000/messages`,
+        endpoint: `${server}/chats/${id}?page=${page}&limit=${limit}`,
         method: "GET",
         cache: "no-store", // to avoid caching
         // credentials: "include",

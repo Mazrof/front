@@ -5,32 +5,38 @@ import Image from "next/image";
 import logo from "../../public/images/logo.jpg";
 
 import { useSelectedChatRoom } from "@/store/user";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
-// import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
 import ChannelDropDownMenu from "../Channels/ChannelDropDownMenu";
+import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
+import PersonalDropDownMenu from "../PersonalChats/PersonalDropDownMenu";
+
 type InfoChatBarProps = {
     name: string;
     lastSeen: string;
+    children?: ReactNode; // Combine both InfoChatBarProps and InfoProps
 };
-function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
-    const { setChatRoom } = useSelectedChatRoom();
 
+function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
+    const { setChatRoom } = useSelectedChatRoom();
     const [isOpen, setIsOpen] = useState(false);
+
     const openModal = () => setIsOpen(true);
 
-    function handleOnClickArrow(event: React.MouseEvent<HTMLButtonElement>) {
+    const handleOnClickArrow = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setChatRoom(null);
-    }
-    function handleVoiceCallClick(event: React.MouseEvent<HTMLDivElement>) {
+    };
+
+    const handleVoiceCallClick = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         openModal();
-    }
-    function handleVideoCallClick(event: React.MouseEvent<HTMLDivElement>) {
+    };
+
+    const handleVideoCallClick = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         openModal();
-    }
+    };
 
     return (
         <>
@@ -39,14 +45,20 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                 <div className="flex gap-6 hover:bg-gray-200 hover:bg-opacity-45">
                     <button
                         className="rounded-full hover:bg-gray-300"
-                        onClick={(event) => handleOnClickArrow(event)}
+                        onClick={handleOnClickArrow}
                     >
                         <LeftArrowIcon />
                     </button>
-                    <Image className="rounded-full" src={logo} alt="logo" width={50} height={50} />
+                    <Image
+                        className="rounded-full"
+                        src={logo}
+                        alt="logo"
+                        width={50}
+                        height={50}
+                    />
                     <div className="flex flex-col">
                         <p className="font-semibold">{name}</p>
-                        <p className="text-gray-700"> {`last seen was ${lastSeen} am`}</p>
+                        <p className="text-gray-700">{`last seen was ${lastSeen} am`}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -64,13 +76,15 @@ function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
                             </span>
                         </a>
                     </div>
-                    <button className="call-bar">
-                        <ChannelDropDownMenu />
-                    </button>
+                    {children && <div className="call-bar">{children}</div>}
                 </div>
             </div>
         </>
     );
 }
+
+InfoChatBar.ChannelDrop = <ChannelDropDownMenu />;
+InfoChatBar.GroupDrop = <GroupDropDownMenu />;
+InfoChatBar.PersonalDrop = <PersonalDropDownMenu/>
 
 export default InfoChatBar;

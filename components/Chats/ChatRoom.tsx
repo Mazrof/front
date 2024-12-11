@@ -1,25 +1,49 @@
 "use client";
-import { UploadingAlert } from "./InputMessage/UploadingAlert";
-import InputMessage from "@/components/Chats/InputMessage/InputMessage";
-
-import InfoChatBar from "./InfoChatBar";
+import { useEffect, useRef } from "react";
+import io, { Socket } from "socket.io-client";
 import { useSelectedChatRoom } from "@/store/user";
-type ChatRoomProps = {
-    children: React.ReactNode;
-};
-function ChatRoom({ children }: ChatRoomProps) {
-    const { isSelectedChatRoom } = useSelectedChatRoom();
+import PersonalChat from "../PersonalChats/PersonalChat";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+
+function ChatRoom() {
+    const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
+
+    const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(null);
+
+    useEffect(() => {
+        if (isSelectedChat && socketRef.current === null) {
+            socketRef.current = io(`${process.env.NEXT_SERVER_IP}`, {
+                withCredentials:true
+            });
+        }
+            socketRef.current?.on("connect", () => {
+                console.log("Socket connected");
+            });
+
+            socketRef.current?.on("disconnect", () => {
+                console.log("Socket disconnected");
+            });
+        
+
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
+            }
+        };
+    }, [isSelectedChat]);
+
     return (
         <div
-            className={`bg-light dark:bg-dark relative ${!isSelectedChat && "hidden"} min-h-screen flex-1 overflow-hidden md:block`}
+            className={`bg-light dark:bg-dark relative ${
+                !isSelectedChat && "hidden"
+            } min-h-screen flex-1 overflow-hidden md:block`}
         >
             {isSelectedChat && (
                 <>
-                    <InfoChatBar name={"Ahmed Mostafa"} lastSeen={"10:00"} />
-                    {children}
-                    <UploadingAlert />
-                    <InputMessage placeHolder="Message" />
+                    {selectedChatRoom?.type === "personalChat" && <PersonalChat />}
+                    {/* TODO: Add other types like group and channel */}
                 </>
             )}
         </div>
