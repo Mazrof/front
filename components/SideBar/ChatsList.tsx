@@ -9,7 +9,6 @@ import { getChatsList } from "@/services/Contacts/Contacts";
 import { Chat } from "@/types/SideBar";
 
 const ChatList = () => {
-    const [hasImage, setHasImage] = useState(true);
     const { setChatId } = useSelectedChatId();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
 
@@ -33,7 +32,7 @@ const ChatList = () => {
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                     onClick={() => setChatId(String(chat.id))}
                 >
-                    {hasImage && index % 2 == 0 ? (
+                    {index % 2 == 0 ? (
                         <Image
                             src={chat.avatar}
                             alt={chat.name}
@@ -67,9 +66,9 @@ const ChatList = () => {
                                 ) : (
                                     <span>✔️</span>
                                 )}
-                                {chat.pinned && (
+                                {/* {chat.pinned && (
                                     <span className="rounded-full hover:bg-slate-600">📌</span>
-                                )}
+                                )} */}
                             </div>
                         </div>
                     </div>
