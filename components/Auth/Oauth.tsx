@@ -5,13 +5,13 @@ function Oauth({ operation }: OAuthProps) {
     return (
         <div>
             <div className="mt-6 space-y-3">
-                <button className="auth-buttons gap-1">
+                <button className="auth-buttons gap-1" data-test="google-button">
                     <GoogleIcon />
                     <a href={`${process.env.NEXT_SERVER_IP}api/v1/auth/google`}>
                         {operation} in with Google
                     </a>
                 </button>
-                <button className="auth-buttons gap-1">
+                <button className="auth-buttons gap-1" data-test="github-button">
                     <GitHubIcon />
                     <a href={`${process.env.NEXT_SERVER_IP}api/v1/auth/github`}>
                         {operation} in with Github

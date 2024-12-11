@@ -21,7 +21,7 @@ export default function ChatsSearchBar({
     setShowGlobalSearch,
 }: ChatsSearchBarProps) {
     const router = useRouter();
-    const {setPageName}=useSettingsPageType()
+    const { setPageName } = useSettingsPageType();
     const [darkMode, setDarkModeState] = useState(() => {
         if (typeof window !== "undefined") {
             const storedMode = localStorage.getItem("darkMode");
@@ -61,8 +61,12 @@ export default function ChatsSearchBar({
                         width={40}
                         height={40}
                         className="w-5 rounded-full md:w-10"
+                        data-test="sidebar-logoPicture"
                     />
-                    <h1 className="text-md ml-2 font-semibold text-slate-800 dark:text-white md:text-xl">
+                    <h1
+                        className="text-md ml-2 font-semibold text-slate-800 dark:text-white md:text-xl"
+                        data-test="sidebar-logoName"
+                    >
                         Mazrof
                     </h1>
                 </div>
@@ -72,6 +76,7 @@ export default function ChatsSearchBar({
                         type="text"
                         placeholder="Search"
                         className="w-full rounded-full bg-[#f3f2f2] px-4 py-2 text-black focus:outline-none dark:bg-[#3E4146] dark:text-white"
+                        data-test="sidebar-searchbar"
                     />
                 </div> */}
 
@@ -79,6 +84,7 @@ export default function ChatsSearchBar({
                     <button
                         onClick={toggleMenu}
                         className="text-gray-400 hover:text-blue-500 dark:text-white dark:hover:text-blue-500"
+                        data-test="sidebar-menuButton"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -99,10 +105,13 @@ export default function ChatsSearchBar({
                 {isMenuOpen && (
                     <div className="absolute right-0 top-20 z-10 w-48 rounded-lg bg-[#f3f3f3] py-2 text-slate-700 opacity-0 shadow-lg group-hover:opacity-100 dark:bg-[#201f1f] dark:text-gray-100">
                         <ul>
-                            <li className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                            <li
+                                className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
                                 onClick={() => {
-                                    setPageName("Personal Settings")
-                                }}>
+                                    setPageName("Personal Settings");
+                                }}
+                                data-test="sidebar-settings"
+                            >
                                 <Image
                                     src="/images/settings.gif"
                                     alt="settings icon"
@@ -112,7 +121,10 @@ export default function ChatsSearchBar({
                                 />
                                 Settings
                             </li>
-                            <li className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
+                            <li
+                                className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                                data-test="sidebar-savedMessages"
+                            >
                                 <Image
                                     src="/images/save.gif"
                                     alt="save icon"
@@ -127,6 +139,7 @@ export default function ChatsSearchBar({
                                     router.push("/stories");
                                 }}
                                 className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                                data-test="sidebar-stories"
                             >
                                 <Image
                                     src="/images/telegram-stories.gif"
@@ -140,6 +153,7 @@ export default function ChatsSearchBar({
                             <li
                                 onClick={toggleMode}
                                 className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                                data-test="sidebar-mode"
                             >
                                 <span>{darkMode ? "🌑" : "☀️"}</span>
                                 <span>{darkMode ? "Night" : "Light"}</span>
@@ -147,6 +161,7 @@ export default function ChatsSearchBar({
                             <li
                                 onClick={toggleContacts}
                                 className="flex cursor-pointer gap-2 rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]"
+                                data-test="sidebar-contacts"
                             >
                                 <span>📞</span>
                                 Contacts

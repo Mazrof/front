@@ -14,6 +14,7 @@ function AttachFiles() {
             <button
                 className="relative  right-10 z-10 w-7"
                 onClick={(event) => handleOnClick(event)}
+                data-test="chatList-chatRoom-attachFile"
             >
                 <AttachFileIcon />
             </button>

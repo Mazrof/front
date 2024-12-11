@@ -77,9 +77,14 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         {...register("email")}
                         className="input-field"
                         data-testid="email"
+                        data-test="login-email"
                     />
                     {errors.email && (
-                        <div className="text-sm text-red-900" data-testid="email-error">
+                        <div
+                            className="text-sm text-red-900"
+                            data-testid="email-error"
+                            data-test="login-email-error"
+                        >
                             {errors.email.message}
                         </div>
                     )}
@@ -91,14 +96,23 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                         {...register("password")}
                         className="input-field"
                         data-testid="password"
+                        data-test="login-password"
                     />
                     {errors.password && (
-                        <div className="text-sm text-red-900" data-testid="password-error">
+                        <div
+                            className="text-sm text-red-900"
+                            data-testid="password-error"
+                            data-test="login-password-error"
+                        >
                             {errors.password.message}
                         </div>
                     )}
                     {errors.root && (
-                        <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
+                        <div
+                            className="mx-auto mt-4 text-sm text-red-700"
+                            data-testid="root-error"
+                            data-test="login-error"
+                        >
                             {errors.root.message}
                         </div>
                     )}
@@ -114,7 +128,12 @@ function LoginForm({ children }: { children: React.ReactNode }) {
                     </button>
                 </div>
                 <div>
-                    <button className="btn" type="submit" disabled={isSubmitting}>
+                    <button
+                        className="btn"
+                        type="submit"
+                        disabled={isSubmitting}
+                        data-test="login-submit"
+                    >
                         {isSubmitting ? "Loading..." : "Login"}
                     </button>
                 </div>

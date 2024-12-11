@@ -1,0 +1,10 @@
+{
+    "first": {
+        "text": "this is the first story",
+        "color": "green"
+    },
+    "second": {
+        "text": "this is the first story",
+        "color": "yellow"
+    }
+}

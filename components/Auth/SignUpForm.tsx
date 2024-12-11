@@ -128,6 +128,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "name" && errors.name?.message}
+                    dataTest="signup-name"
                 />
 
                 {/* Username Input */}
@@ -136,6 +137,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "username" && errors.username?.message}
+                    dataTest="signup-username"
                 />
                 {/* email*/}
                 <InputField
@@ -149,6 +151,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         errors.email &&
                         errors.email?.message
                     }
+                    dataTest="signup-email"
                 />
 
                 <Controller
@@ -187,6 +190,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         !errors.email &&
                         errors.password?.message
                     }
+                    dataTest="signup-password"
                 />
 
                 {/* Repeat Password Input */}
@@ -199,6 +203,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         firstError[0] === "repeatPassword" &&
                         errors.repeatPassword?.message
                     }
+                    dataTest="signup-repeatPassword"
                 />
                 {errors.root && (
                     <div className="mx-auto mt-4 text-sm text-red-700" data-testid="root-error">
@@ -206,7 +211,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     </div>
                 )}
                 {/* Submit Button */}
-                <button type="submit" className="btn">
+                <button type="submit" className="btn" data-test="signup-submit">
                     Create Account
                 </button>
             </form>
@@ -219,6 +224,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         className="cursor-pointer px-1 font-semibold text-blue-700"
                         href="#"
                         onClick={handleLogin}
+                        data-test="signup-loginButton"
                     >
                         Log in
                     </a>

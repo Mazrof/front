@@ -1,0 +1,13 @@
+{
+    "channels": {
+        "name": {
+            "valid": "Channel 1"
+        }
+    },
+    "groups": {
+        "name": {
+            "valid": "Group 1"
+        }
+    },
+    "private": {}
+}

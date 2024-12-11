@@ -175,10 +175,20 @@ function ProfileForm() {
                     style={{ display: "none" }}
                 />
                 <div className="my-4 flex w-full justify-center gap-10">
-                    <button type="button" onClick={handleDeleteImage} title="delete">
+                    <button
+                        type="button"
+                        onClick={handleDeleteImage}
+                        title="delete"
+                        data-test="settings-profile-deleteImageButton"
+                    >
                         <Trash color="red" size={30} />
                     </button>
-                    <button type="button" onClick={handleImageClick} title="change">
+                    <button
+                        type="button"
+                        onClick={handleImageClick}
+                        title="change"
+                        data-test="settings-profile-updateImageButton"
+                    >
                         <Edit color="blue" size={30} />
                     </button>
                 </div>
@@ -189,8 +199,14 @@ function ProfileForm() {
             <div className="flex w-full flex-col gap-2">
                 <label>Email</label>
                 <div className="profile-form-field">
-                    <input type="text" {...register("email")} className="profile-form-input" />
+                    <input
+                        data-test="settings-profile-email"
+                        type="text"
+                        {...register("email")}
+                        className="profile-form-input"
+                    />
                     <button
+                        data-test="settings-profile-emailButton"
                         type="button"
                         title="save"
                         className="mt-2 text-blue-700"
@@ -199,7 +215,11 @@ function ProfileForm() {
                         <Check color="blue" size={30} />
                     </button>
                 </div>
-                {errors.email && <div className="text-sm text-red-900">{errors.email.message}</div>}
+                {errors.email && (
+                    <div className="text-sm text-red-900" data-test="settings-profile-emailError">
+                        {errors.email.message}
+                    </div>
+                )}
             </div>
             <div className="flex flex-col gap-2">
                 <label>Phone</label>
@@ -214,13 +234,13 @@ function ProfileForm() {
                                 "Please enter a valid phone number",
                         }}
                         render={({ field }) => {
-                            return (
-                                <PhoneInput id="Phone" {...field}  />
-                            );
+                            return <PhoneInput id="Phone" {...field} />;
                         }}
+                        data-test="settings-profile-phone"
                     />
 
                     <button
+                        data-test="settings-profile-phoneButton"
                         type="button"
                         title="save"
                         className="mt-2 text-blue-700"
@@ -229,13 +249,23 @@ function ProfileForm() {
                         <Check color="blue" size={30} />
                     </button>
                 </div>
-                {errors.phone && <div className="text-sm text-red-900">{errors.phone.message}</div>}
+                {errors.phone && (
+                    <div className="text-sm text-red-900" data-test="settings-profile-phoneError">
+                        {errors.phone.message}
+                    </div>
+                )}
             </div>
             <div className="flex flex-col gap-2">
                 <label>username</label>
                 <div className="profile-form-field">
-                    <input type="text" {...register("username")} className="profile-form-input" />
+                    <input
+                        data-test="settings-profile-username"
+                        type="text"
+                        {...register("username")}
+                        className="profile-form-input"
+                    />
                     <button
+                        data-test="settings-profile-usernameButton"
                         type="button"
                         title="save"
                         className="mt-2 text-blue-700"
@@ -245,14 +275,25 @@ function ProfileForm() {
                     </button>
                 </div>
                 {errors.username && (
-                    <div className="text-sm text-red-900">{errors.username.message}</div>
+                    <div
+                        className="text-sm text-red-900"
+                        data-test="settings-profile-usernameError"
+                    >
+                        {errors.username.message}
+                    </div>
                 )}
             </div>
             <div className="flex flex-col gap-2">
                 <label>screenName</label>
                 <div className="profile-form-field">
-                    <input type="text" {...register("screenName")} className="profile-form-input" />
+                    <input
+                        data-test="settings-profile-screenName"
+                        type="text"
+                        {...register("screenName")}
+                        className="profile-form-input"
+                    />
                     <button
+                        data-test="settings-profile-screenNameButton"
                         type="button"
                         title="save"
                         className="mt-2 text-blue-700"
@@ -262,14 +303,25 @@ function ProfileForm() {
                     </button>
                 </div>
                 {errors.screenName && (
-                    <div className="text-sm text-red-900">{errors.screenName.message}</div>
+                    <div
+                        className="text-sm text-red-900"
+                        data-test="settings-profile-screenNameError"
+                    >
+                        {errors.screenName.message}
+                    </div>
                 )}
             </div>
             <div className="flex flex-col gap-2">
                 <label>bio</label>
                 <div className="profile-form-field">
-                    <input type="text" {...register("bio")} className="profile-form-input" />
+                    <input
+                        data-test="settings-profile-bio"
+                        type="text"
+                        {...register("bio")}
+                        className="profile-form-input"
+                    />
                     <button
+                        data-test="settings-profile-bioButton"
                         type="button"
                         title="save"
                         className="mt-2 text-blue-700"
@@ -278,7 +330,11 @@ function ProfileForm() {
                         <Check color="blue" size={30} />
                     </button>
                 </div>
-                {errors.bio && <div className="text-sm text-red-900">{errors.bio.message}</div>}
+                {errors.bio && (
+                    <div className="text-sm text-red-900" data-test="settings-profile-bioError">
+                        {errors.bio.message}
+                    </div>
+                )}
             </div>
             {errors.root && <div className="my-5 text-lg text-red-900">{errors.root.message}</div>}
         </form>
