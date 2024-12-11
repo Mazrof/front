@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { BlockUsers, SelectedChatId } from "@/types/user";
-const useSelectedChatId = create<SelectedChatId>((set) => ({
-    id: null,
-    setChatId: (newId) => set({ id: newId }),
-    isSelectedChatId: () => {
-        const state: SelectedChatId = useSelectedChatId.getState(); // get the current state
-        return state.id !== null;
+import { BlockUsers, SelectedChatRoom } from "@/types/user";
+const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
+    selectedChatRoom: null,
+    setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
+    isSelectedChatRoom: () => {
+        const state: SelectedChatRoom = useSelectedChatRoom.getState(); // get the current state
+        return state.selectedChatRoom !== null;
     },
 }));
 
@@ -22,4 +22,4 @@ const useBlockUsers = create<BlockUsers>((set) => ({
         }));
     },
 }));
-export { useSelectedChatId, useBlockUsers };
+export { useSelectedChatRoom, useBlockUsers };

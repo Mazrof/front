@@ -4,7 +4,7 @@ import { LeftArrowIcon, VoiceCallIcon, VideoCallIcon } from "@/utils/icons";
 import Image from "next/image";
 import logo from "../../public/images/logo.jpg";
 
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 import { useState } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
 // import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
@@ -14,14 +14,14 @@ type InfoChatBarProps = {
     lastSeen: string;
 };
 function InfoChatBar({ name, lastSeen }: InfoChatBarProps) {
-    const { setChatId } = useSelectedChatId();
+    const { setChatRoom } = useSelectedChatRoom();
 
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(true);
 
     function handleOnClickArrow(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        setChatId(null);
+        setChatRoom(null);
     }
     function handleVoiceCallClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();

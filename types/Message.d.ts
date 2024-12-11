@@ -4,3 +4,19 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
 };
+export type MessageType = {
+    id?: number;
+    createdAt: string;
+    inputMessageMentions: null | number[];
+    isAnnouncement: boolean;
+    isForward: boolean;
+    updatedAt: string;
+    content: null | string;
+    url: null | string;
+    senderId: number;
+    replyTo: number | null;
+    participantId: number;
+    status: "pinned" | "drafted" | null;
+    channelOrGroupId?: number;
+    durationInMinutes:null|string
+};
