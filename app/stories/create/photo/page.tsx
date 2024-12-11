@@ -48,14 +48,18 @@ export default function CreateStoryWithPhoto() {
 
     // Save the photo as a story
     const saveStory = () => {
+
         if (photo) {
-            const stories = JSON.parse(localStorage.getItem("stories") || "[]");
+            const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
             const newStory = {
                 text: "",
-                backgroundImage: photo, // Base64 string stored here
+                backgroundMedia: photo, // Base64 string stored here
+                mediaType: "image",
                 createdAt: Date.now(), // Ensure timestamp is valid
             };
-            localStorage.setItem("stories", JSON.stringify([...stories, newStory]));
+            const updatedStories = [...existingStories, newStory];
+            localStorage.setItem("stories", JSON.stringify(updatedStories));
+
             router.push("/stories");
         } else {
             alert("No photo to save!");
@@ -100,8 +104,8 @@ export default function CreateStoryWithPhoto() {
                     <Image
                         src={photo}
                         alt="Captured Story"
-                        width={300}
-                        height={300}
+                        width={400}
+                        height={400}
                         style={{ width: "auto", height: "auto" }}
                         className="rounded-lg shadow-lg"
                     />

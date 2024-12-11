@@ -6,58 +6,58 @@ import { useState } from "react";
 export default function CreateStoryWithText() {
   const [text, setText] = useState<string>("");
   const [color, setColor] = useState<string>("blue");
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [backgroundMedia, setBackgroundMedia] = useState<string | null>(null); // Handles both image and video
+  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  const [mediaType, setMediaType] = useState<"image" | "video" | null>("image"); // Media type
   const router = useRouter();
 
-  // List of predefined colors
   const colors = ["blue", "green", "yellow", "red", "purple", "black"];
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setText(e.target.value);
+
   const handleColorChange = (clr: string) => {
-    // Only change the color if no image is selected
-    if (!backgroundImage) {
-      setColor(clr);
-    }
+    if (!backgroundMedia) setColor(clr);
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const fileType = file.type.startsWith("image") ? "image" : "video";
       const reader = new FileReader();
+
       reader.onloadend = () => {
-        const base64Image = reader.result as string;
-        setBackgroundImage(base64Image); // Save base64 of uploaded image
-        setImagePreview(URL.createObjectURL(file)); // Set preview as URL
-        setColor(""); // Reset color when an image is selected
+        const base64Media = reader.result as string;
+        setBackgroundMedia(base64Media);
+        setMediaPreview(URL.createObjectURL(file));
+        setMediaType(fileType);
+        setColor(""); // Reset color when media is selected
       };
-      reader.readAsDataURL(file); // Converts image to base64
+
+      reader.readAsDataURL(file);
     }
   };
 
-  // Function to deselect the photo and allow color selection again
-  const handleDeselectImage = () => {
-    setBackgroundImage(null);
-    setImagePreview(null);
-    setColor("blue"); // Default color or keep it as it was
+  const handleDeselectMedia = () => {
+    setBackgroundMedia(null);
+    setMediaPreview(null);
+    setMediaType("image");
+    setColor("blue");
   };
 
   const handleSubmit = () => {
     const story = {
       text,
       color,
-      backgroundImage,
-      createdAt: Date.now(), // Valid timestamp
+      backgroundMedia,
+      mediaType, 
+      createdAt: Date.now(),
     };
 
-    const existingStories = JSON.parse(
-      localStorage.getItem("stories") || "[]"
-    );
+    const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
     const updatedStories = [...existingStories, story];
     localStorage.setItem("stories", JSON.stringify(updatedStories));
 
-    // Redirect to the stories home page after submission
     router.push("/stories");
   };
 
@@ -65,8 +65,8 @@ export default function CreateStoryWithText() {
     <div
       className="h-screen w-screen flex flex-col justify-center items-center"
       style={{
-        backgroundColor: backgroundImage ? "transparent" : color, // Only set backgroundColor if no image
-        backgroundImage: backgroundImage ? `url(${imagePreview})` : "none", // Set image background if available
+        backgroundColor: backgroundMedia ? "transparent" : color,
+        backgroundImage: mediaType === "image" ? `url(${mediaPreview})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -79,7 +79,6 @@ export default function CreateStoryWithText() {
           className="w-full bg-transparent text-white text-xl text-center p-4 rounded-lg border-2 border-white mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
         />
 
-        {/* Dynamic color buttons */}
         <div className="flex gap-4 mb-6 justify-center">
           {colors.map((clr) => (
             <button
@@ -91,29 +90,36 @@ export default function CreateStoryWithText() {
           ))}
         </div>
 
-        {/* File upload for image */}
         <div className="mb-6 text-center">
           <input
             type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
+            accept="image/*,video/*"
+            onChange={handleMediaUpload}
             className="text-white py-2 px-4 bg-blue-500 rounded-lg cursor-pointer transition-all hover:bg-blue-600"
           />
         </div>
 
-        {/* Button to deselect image and reset to color */}
-        {backgroundImage && (
+        {mediaPreview && mediaType === "video" && (
+          <div className="mb-6">
+            <video
+              src={mediaPreview}
+              controls
+              className="w-full rounded-lg shadow-lg"
+            ></video>
+          </div>
+        )}
+
+        {backgroundMedia && (
           <div className="mb-6 text-center">
             <button
-              onClick={handleDeselectImage}
+              onClick={handleDeselectMedia}
               className="p-2 bg-red-500 text-white rounded-lg transition-all hover:bg-red-600"
             >
-              Deselect Image
+              Deselect Media
             </button>
           </div>
         )}
 
-        {/* Submit button */}
         <div className="text-center">
           <button
             onClick={handleSubmit}

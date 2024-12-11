@@ -21,7 +21,7 @@ export default function MainPage() {
           onClick={() => router.push("/stories/create/write")}
           className="p-5 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:scale-105 hover:shadow-xl"
         >
-          Upload Photo
+          Upload Media
         </button>
       </div>
     </div>

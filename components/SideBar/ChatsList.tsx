@@ -5,7 +5,7 @@ import React, { useState,useEffect } from "react";
 import Avatar from "./Avatar";
 import { useSelectedChatId } from "@/store/user";
 import { SetChat } from "@/types/SideBar";
-import { getChatsList } from "@/services/Contacts/Contacts";
+import { getChatsList,getChatsListtest } from "@/services/Contacts/Contacts";
 import { Chat } from "@/types/SideBar";
 
 const ChatList = () => {
@@ -16,7 +16,7 @@ const ChatList = () => {
     useEffect(() => {
         async function fetchChatsData() {
             try {
-                const chatsData = await getChatsList();
+                const chatsData = await getChatsListtest();
                 setChatsList(chatsData);
             } catch (error) {
                 console.error("Error fetching contacts:", error);
@@ -32,7 +32,7 @@ const ChatList = () => {
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                     onClick={() => setChatId(String(chat.id))}
                 >
-                    {index % 2 == 0 ? (
+                    {/* {index % 2 == 0 ? (
                         <Image
                             src={chat.avatar}
                             alt={chat.name}
@@ -44,7 +44,10 @@ const ChatList = () => {
                         <div className="rounded-full object-cover">
                             <Avatar name={chat.name} />
                         </div>
-                    )}
+                    )} */}
+                    <div className="rounded-full object-cover">
+                            <Avatar name={chat.name} />
+                        </div>
                     <div className="ml-4 flex-grow">
                         <div className="flex items-center justify-between">
                             <h3 className="text-lg font-semibold text-black dark:text-white">
