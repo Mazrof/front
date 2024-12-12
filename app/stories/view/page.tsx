@@ -149,7 +149,7 @@ export default function ViewStories() {
             <div className="absolute left-0 right-0 top-4 h-1 bg-gray-200">
                 <div
                     style={{ width: `${progress}%` }}
-                    className="h-1 bg-blue-500 transition-all"
+                    className="h-1 bg-blue-500 "
                 ></div>
             </div>
 
@@ -157,7 +157,7 @@ export default function ViewStories() {
                 {/* Previous Button */}
                 {/* <button
                     onClick={handlePrev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md transition hover:bg-gray-600"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md  hover:bg-gray-600"
                 >
                     <span className="text-xl text-white">&#8592;</span>
                 </button> */}
@@ -184,7 +184,7 @@ export default function ViewStories() {
                 {/* Next Button */}
                 {/* <button
                     onClick={handleNext}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md transition hover:bg-gray-600"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md  hover:bg-gray-600"
                 >
                     <span className="text-xl text-white">&#8594;</span>
                 </button> */}
@@ -197,7 +197,7 @@ export default function ViewStories() {
             {/* Back Home Button */}
             <button
                 onClick={() => router.push("/stories")}
-                className="absolute bottom-6 left-6 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-red-700"
+                className="absolute bottom-6 left-6 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg  hover:bg-red-700"
             >
                 Back Home
             </button>

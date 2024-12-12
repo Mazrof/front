@@ -36,7 +36,7 @@ export default function GlobalSearchSideBar(sideBarProp: SideBarProp) {
     }
 
     return (
-        <div className="min-w-2/7 group relative min-h-screen w-3/12 max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block">
+        <div className="min-w-2/7 group relative min-h-screen w-3/12 max-w-full overflow-y-hidden bg-white py-2 pl-2  dark:bg-black md:block">
             <ContactsSearchBar {...sideBarProp} onSearch={handleSearchResults} />
             <ContactsList
                 groupedContacts={groupedContacts}

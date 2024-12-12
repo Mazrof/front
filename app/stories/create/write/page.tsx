@@ -76,7 +76,7 @@ export default function CreateStoryWithText() {
           value={text}
           onChange={handleTextChange}
           placeholder="Write your story here..."
-          className="w-full bg-transparent text-white text-xl text-center p-4 rounded-lg border-2 border-white mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+          className="w-full bg-transparent text-white text-xl text-center p-4 rounded-lg border-2 border-white mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400 "
         />
 
         <div className="flex gap-4 mb-6 justify-center">
@@ -85,7 +85,7 @@ export default function CreateStoryWithText() {
               key={clr}
               onClick={() => handleColorChange(clr)}
               style={{ backgroundColor: clr }}
-              className="w-12 h-12 rounded-full transition-all transform hover:scale-105"
+              className="w-12 h-12 rounded-full  transform hover:scale-105"
             ></button>
           ))}
         </div>
@@ -95,7 +95,7 @@ export default function CreateStoryWithText() {
             type="file"
             accept="image/*,video/*"
             onChange={handleMediaUpload}
-            className="text-white py-2 px-4 bg-blue-500 rounded-lg cursor-pointer transition-all hover:bg-blue-600"
+            className="text-white py-2 px-4 bg-blue-500 rounded-lg cursor-pointer  hover:bg-blue-600"
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function CreateStoryWithText() {
           <div className="mb-6 text-center">
             <button
               onClick={handleDeselectMedia}
-              className="p-2 bg-red-500 text-white rounded-lg transition-all hover:bg-red-600"
+              className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
             >
               Deselect Media
             </button>
@@ -123,7 +123,7 @@ export default function CreateStoryWithText() {
         <div className="text-center">
           <button
             onClick={handleSubmit}
-            className="p-4 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white rounded-lg shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
+            className="p-4 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl"
           >
             Submit Story
           </button>

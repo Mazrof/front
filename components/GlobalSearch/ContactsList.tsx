@@ -43,7 +43,7 @@ export default function ContactsList({
                     {users.map((user) => (
                         <div
                             key={user.id}
-                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
+                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm  hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() =>  handleSelect(String(user.id))}
                         >
                             {/* {user.avatar === "" ? (
@@ -82,7 +82,7 @@ export default function ContactsList({
                         
                         <div
                             key={group.id}
-                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
+                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm  hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() =>  handleSelect(String(group.id))}
                         >
                             {/* {group.avatar === "" ? (
@@ -116,7 +116,7 @@ export default function ContactsList({
                     {channels.map((channel) => (
                         <div
                             key={channel.id}
-                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
+                            className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm  hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() =>  handleSelect(String(channel.id))}
                         >
                             {/* {channel.avatar === "" ? (
