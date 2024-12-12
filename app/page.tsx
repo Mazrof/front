@@ -7,39 +7,20 @@ import ContactsSideBar from "@/components/Contacts/ContactsSideBar";
 import GlobalSearchSideBar from "@/components/GlobalSearch/GlobalSearchSideBar";
 import Settings from "@/components/Settings/Settings";
 import SideBar from "@/components/SideBar/SideBar";
-import { Suspense, useState, useEffect } from "react";
-import { getChatsList,getChatsListtest } from "@/services/Contacts/Contacts";  // Make sure the import is correct
+import { Suspense, useState } from "react";
 
 export default function Home() {
     const [showContacts, setShowContacts] = useState(false);
     const [showGlobalSearch, setShowGlobalSearch] = useState(false);
+    const [chat, setChat] = useState(null);
     const [darkMode, setDarkMode] = useState(false);
-
-    // Fetch chats data once and store it in sessionStorage
-    useEffect(() => {
-        async function fetchChatsData() {
-            try {
-                // Check if data already exists in sessionStorage
-                const storedData = sessionStorage.getItem("chatsList");
-                if (!storedData) {
-                    const chatsData = await getChatsListtest();
-                    // Store the data in sessionStorage
-                    sessionStorage.setItem("chatsList", JSON.stringify(chatsData));
-                }
-            } catch (error) {
-                console.error("Error fetching chats data:", error);
-            }
-        }
-        fetchChatsData();
-    }, []); // Run once when the component mounts
-
     const sideBarProp = {
-        darkMode,
-        setDarkMode,
-        showContacts,
-        setShowContacts,
-        showGlobalSearch,
-        setShowGlobalSearch,
+        darkMode: darkMode,
+        setDarkMode: setDarkMode,
+        showContacts: showContacts,
+        setShowContacts: setShowContacts,
+        showGlobalSearch: showGlobalSearch,
+        setShowGlobalSearch: setShowGlobalSearch,
     };
 
     return (
