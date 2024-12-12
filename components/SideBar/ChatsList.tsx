@@ -1,9 +1,8 @@
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { getChatsList, getChatsListtest } from "@/services/Contacts/Contacts";
+import { getChatsListtest } from "@/services/Contacts/Contacts";
 import { useSelectedChatId } from "@/store/user";
-import { Chat, SetChat } from "@/types/SideBar";
+import { Chat } from "@/types/SideBar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
@@ -15,36 +14,52 @@ const ChatList = () => {
     useEffect(() => {
         async function fetchChatsData() {
             try {
-                const chatsData = await getChatsListtest();
-                console.log(chatsData);
-                const validChatsData = chatsData.map(
-                    (chatdata: {
-                        id: number;
-                        lastMessage: { content: string; createdAt: string };
-                        messagesCount: number;
-                        secondUser: { photo: string; username: string };
-                    }) => ({
-                        id: chatdata.id,
-                        lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
-                        time: chatdata.lastMessage.createdAt,
-                        unreadCount: chatdata.messagesCount,
-                        avatar: chatdata.secondUser.photo,
-                        name: chatdata.secondUser.username,
-                    })
-                );
-                setChatsList(validChatsData);
+                // Check if data already exists in sessionStorage
+                const storedData = sessionStorage.getItem("chatsList");
+
+                if (storedData) {
+                    // If stored data exists, use it directly
+                    setChatsList(JSON.parse(storedData));
+                } else {
+                    // If no data in sessionStorage, fetch it
+                    const chatsData = await getChatsListtest();
+                    console.log(chatsData);
+
+                    const validChatsData = chatsData.map(
+                        (chatdata: {
+                            id: number;
+                            lastMessage: { content: string; createdAt: string };
+                            messagesCount: number;
+                            secondUser: { photo: string; username: string };
+                        }) => ({
+                            id: chatdata.id,
+                            lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
+                            time: chatdata.lastMessage.createdAt,
+                            unreadCount: chatdata.messagesCount,
+                            avatar: chatdata.secondUser.photo,
+                            name: chatdata.secondUser.username,
+                        })
+                    );
+
+                    // Store the fetched chats in sessionStorage
+                    setChatsList(validChatsData);
+                    sessionStorage.setItem("chatsList", JSON.stringify(validChatsData));
+                }
             } catch (error) {
-                console.error("Error fetching contacts:", error);
+                console.error("Error fetching chats data:", error);
             }
         }
+
+        // Fetch chat data when the component mounts
         fetchChatsData();
-    }, []);
+    }, []); // Empty dependency array ensures this runs only once on mount
+
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
             {chatsList.map((chat) => (
                 <div
                     key={chat.id}
-                    className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm  hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
+                    className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                     onClick={() => setChatId(String(chat.id))}
                 >
                     {chat.avatar.length > 100 ? (
@@ -60,9 +75,7 @@ const ChatList = () => {
                             <Avatar name={chat.name} />
                         </div>
                     )}
-                    {/* <div className="rounded-full object-cover">
-                            <Avatar name={chat.name} />
-                        </div> */}
+
                     <div className="ml-4 flex-grow">
                         <div className="flex items-center justify-between">
                             <h3 className="text-lg font-semibold text-black dark:text-white">
@@ -84,9 +97,6 @@ const ChatList = () => {
                                 ) : (
                                     <span>✔️</span>
                                 )}
-                                {/* {chat.pinned && (
-                                    <span className="rounded-full hover:bg-slate-600">📌</span>
-                                )} */}
                             </div>
                         </div>
                     </div>
