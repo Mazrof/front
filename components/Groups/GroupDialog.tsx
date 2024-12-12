@@ -28,8 +28,8 @@ const groupSchema = z.object({
     canAddComments: z.boolean(),
     groupSize: z
         .number()
-        .min(10, { message: "Group size must be at least 10 members" })
-        .max(1024, { message: "Group size cannot exceed 1024 members" }),
+        .min(3, { message: "Group size must be at least 3 members" })
+        .max(500000, { message: "Group size cannot exceed 500000 members" }),
     admins: z.array(z.string()), // New admins field
 });
 
@@ -91,9 +91,16 @@ function GroupDialog() {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="name">Group Name</Label>
-                        <Input {...register("name")} id="name" placeholder="Enter group name" />
+                        <Input
+                            {...register("name")}
+                            id="name"
+                            placeholder="Enter group name"
+                            data-test="group-name"
+                        />
                         {errors.name && (
-                            <p className="text-sm text-red-500">{errors.name.message}</p>
+                            <p className="text-sm text-red-500" data-test="group-name-error">
+                                {errors.name.message}
+                            </p>
                         )}
                     </div>
 
@@ -109,11 +116,19 @@ function GroupDialog() {
                                     className="flex space-x-4"
                                 >
                                     <div>
-                                        <RadioGroupItem value="false" id="public" />
+                                        <RadioGroupItem
+                                            value="false"
+                                            id="public"
+                                            data-test="group-privacy-public"
+                                        />
                                         <Label htmlFor="public">Public</Label>
                                     </div>
                                     <div>
-                                        <RadioGroupItem value="true" id="private" />
+                                        <RadioGroupItem
+                                            value="true"
+                                            id="private"
+                                            data-test="group-privacy-private"
+                                        />
                                         <Label htmlFor="private">Private</Label>
                                     </div>
                                 </RadioGroup>
@@ -122,7 +137,11 @@ function GroupDialog() {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                        <Checkbox {...register("canAddComments")} id="canAddComments" />
+                        <Checkbox
+                            {...register("canAddComments")}
+                            id="canAddComments"
+                            data-test="group-canAddComments"
+                        />
                         <Label htmlFor="canAddComments">Allow Comments</Label>
                     </div>
 
@@ -137,6 +156,7 @@ function GroupDialog() {
                                         {...register("admins")}
                                         value={user.id?.toString()}
                                         id={`admin-${user.id}`}
+                                        data-test="group-selectAdmins"
                                     />
                                     <Label htmlFor={`admin-${user.id}`}>{user.username}</Label>
                                 </div>
@@ -150,11 +170,15 @@ function GroupDialog() {
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button type="button" variant="outline">
+                            <Button type="button" variant="outline" data-test="group-cancelButton">
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button
+                            type="submit"
+                            disabled={isSubmitting}
+                            data-test="group-createButton"
+                        >
                             {isSubmitting ? "Creating..." : "Create Group"}
                         </Button>
                     </DialogFooter>

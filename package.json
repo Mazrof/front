@@ -67,6 +67,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.2",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
@@ -80,6 +81,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "babel-jest": "^29.7.0",
+    "cypress": "^13.16.0",
+    "cypress-social-logins": "^1.14.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8",

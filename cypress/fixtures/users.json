@@ -1,0 +1,76 @@
+{
+    "name": {
+        "valid": {
+            "english": "test",
+            "arabic": "مختبر",
+            "short": {
+                "arabic": "مي",
+                "english": "Yu"
+            }
+        },
+        "invalid": {
+            "startsWithNumber": "5test",
+            "withSpecialChar": "%test",
+            "short": {
+                "arabic": "ي",
+                "english": "Y"
+            }
+        }
+    },
+    "username": {
+        "valid": "testusername",
+        "invalid": {
+            "startsWithNumber": "5test",
+            "startsWithSpecialChar": "%test",
+            "containsSpace": "test 1",
+            "containsCapitalLetter": "TESTUser"
+        },
+        "duplicated": "youssefbahy2",
+        "newValid": "newTestUserName"
+    },
+    "email": {
+        "valid": "youssefbahy2022@gmail.com",
+        "invalid": {
+            "without@": "testtest.com",
+            "without.": "test@testcom",
+            "withGamil": "test@gamil.com"
+        },
+        "duplicated": "test@test.io",
+        "newValid": "newTest@gmail.com"
+    },
+    "phone": {
+        "valid": {
+            "english": "01284188136",
+            "arabic": "٠١٢٨٤١٨٨١٣٦"
+        },
+        "invalid": {
+            "short": "012841881",
+            "long": "01284188136123",
+            "containsSpace": "012841 88136",
+            "containsSpecialChar": "012841$88136",
+            "containsLetter": "012841R88136"
+        },
+        "duplicated": "01284188136",
+        "newValid": "0124841211"
+    },
+    "password": {
+        "valid": "Wv1$Rf2$Yr5^",
+        "invalid": {
+            "lessThan8": "Wv1$R",
+            "missSpecialChar": "Wv1Rf2Yr5",
+            "missNumber": "Wv$Rf$Yr^",
+            "missSmallLetter": "W1$R2$Y5^",
+            "missCapitalLetter": "v1$f2$r5^",
+            "mismatch": "Wv1$Rf2$Yr2esae3"
+        }
+    },
+    "bio": "Here is my test bio",
+    "screenName": {
+        "valid1": "Test User Name 1",
+        "valid2": "Test User Name 2"
+    },
+    "story": {
+        "valid1": "this my first story",
+        "valid2": "this my second story"
+    }
+}

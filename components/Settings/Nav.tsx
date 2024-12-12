@@ -18,7 +18,10 @@ function Nav({ children }: NavProps) {
     return (
         <div className="flex w-full items-center justify-between">
             <div className="flex w-1/2 items-center justify-between text-lg">
-                <button onClick={(event) => handleArrowClick(event)}>
+                <button
+                    onClick={(event) => handleArrowClick(event)}
+                    data-test="settings-leftArrowReturnButton"
+                >
                     <LeftArrowIcon />
                 </button>
                 <h2>{settingPageName}</h2>
@@ -32,7 +35,10 @@ const NavSettingsButtons = () => {
 
     return (
         <div className="flex w-1/4 items-center justify-between">
-            <button onClick={() => setPageName("Profile Update")}>
+            <button
+                onClick={() => setPageName("Profile Update")}
+                data-test="settings-profileUpdate"
+            >
                 <Pencil className="settings-icons" />
             </button>
             <Logout />

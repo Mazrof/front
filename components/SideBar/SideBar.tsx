@@ -35,6 +35,7 @@ function SideBar(sideBarProp: SideBarProp) {
         >
             <div
                 className={`group relative max-h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
+                data-test="sidebar"
             >
                 <ChatsSearchBar {...sideBarProp} />
                 <ChatList />

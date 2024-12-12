@@ -48,7 +48,7 @@ function EmojiStickersGif() {
                     <button onClick={(event) => handleOnClickOption(event,"Gifs")}><GifIcon /></button>
                 </div>
             </div>}
-            <button className="relative left-10 z-10 w-7 " onClick={(event) => handleOnClick(event)}>
+            <button className="relative left-10 z-10 w-7 " onClick={(event) => handleOnClick(event)} data-test="chatList-chatRoom-emojiButton">
                 <SmileFaceIcon />
             </button>
         </>

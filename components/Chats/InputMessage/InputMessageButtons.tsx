@@ -7,7 +7,7 @@ import { getSocket } from "@/lib/socket";
 // import { MessageTypeBE } from "@/types/Message";
 import { useIsFirstTimeChat, useSelectedChatRoom } from "@/store/user";
 function InputMessageButtons() {
-    const { textMessage,setTextMessage } = useInputTextMessage();
+    const { textMessage, setTextMessage } = useInputTextMessage();
     const { isRecording, setIsRecording } = useIsRecording();
     const {isFirstTime}=useIsFirstTimeChat()
     const {selectedChatRoom}=useSelectedChatRoom()
@@ -32,6 +32,7 @@ function InputMessageButtons() {
         console.log(message)
         socket?.emit("message:sent",message)
         setTextMessage("")
+
     }
     function handleOnClickVoice(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
@@ -48,17 +49,22 @@ function InputMessageButtons() {
     return (
         <>
             {textMessage !== "" ? (
-                <button className="input-message-button button-colors" data-testid="sendMsIcon" onClick={(event) => handleOnSendMesage(event)}
->
-                    <SendMsIcon  />
+                <button
+                    className="input-message-button button-colors"
+                    data-testid="sendMsIcon"
+                    onClick={(event) => handleOnSendMesage(event)}
+                    data-test="chatList-chatRoom-sendMessage"
+                >
+                    <SendMsIcon />
                 </button>
             ) : (
                 <button
                     className={`input-message-button button-colors ${isRecording ? "hidden" : ""} `}
-                        onClick={(event) => handleOnClickVoice(event)}
-                        data-testid="voiceIcon"
+                    onClick={(event) => handleOnClickVoice(event)}
+                    data-testid="voiceIcon"
+                    data-test="chatList-chatRoom-startRecording"
                 >
-                        <VoiceIcon  />
+                    <VoiceIcon />
                 </button>
             )}
             {isRecording && (
@@ -66,7 +72,8 @@ function InputMessageButtons() {
                     <button
                         className="input-message-button mr-20 bg-red-500"
                         onClick={(event) => handleDeleteRecording(event)}
-                        data-testid="deleteIcon" 
+                        data-testid="deleteIcon"
+                        data-test="chatList-chatRoom-deleteRecording"
                     >
                         <DeleteIcon />
                     </button>
@@ -74,8 +81,9 @@ function InputMessageButtons() {
                         className="input-message-button button-colors"
                         onClick={(event) => handleSendRecording(event)}
                         data-testid="sendVoiceIcon"
+                        data-test="chatList-chatRoom-sendRecording"
                     >
-                        <SendMsIcon  />
+                        <SendMsIcon />
                     </button>
                 </>
             )}

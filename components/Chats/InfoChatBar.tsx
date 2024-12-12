@@ -45,11 +45,15 @@ function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
                 <div className="flex gap-6 hover:bg-gray-200 hover:bg-opacity-45">
                     <button
                         className="rounded-full hover:bg-gray-300"
-                        onClick={handleOnClickArrow}
+
+                        onClick={(event) => handleOnClickArrow(event)}
+                        // data-test="chatList-chatRoom-LeftArrowButton"
                     >
                         <LeftArrowIcon />
                     </button>
                     <Image
+
+                        data-test="chatList-chatRoom-image"
                         className="rounded-full"
                         src={logo}
                         alt="logo"
@@ -57,8 +61,15 @@ function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
                         height={50}
                     />
                     <div className="flex flex-col">
-                        <p className="font-semibold">{name}</p>
-                        <p className="text-gray-700">{`last seen was ${lastSeen} am`}</p>
+
+                        <p className="font-semibold" data-test="chatList-chatRoom-name">
+                            {name}
+                        </p>
+                        <p className="text-gray-700" data-test="chatList-chatRoom-lastSeen">
+                            {" "}
+                            {`last seen was ${lastSeen} am`}
+                        </p>
+
                     </div>
                 </div>
                 <div className="flex items-center gap-2">

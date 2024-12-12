@@ -22,6 +22,7 @@ function InputMessage({ placeHolder }: { placeHolder: string }) {
                         value={textMessage}
                         onChange={(event) => handleOnChange(event)}
                         data-testid="inputMessageField"
+                        data-test="chatList-chatRoom-inputMessage"
                     />
                 </div>
                 <AttachFiles  />
