@@ -30,6 +30,8 @@ COPY --from=build /build/package*.json ./
 
 COPY --from=build /build/public ./public
 
+COPY ./.env ./.env
+
 EXPOSE 3000
 
 CMD ["npm","run","start"]
