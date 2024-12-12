@@ -34,7 +34,7 @@ function SideBar(sideBarProp: SideBarProp) {
             className={`${isSelectedChat && "hidden md:block"} sm:w-full md:w-1/3 ${settingPageName && "hidden"}`}
         >
             <div
-                className={`group relative max-h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
+                className={`group relative h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
             >
                 <ChatsSearchBar {...sideBarProp} />
                 <ChatList />

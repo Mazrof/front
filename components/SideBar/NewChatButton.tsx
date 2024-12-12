@@ -46,7 +46,7 @@ export default function NewChatButton() {
 
             {/* Popup menu */}
             {isMenuOpen && (
-                <div role="list" className="absolute -top-36 right-0 z-10 w-48 rounded-lg bg-[#f3f3f3] py-2 text-slate-700 shadow-lg dark:bg-[#201f1f] dark:text-gray-100">
+                <div role="list" style={{ top: "-190px" }} className="absolute  right-3 z-10 w-48 rounded-lg bg-[#f3f3f3] py-2 text-slate-700 shadow-lg dark:bg-[#201f1f] dark:text-gray-100">
                     <ul>
                         <li className="mb-1 cursor-pointer rounded-xl px-4 py-2 hover:bg-[#eaeaea] dark:bg-[#201f1f] dark:hover:bg-[#2B2B2B]">
                             <ChannelDialog />

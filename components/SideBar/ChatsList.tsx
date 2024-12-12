@@ -1,38 +1,52 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import Image from "next/image";
-import React, { useState,useEffect } from "react";
-import Avatar from "./Avatar";
+import { getChatsList, getChatsListtest } from "@/services/Contacts/Contacts";
 import { useSelectedChatId } from "@/store/user";
-import { SetChat } from "@/types/SideBar";
-import { getChatsList,getChatsListtest } from "@/services/Contacts/Contacts";
-import { Chat } from "@/types/SideBar";
+import { Chat, SetChat } from "@/types/SideBar";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import Avatar from "./Avatar";
 
 const ChatList = () => {
     const { setChatId } = useSelectedChatId();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
 
-
     useEffect(() => {
         async function fetchChatsData() {
             try {
                 const chatsData = await getChatsListtest();
-                setChatsList(chatsData);
+                console.log(chatsData);
+                const validChatsData = chatsData.map(
+                    (chatdata: {
+                        id: number;
+                        lastMessage: { content: string; createdAt: string };
+                        messagesCount: number;
+                        secondUser: { photo: string; username: string };
+                    }) => ({
+                        id: chatdata.id,
+                        lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
+                        time: chatdata.lastMessage.createdAt,
+                        unreadCount: chatdata.messagesCount,
+                        avatar: chatdata.secondUser.photo,
+                        name: chatdata.secondUser.username,
+                    })
+                );
+                setChatsList(validChatsData);
             } catch (error) {
                 console.error("Error fetching contacts:", error);
-            } 
+            }
         }
         fetchChatsData();
     }, []);
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
-            {chatsList.map((chat, index) => (
+            {chatsList.map((chat) => (
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                     onClick={() => setChatId(String(chat.id))}
                 >
-                    {/* {index % 2 == 0 ? (
+                    {chat.avatar.length > 100 ? (
                         <Image
                             src={chat.avatar}
                             alt={chat.name}
@@ -44,10 +58,10 @@ const ChatList = () => {
                         <div className="rounded-full object-cover">
                             <Avatar name={chat.name} />
                         </div>
-                    )} */}
-                    <div className="rounded-full object-cover">
+                    )}
+                    {/* <div className="rounded-full object-cover">
                             <Avatar name={chat.name} />
-                        </div>
+                        </div> */}
                     <div className="ml-4 flex-grow">
                         <div className="flex items-center justify-between">
                             <h3 className="text-lg font-semibold text-black dark:text-white">
