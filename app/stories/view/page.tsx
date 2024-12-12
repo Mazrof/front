@@ -33,6 +33,7 @@ export default function ViewStories() {
     const handlePrev = () => {
         setProgress(0);
         setCurrentStoryIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+        clearAutoAdvanceTimer();
     };
 
     const clearAutoAdvanceTimer = () => {
@@ -149,21 +150,15 @@ export default function ViewStories() {
             <div className="absolute left-0 right-0 top-4 h-1 bg-gray-200">
                 <div
                     style={{ width: `${progress}%` }}
-                    className="h-1 bg-blue-500 "
+                    className="h-1 bg-blue-500 transition-all "
                 ></div>
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center px-6">
                 {/* Previous Button */}
-                {/* <button
-                    onClick={handlePrev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md  hover:bg-gray-600"
-                >
-                    <span className="text-xl text-white">&#8592;</span>
-                </button> */}
                 <button
                     onClick={handlePrev}
-                    className="absolute left-0 top-0 h-full w-1/3 border-none bg-transparent shadow-none"
+                    className="absolute left-0 top-0 h-full w-1/3 border-none bg-transparent shadow-none z-20"
                 ></button>
 
                 {/* Story Content */}
@@ -182,12 +177,6 @@ export default function ViewStories() {
                 )}
 
                 {/* Next Button */}
-                {/* <button
-                    onClick={handleNext}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md  hover:bg-gray-600"
-                >
-                    <span className="text-xl text-white">&#8594;</span>
-                </button> */}
                 <button
                     onClick={handleNext}
                     className="absolute right-0 top-0 h-full w-1/3 border-none bg-transparent shadow-none"
@@ -196,8 +185,11 @@ export default function ViewStories() {
 
             {/* Back Home Button */}
             <button
-                onClick={() => router.push("/stories")}
-                className="absolute bottom-6 left-6 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg  hover:bg-red-700"
+                onClick={() => {
+                    clearAutoAdvanceTimer(); // Clear any ongoing timers
+                    router.push("/stories");
+                }}
+                className="absolute bottom-6 left-6 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg hover:bg-red-700 z-30"
             >
                 Back Home
             </button>
