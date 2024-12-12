@@ -39,7 +39,7 @@ export async function getMessages({
         endpoint: `${server}/chats/${id}?page=${page}&limit=${limit}`,
         method: "GET",
         cache: "no-store", // to avoid caching
-        // credentials: "include",
+        credentials: "include",
     };
     return await apiHandler(request);
 }

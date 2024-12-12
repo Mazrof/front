@@ -1,38 +1,13 @@
 "use client";
-import { useEffect, useRef } from "react";
-import io, { Socket } from "socket.io-client";
+import { useEffect } from "react";
 import { useSelectedChatRoom } from "@/store/user";
 import PersonalChat from "../PersonalChats/PersonalChat";
-import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 function ChatRoom() {
     const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
 
-    const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(null);
-
-    useEffect(() => {
-        if (isSelectedChat && socketRef.current === null) {
-            socketRef.current = io(`${process.env.NEXT_SERVER_IP}`, {
-                withCredentials:true
-            });
-        }
-            socketRef.current?.on("connect", () => {
-                console.log("Socket connected");
-            });
-
-            socketRef.current?.on("disconnect", () => {
-                console.log("Socket disconnected");
-            });
-        
-
-        return () => {
-            if (socketRef.current) {
-                socketRef.current.disconnect();
-                socketRef.current = null;
-            }
-        };
-    }, [isSelectedChat]);
+    useEffect(() => {}, [isSelectedChat]);
 
     return (
         <div

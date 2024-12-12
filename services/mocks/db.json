@@ -189,8 +189,8 @@
     ],
     "contactsList": [
         {
-            "id": 1,
-            "name": "John Doe",
+            "id": 58,
+            "name": "Nesma",
             "avatar": "/images/default-avatar.gif",
             "status": "online"
         },
@@ -263,8 +263,8 @@
     ],
     "chatsList": [
         {
-            "id": 1,
-            "name": "John Doe",
+            "id": 106,
+            "name": "Nesma1",
             "avatar": "/images/default-avatar.gif",
             "lastMessage": "Hey! How are you?",
             "time": "10:30 AM",
@@ -272,8 +272,8 @@
             "pinned": true
         },
         {
-            "id": 2,
-            "name": "Jane Smith",
+            "id": 107,
+            "name": "Nesma2",
             "avatar": "/images/default-avatar.gif",
             "lastMessage": "Got the files. Thanks!",
             "time": "10:20 PM",

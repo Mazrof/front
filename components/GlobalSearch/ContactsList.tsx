@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 import { Contact } from "@/types/SideBar";
+import { ChatRoom } from "@/types/user";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "../SideBar/Avatar";
 export default function ContactsList({ contacts }: { contacts: Contact[] }) {
     // const [hasImage, setHasImage] = useState(true);
-    const { setChatId } = useSelectedChatId();
+    const { setChatRoom } = useSelectedChatRoom();
     if (contacts.length === 0) {
         return (
             <div className="p-4 text-center text-gray-500 dark:text-gray-400">
@@ -21,7 +22,8 @@ export default function ContactsList({ contacts }: { contacts: Contact[] }) {
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
-                    onClick={() => setChatId(String(chat.id))}
+                    //ToDo updated after marge SideBar With BE
+                    onClick={() => setChatRoom(({ ...chat, type: "personalChat" } as ChatRoom))}
                 >
                     {chat.avatar === "" ? (
                         <div className="rounded-full object-cover">

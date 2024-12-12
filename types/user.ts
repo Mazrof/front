@@ -90,4 +90,8 @@ export type ChatRoom = {
     group?: ChannelGroupChatRoom;
     secondUser?: SecondUser;
 };
+export type FirstTimeChat = {
+    isFirstTime: boolean,
+    setIsFirstTime:(newIsFirst:boolean)=>void
+}
 export type MyChats = ChatRoom[];
