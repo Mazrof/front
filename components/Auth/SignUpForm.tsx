@@ -86,7 +86,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             message: message,
         });
     };
-
+    // console.log(watch());
     const firstError = Object.entries(errors)[0];
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
         const response: genericResponse<UserToken> = await SignupWithEmail(
@@ -124,7 +124,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
                 {/* Name Input */}
                 <InputField
-                    id="Name"
+                    id="name"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "name" && errors.name?.message}
@@ -133,7 +133,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Username Input */}
                 <InputField
-                    id="Username"
+                    id="username"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "username" && errors.username?.message}
@@ -141,7 +141,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 />
                 {/* email*/}
                 <InputField
-                    id="Email"
+                    id="email"
                     type="text"
                     register={register}
                     error={
@@ -166,7 +166,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     render={({ field }) => {
                         return (
                             <PhoneInput
-                                id="PhoneNumber"
+                                id="phoneNumber"
                                 {...field}
                                 error={
                                     firstError &&
@@ -181,7 +181,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Password Input */}
                 <InputField
-                    id="Password"
+                    id="password"
                     type="password"
                     register={register}
                     error={
@@ -195,7 +195,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Repeat Password Input */}
                 <InputField
-                    id="RepeatPassword"
+                    id="repeatPassword"
                     type="password"
                     register={register}
                     error={
