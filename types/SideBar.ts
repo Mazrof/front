@@ -13,22 +13,28 @@ export interface Contact {
     id: number;
     name: string;
     avatar: string;
+    phone:number;
+    email:string;
     // status: string;
   }
 export interface User {
     id: number;
     name: string;
+    email: string;
+    phone: number;
     photo: string | null; // Photo can be null
 }
 
 export interface Channel {
     id: number;
     name: string;
+    photo: string | null; // Photo can be null
 }
 
 export interface Group {
     id: number;
     name: string;
+    photo: string | null; // Photo can be null
 }
 
   export type ShowContacts = boolean;
