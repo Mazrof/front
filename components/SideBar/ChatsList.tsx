@@ -47,13 +47,9 @@ const ChatList: React.FC<ChatListProps> = ({ chatsList }) => {
                                 {chat.lastMessage}
                             </p>
                             <div className="flex min-w-7 items-center space-x-1">
-                                {chat.unreadCount > 0 ? (
-                                    <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white">
-                                        {chat.unreadCount}
-                                    </span>
-                                ) : (
-                                    <span>✔️</span>
-                                )}
+                                <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white">
+                                    {chat.unreadCount}
+                                </span>
                             </div>
                         </div>
                     </div>
