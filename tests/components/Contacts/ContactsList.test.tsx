@@ -28,8 +28,8 @@ describe("ContactsList Component", () => {
 
   it("renders the list of contacts with valid avatars", async () => {
     (getContactsList as jest.Mock).mockResolvedValue([
-      { id: "1", name: "Contact 1", avatar: "http://valid-url.com/avatar1.jpg" },
-      { id: "2", name: "Contact 2", avatar: "http://valid-url.com/avatar2.jpg" },
+      { id: "1", name: "Contact 1", avatar: "https://valid-url.com/avatar1.jpg" },
+      { id: "2", name: "Contact 2", avatar: "https://valid-url.com/avatar2.jpg" },
     ]);
 
     render(<ContactsList />);
@@ -47,7 +47,7 @@ describe("ContactsList Component", () => {
 
   it("handles click events and calls setChatId with the correct ID", async () => {
     (getContactsList as jest.Mock).mockResolvedValue([
-      { id: "1", name: "Contact 1", avatar: "http://valid-url.com/avatar1.jpg" },
+      { id: "1", name: "Contact 1", avatar: "https://valid-url.com/avatar1.jpg" },
     ]);
 
     render(<ContactsList />);

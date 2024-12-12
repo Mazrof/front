@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ChatList from "@/components/SideBar/ChatsList"; // Adjust path if necessary
 import { useSelectedChatId } from "@/store/user";
 import { fireEvent, render, screen } from "@testing-library/react";
@@ -41,7 +42,7 @@ describe("ChatList", () => {
     ];
 
     test("renders chat list correctly", () => {
-        render(<ChatList chatsList={chatsList} />);
+        render(<ChatList />);
 
         // Check if chat names are rendered
         expect(screen.getByText("John Doe")).toBeInTheDocument();
@@ -57,21 +58,21 @@ describe("ChatList", () => {
     });
 
     test("renders unread count badge when unreadCount is greater than 0", () => {
-        render(<ChatList chatsList={chatsList} />);
+        render(<ChatList/>);
 
         // Check if the unread count badge is displayed for John Doe
         expect(screen.getByText("2")).toBeInTheDocument();
     });
 
     test("renders image avatar for chats with avatar", () => {
-        render(<ChatList chatsList={chatsList} />);
+        render(<ChatList/>);
 
         // Ensure the avatar mock is rendered for John Doe
         expect(screen.getByTestId("avatar-mock-John Doe")).toBeInTheDocument();
     });
 
     test("calls setChatId when a chat item is clicked", () => {
-        render(<ChatList chatsList={chatsList} />);
+        render(<ChatList />);
 
         // Click on the first chat (John Doe)
         fireEvent.click(screen.getByText("John Doe"));
