@@ -41,5 +41,5 @@ export async function getMessages({
         cache: "no-store", // to avoid caching
         credentials: "include",
     };
-    return await apiHandler(request);
+    return apiHandler(request)
 }

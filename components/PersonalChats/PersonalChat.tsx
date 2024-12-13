@@ -25,6 +25,7 @@ function PersonalChat() {
             page,
             limit: 100,
         });
+        console.log("Raw API Response:", response);
         if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             if (failApiResponse?.error?.statusCode === 403) {
@@ -33,8 +34,10 @@ function PersonalChat() {
                 router.push("/login");
             }
         } else {
+
             setIsFirstTime(false);
-            const data: MessageTypeBE[] = (response as successResponse<MessageTypeBE[]>).data;
+            const data: MessageTypeBE[] = (response as unknown as MessageTypeBE[]);
+            console.log("retuened data",data)
             if (selectedChatRoom) {
                 setMessages({
                     ...selectedChatRoom,

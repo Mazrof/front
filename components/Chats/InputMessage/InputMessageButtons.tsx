@@ -4,7 +4,7 @@ import { SendMsIcon, VoiceIcon, DeleteIcon } from "@/utils/icons";
 import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 import { Socket } from "socket.io-client";
 import { getSocket } from "@/lib/socket";
-// import { MessageTypeBE } from "@/types/Message";
+ import { MessageTypeBE } from "@/types/Message";
 import { useIsFirstTimeChat, useSelectedChatRoom } from "@/store/user";
 function InputMessageButtons() {
     const { textMessage, setTextMessage } = useInputTextMessage();
@@ -15,19 +15,18 @@ function InputMessageButtons() {
         console.log(isFirstTime)
         event.preventDefault();
         const socket: Socket = getSocket() as Socket
-        const message= {
+        const message:MessageTypeBE= {
             content:JSON.stringify({text:textMessage}),
-            participantId: selectedChatRoom?.id, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
-            //status: "usual", // or null or drafted
-            //durationInMinutes: "30", // can be null self destored
-            //isAnnouncement: false, // for group announcement
-            //isForward: false,
-           // participantType: 'personalChat',// or group or personalChat
-            //channelOrGroupId: 2,
-            //replyTo: null, // or null (the message id to which this message is a reply)
-            //senderId: 58, // Will be deleted after merging auth,
-            //receiverId: 101,
-             //"inputMessageMentions": null
+            participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
+            status: undefined, // or null or drafted
+            durationInMinutes: 30, // can be null self destored
+            isAnnouncement: false, // for group announcement
+            isForward: false,
+            participantType: undefined,// or group or personalChat when mention
+            channelOrGroupId: undefined,
+            replyTo: undefined, // or null (the message id to which this message is a reply)
+            receiverId: undefined,
+            inputMessageMentions: undefined
         }
         console.log(message)
         socket?.emit("message:sent",message)

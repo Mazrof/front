@@ -18,21 +18,21 @@ export type ReadReceipt = {
 export type MessageTypeBE = {
     id?: number;
     createdAt?: string;
-    inputMessageMentions?: null | number[];
+    inputMessageMentions?: undefined|null | number[];
     isAnnouncement?: boolean;
     isForward?: boolean;
     updatedAt?: string;
     content: null | string;
     url?: null | string;
-    senderId: number;
+    senderId?: number;
     receiverId?: number;
     replyTo?: number | null;
     participantId: number|null;
-    status: "pinned" | "drafted" | null;
-    channelOrGroupId?: number;
-    durationInMinutes?: null | string;
+    status: "pinned" | "drafted" | undefined;
+    channelOrGroupId?: number|undefined;
+    durationInMinutes?: null | number|undefined;
     readReceipt?: ReadReceipt[];
-    participantType?:"channel"|"group"|"personalChat",// or group or personalChat
+    participantType?:"channel"|"group"|undefined,// or group or personalChat
 
 };
 export type MessagesStoreType = ChatRoom & {
