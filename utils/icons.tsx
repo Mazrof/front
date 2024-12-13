@@ -17,6 +17,25 @@ export function FlashIcon() {
     );
 }
 
+export function StopRecordingIcon() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="icon"
+        >
+            <circle cx="6" cy="6" r="8" fill="red" />
+            <circle cx="6" cy="6" r="6" fill="white" />
+        </svg>
+    );
+}
 export function SmileFaceIcon() {
     return (
         <svg

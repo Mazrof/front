@@ -4,7 +4,7 @@ import { MessageImage } from "@/components/Chats/Message/MessageImage";
 import { MessageVideo } from "@/components/Chats/Message/MessageVideo";
 import { MessageText } from "@/components/Chats/Message/MessageText";
 import { MessageCreatedAt } from "@/components/Chats/Message/MessageCreatedAt";
-import { MessageContext } from "@/provider/MessageProvider";
+import { MessageContext } from "@/provider/MessageProvider/MessageProvider";
 import "@testing-library/jest-dom";
 import React from "react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageContext } from "@/provider/MessageProvider";
+import { MessageContext } from "@/provider/MessageProvider/MessageProvider";
 import { MessageType } from "@/types/Message";
 import { PropsWithChildren } from "react";
 
