@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useMessageContext } from "@/provider/MessageProvider";
+import { useMessageContext } from "@/provider/MessageProvider/MessageProvider";
 import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export function MessageImage() {

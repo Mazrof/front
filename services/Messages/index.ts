@@ -1,6 +1,6 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import {  MessageTypeBE } from "@/types/Message";
+import { MessageTypeBE } from "@/types/Message";
 import { ApiRequest } from "@/types/request";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 /**
