@@ -34,12 +34,11 @@ function SideBar(sideBarProp: SideBarProp) {
             className={`${isSelectedChat && "hidden md:block"} sm:w-full md:w-1/3 ${settingPageName && "hidden"}`}
         >
             <div
-                className={`group relative max-h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 transition-all duration-500 dark:bg-black md:block`}
-                data-test="sidebar"
+                className={`group relative h-screen max-w-full overflow-y-hidden bg-white py-2 pl-2 dark:bg-black md:block`}
             >
                 <ChatsSearchBar {...sideBarProp} />
                 <ChatList />
-                <div className="absolute bottom-12 right-4 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute bottom-12 right-4 opacity-0 group-hover:opacity-100">
                     <NewChatButton />
                 </div>
             </div>

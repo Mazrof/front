@@ -15,8 +15,7 @@ function PersonalChat() {
     const router = useRouter();
     const { selectedChatRoom } = useSelectedChatRoom();
     const { setIsFirstTime } = useIsFirstTimeChat();
-    const {  setMessages, checkExistChat, chatMessages, setMessage } =
-        useMessagesStore();
+    const { setMessages, checkExistChat, chatMessages, setMessage } = useMessagesStore();
     console.log(chatMessages);
     const FirstFetchMessage = async (page: number) => {
         if (!selectedChatRoom) return; // Early exit if no selectedChatRoom

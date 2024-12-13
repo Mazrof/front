@@ -5,7 +5,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { MoveLeftIcon, MoveRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactPlayer from "react-player";
-import { useMessageContext } from "@/provider/MessageProvider";
+import { useMessageContext } from "@/provider/MessageProvider/MessageProvider";
 
 export function MessageVideo() {
     const [selectedVideo, setSelectedVideo] = useState<number>(-1);

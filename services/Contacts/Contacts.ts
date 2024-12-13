@@ -21,6 +21,15 @@ export async function getChatsList() {
     };
     return await apiHandler(request);
 }
+export async function getChatsListtest() {
+    const request: ApiRequest = {
+        endpoint: `http://localhost:3000/api/v1/chats/my-chats`,
+        method: "GET",
+        cache: "no-store", // Avoid caching
+        credentials: "include"
+    };
+    return await apiHandler(request);
+}
 // export async function sendQuery(query: string) {
 //     const request: ApiRequest = {
 //         endpoint: "https://retoolapi.dev/Ej9KTG/data",

@@ -48,14 +48,18 @@ export default function CreateStoryWithPhoto() {
 
     // Save the photo as a story
     const saveStory = () => {
+
         if (photo) {
-            const stories = JSON.parse(localStorage.getItem("stories") || "[]");
+            const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
             const newStory = {
                 text: "",
-                backgroundImage: photo, // Base64 string stored here
+                backgroundMedia: photo, // Base64 string stored here
+                mediaType: "image",
                 createdAt: Date.now(), // Ensure timestamp is valid
             };
-            localStorage.setItem("stories", JSON.stringify([...stories, newStory]));
+            const updatedStories = [...existingStories, newStory];
+            localStorage.setItem("stories", JSON.stringify(updatedStories));
+
             router.push("/stories");
         } else {
             alert("No photo to save!");
@@ -71,7 +75,7 @@ export default function CreateStoryWithPhoto() {
             {!isCameraOpen && !photo && (
                 <button
                     onClick={openCamera}
-                    className="transform rounded-lg bg-blue-600 px-6 py-3 text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700"
+                    className="transform rounded-lg bg-blue-600 px-6 py-3 text-white shadow-lg hover:scale-105 hover:bg-blue-700"
                 >
                     Open Camera
                 </button>
@@ -88,7 +92,7 @@ export default function CreateStoryWithPhoto() {
                     <canvas ref={canvasRef} className="hidden"></canvas>
                     <button
                         onClick={takePhoto}
-                        className="absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-full bg-green-500 px-6 py-3 text-white shadow-lg transition-all hover:scale-105 hover:bg-green-600"
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-full bg-green-500 px-6 py-3 text-white shadow-lg hover:scale-105 hover:bg-green-600"
                     >
                         Capture Photo
                     </button>
@@ -100,21 +104,21 @@ export default function CreateStoryWithPhoto() {
                     <Image
                         src={photo}
                         alt="Captured Story"
-                        width={300}
-                        height={300}
+                        width={400}
+                        height={400}
                         style={{ width: "auto", height: "auto" }}
                         className="rounded-lg shadow-lg"
                     />
                     <div className="mt-4 flex gap-4">
                         <button
                             onClick={saveStory}
-                            className="transform rounded-lg bg-green-600 px-6 py-2 text-white shadow-lg transition-all hover:scale-105 hover:bg-green-700"
+                            className="transform rounded-lg bg-green-600 px-6 py-2 text-white shadow-lg  hover:scale-105 hover:bg-green-700"
                         >
                             Save Story
                         </button>
                         <button
                             onClick={() => setPhoto(null)}
-                            className="transform rounded-lg bg-red-600 px-6 py-2 text-white shadow-lg transition-all hover:scale-105 hover:bg-red-700"
+                            className="transform rounded-lg bg-red-600 px-6 py-2 text-white shadow-lg hover:scale-105 hover:bg-red-700"
                         >
                             Retake Photo
                         </button>

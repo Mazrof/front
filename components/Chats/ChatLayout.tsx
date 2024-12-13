@@ -6,21 +6,32 @@ import { MessageText } from "./Message/MessageText";
 import { MessageCreatedAt } from "./Message/MessageCreatedAt";
 import { MessageVideo } from "./Message/MessageVideo";
 import { useMessagesStore, useSelectedChatRoom } from "@/store/user";
+import { VoiceMessage } from "@/components/Chats/Message/VoiceMessage";
 function ChatLayout() {
-    const { selectedChatRoom } = useSelectedChatRoom()
-    const {getChatMessage}=useMessagesStore()
+    const { selectedChatRoom } = useSelectedChatRoom();
+    const { getChatMessage } = useMessagesStore();
     return (
-        <div className="mb-60 max-h-[85vh] w-full overflow-y-scroll px-5  transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
-            {getChatMessage(selectedChatRoom?.id as number)?.map((message: MessageTypeBE, index) => (
-                <div className="container ml-auto w-1/2 px-5  lg:w-1/3" key={index}>
-                    <Message message={{ ...JSON.parse(message?.content as string), createdAt: message?.createdAt } as MessageType}>
-                        <MessageImage />
-                        <MessageVideo />
-                        <MessageText />
-                        <MessageCreatedAt />
-                    </Message>
-                </div>
-            ))}
+        <div className="mb-60 max-h-[85vh] w-full overflow-y-scroll px-5 transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
+            {getChatMessage(selectedChatRoom?.id as number)?.map(
+                (message: MessageTypeBE, index) => (
+                    <div className="container ml-auto w-1/2 px-5 lg:w-1/3" key={index}>
+                        <Message
+                            message={
+                                {
+                                    ...JSON.parse(message?.content as string),
+                                    createdAt: message?.createdAt,
+                                } as MessageType
+                            }
+                        >
+                            <MessageImage />
+                            <MessageVideo />
+                            <VoiceMessage />
+                            <MessageText />
+                            <MessageCreatedAt />
+                        </Message>
+                    </div>
+                )
+            )}
         </div>
     );
 }

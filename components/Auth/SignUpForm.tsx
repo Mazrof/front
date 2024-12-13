@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
 import { UserToken } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { toast } from "@/hooks/use-toast";
 
 // Zod schema for form validation
 const signUpSchema = z
@@ -86,7 +87,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             message: message,
         });
     };
-
+    // console.log(watch());
     const firstError = Object.entries(errors)[0];
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
         const response: genericResponse<UserToken> = await SignupWithEmail(
@@ -96,11 +97,18 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             data.email.trim().toLowerCase(),
             data.password
         );
-        if (response.status === "fail") {
+        if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
-            router.push("/login");
+            toast({
+                title: `Account is created Successfully,${name}`,
+                description: "You'll be redirected to Login Page soon",
+                duration: 1500,
+            });
+            setTimeout(() => {
+                router.push("/login");
+            }, 1750);
         }
     };
     const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -124,7 +132,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
                 {/* Name Input */}
                 <InputField
-                    id="Name"
+                    id="name"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "name" && errors.name?.message}
@@ -133,7 +141,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Username Input */}
                 <InputField
-                    id="Username"
+                    id="username"
                     type="text"
                     register={register}
                     error={firstError && firstError[0] === "username" && errors.username?.message}
@@ -141,7 +149,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 />
                 {/* email*/}
                 <InputField
-                    id="Email"
+                    id="email"
                     type="text"
                     register={register}
                     error={
@@ -166,7 +174,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     render={({ field }) => {
                         return (
                             <PhoneInput
-                                id="PhoneNumber"
+                                id="phoneNumber"
                                 {...field}
                                 error={
                                     firstError &&
@@ -181,7 +189,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Password Input */}
                 <InputField
-                    id="Password"
+                    id="password"
                     type="password"
                     register={register}
                     error={
@@ -195,7 +203,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
 
                 {/* Repeat Password Input */}
                 <InputField
-                    id="RepeatPassword"
+                    id="repeatPassword"
                     type="password"
                     register={register}
                     error={
