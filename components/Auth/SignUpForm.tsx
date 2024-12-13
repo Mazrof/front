@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
 import { UserToken } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { toast } from "@/hooks/use-toast";
 
 // Zod schema for form validation
 const signUpSchema = z
@@ -96,11 +97,18 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             data.email.trim().toLowerCase(),
             data.password
         );
-        if (response.status === "fail") {
+        if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
-            router.push("/login");
+            toast({
+                title: `Account is created Successfully,${name}`,
+                description: "You'll be redirected to Login Page soon",
+                duration: 1500,
+            });
+            setTimeout(() => {
+                router.push("/login");
+            }, 1750);
         }
     };
     const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
