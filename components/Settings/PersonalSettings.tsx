@@ -4,13 +4,13 @@ import ShowProfileInfo from "./ShowProfileInfo";
 import SettingsOptions from "./SettingsOptions";
 import Nav from "./Nav";
 import { useSettingsPageType } from "@/store/settings";
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 function PersonalSettings() {
     const { settingPageName } = useSettingsPageType();
-    const { id, setChatId } = useSelectedChatId();
+    const { selectedChatRoom, setChatRoom } = useSelectedChatRoom();
     const isShowPersonal = settingPageName === "Personal Settings";
     useEffect(() => {
-        if (isShowPersonal && id) setChatId(null);
+        if (isShowPersonal && selectedChatRoom) setChatRoom(null);
     }, [isShowPersonal]);
     return (
         <div className={` ${!isShowPersonal && "hidden"} settings-layout px-5`}>

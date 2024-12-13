@@ -14,14 +14,14 @@ export default function StoriesMainPage() {
             <div className="space-x-4 space-y-4">
                 <button
                     onClick={() => router.push("/stories/create")}
-                    className="w-full transform rounded-lg bg-blue-600 p-4 text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 sm:w-auto"
+                    className="w-full transform rounded-lg bg-blue-600 p-4 text-white shadow-lg hover:scale-105 hover:bg-blue-700 sm:w-auto"
                     data-test="story-create"
                 >
                     Create a New Story
                 </button>
                 <button
                     onClick={() => router.push("/stories/view")}
-                    className="w-full transform rounded-lg bg-green-400 p-4 text-white shadow-lg transition-all hover:scale-105 hover:bg-green-500 sm:w-auto"
+                    className="w-full transform rounded-lg bg-green-400 p-4 text-white shadow-lg hover:scale-105 hover:bg-green-500 sm:w-auto"
                     data-test="story-view"
                 >
                     View Existing Stories
@@ -29,7 +29,7 @@ export default function StoriesMainPage() {
             </div>
             <button
                 onClick={() => router.push("/")}
-                className="mt-7 w-full transform rounded-lg bg-slate-400 p-4 text-white shadow-lg transition-all hover:scale-105 hover:bg-slate-500 sm:w-auto"
+                className="mt-7 w-full transform rounded-lg bg-slate-400 p-4 text-white shadow-lg hover:scale-105 hover:bg-slate-500 sm:w-auto"
                 data-test="story-backToHome"
             >
                 Go Back

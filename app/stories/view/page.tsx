@@ -1,20 +1,25 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface Story {
     createdAt: number;
     text: string;
     color: string;
     backgroundImage?: string; // Image URL or base64
+    mediaType: "image" | "video"; // Image or video story
+    backgroundMedia?: string; // Media URL (image or video)
 }
 
 export default function ViewStories() {
     const router = useRouter();
     const [stories, setStories] = useState<Story[]>([]);
     const [currentStoryIndex, setCurrentStoryIndex] = useState<number>(0);
-    const [progress, setProgress] = useState<number>(0); // Track progress (0 to 100)
+    const [progress, setProgress] = useState<number>(0);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [videoDuration, setVideoDuration] = useState<number | null>(null);
+    const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 
     const handleNext = useCallback(() => {
         setProgress(0); // Reset progress
@@ -26,8 +31,16 @@ export default function ViewStories() {
     }, [currentStoryIndex, stories.length, router]);
 
     const handlePrev = () => {
-        setProgress(0); // Reset progress
+        setProgress(0);
         setCurrentStoryIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+        clearAutoAdvanceTimer();
+    };
+
+    const clearAutoAdvanceTimer = () => {
+        if (autoAdvanceTimer.current) {
+            clearTimeout(autoAdvanceTimer.current);
+            autoAdvanceTimer.current = null;
+        }
     };
 
     useEffect(() => {
@@ -54,21 +67,61 @@ export default function ViewStories() {
     }, []);
 
     useEffect(() => {
-        if (stories.length > 0 && currentStoryIndex < stories.length) {
-            setProgress(0); // Reset progress on story change
-            const timer = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev >= 100) {
-                        clearInterval(timer);
-                        handleNext();
-                        return 0;
-                    }
-                    return prev + 2; // Increment progress (adjust speed as needed)
-                });
-            }, 100); // Update progress every 100ms
+        clearAutoAdvanceTimer();
 
-            return () => clearInterval(timer);
+        if (stories.length > 0 && currentStoryIndex < stories.length) {
+            const currentStory = stories[currentStoryIndex];
+
+            if (currentStory.mediaType === "image") {
+                setProgress(0);
+
+                let progressInterval: NodeJS.Timeout | null = null;
+
+                // Auto-advance timer
+                autoAdvanceTimer.current = setTimeout(() => {
+                    handleNext();
+                }, 5000); // Adjust duration as needed
+
+                // Progress bar update logic
+                progressInterval = setInterval(() => {
+                    setProgress((prev) => {
+                        const newProgress = prev + 100 / (5000 / 100); // Increment progress every 100ms
+                        if (newProgress >= 100) {
+                            clearInterval(progressInterval!);
+                            return 100;
+                        }
+                        return newProgress;
+                    });
+                }, 100);
+
+                return () => {
+                    clearInterval(progressInterval!);
+                };
+            } else if (currentStory.mediaType === "video" && videoRef.current) {
+                videoRef.current.addEventListener("loadedmetadata", () => {
+                    if (videoRef.current) {
+                        setVideoDuration(videoRef.current.duration);
+                        videoRef.current.play();
+                    }
+                });
+
+                const interval = setInterval(() => {
+                    if (videoRef.current) {
+                        const currentTime = videoRef.current.currentTime;
+                        setProgress((currentTime / videoDuration!) * 100);
+                        if (videoRef.current.ended) {
+                            clearInterval(interval);
+                            handleNext();
+                        }
+                    }
+                }, 100);
+
+                return () => clearInterval(interval);
+            }
         }
+
+        return clearAutoAdvanceTimer;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentStoryIndex, stories, handleNext]);
 
     if (stories.length === 0) {
@@ -85,14 +138,13 @@ export default function ViewStories() {
         <div
             style={{
                 backgroundColor: currentStory.color,
-                backgroundImage: currentStory.backgroundImage
-                    ? `url(${currentStory.backgroundImage})`
+                backgroundImage: currentStory.backgroundMedia
+                    ? `url(${currentStory.backgroundMedia})`
                     : "none",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
             className="relative h-screen w-screen overflow-hidden"
-            data-test="story-color"
         >
             {/* Progress Bar */}
             <div className="absolute left-0 right-0 top-4 h-1 bg-gray-200">
@@ -106,13 +158,11 @@ export default function ViewStories() {
                 {/* Previous Button */}
                 <button
                     onClick={handlePrev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md transition hover:bg-gray-600"
-                >
-                    <span className="text-xl text-white">&#8592;</span>
-                </button>
+                    className="absolute left-0 top-0 z-20 h-full w-1/3 border-none bg-transparent shadow-none"
+                ></button>
 
-                {/* Story Text */}
-                {currentStory.text && (
+                {/* Story Content */}
+                {currentStory.mediaType === "image" && currentStory.text && (
                     <div
                         className="text-center text-3xl font-semibold text-white sm:text-4xl"
                         data-test="story-text"
@@ -120,21 +170,30 @@ export default function ViewStories() {
                         {currentStory.text}
                     </div>
                 )}
+                {currentStory.mediaType === "video" && currentStory.backgroundMedia && (
+                    <video
+                        ref={videoRef}
+                        src={currentStory.backgroundMedia}
+                        className="h-full w-full object-cover"
+                        playsInline
+                    ></video>
+                )}
 
                 {/* Next Button */}
                 <button
                     onClick={handleNext}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-gray-800 p-3 shadow-md transition hover:bg-gray-600"
-                >
-                    <span className="text-xl text-white">&#8594;</span>
-                </button>
+                    className="absolute right-0 top-0 h-full w-1/3 border-none bg-transparent shadow-none"
+                ></button>
             </div>
 
             {/* Back Home Button */}
             <button
-                onClick={() => router.push("/stories")}
-                className="absolute bottom-6 left-6 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-red-700"
+                onClick={() => {
+                    clearAutoAdvanceTimer(); // Clear any ongoing timers
+                    router.push("/stories");
+                }}
                 data-test="story-backHomeButton"
+                className="absolute bottom-6 left-6 z-30 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg hover:bg-red-700"
             >
                 Back Home
             </button>

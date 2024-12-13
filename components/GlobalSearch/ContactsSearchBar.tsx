@@ -18,7 +18,11 @@ export default function ContactsSearchBar({
 }: {
     showGlobalSearch: ShowGlobalSearch;
     setShowGlobalSearch: SetShowGlobalSearch;
-    onSearch: (contacts: Contact[]) => void;
+    onSearch: (contacts: {
+        users: Contact[];
+        groups: Contact[];
+        channels: Contact[];
+    }) => void;
 }) {
     const [isLoading, setIsLoading] = useState(false);
     const [query, setQuery] = useState("");
@@ -28,31 +32,35 @@ export default function ContactsSearchBar({
         setIsLoading(true);
         try {
             const result = await sendQuery(query);
-            //turn result into valid array of Contact
-            const contacts = [
-                ...result.data.users.map((user: User) => ({
+    
+            const groupedContacts = {
+                users: result.data.users.map((user: User) => ({
                     id: user.id,
                     name: user.name,
-                    avatar: user.photo || "", // If no photo, set avatar to empty string
+                    phone:user.phone,
+                    email:user.email,
+                    avatar: user.photo || "",
                 })),
-                ...result.data.channels.map((channel: Channel) => ({
-                    id: channel.id,
-                    name: channel.name,
-                    avatar: "", // Empty avatar for channels
-                })),
-                ...result.data.groups.map((group: Group) => ({
+                groups: result.data.groups.map((group: Group) => ({
                     id: group.id,
                     name: group.name,
-                    avatar: "", // Empty avatar for groups
+                    avatar: group.photo || "", 
                 })),
-            ];
-            onSearch(contacts);
+                channels: result.data.channels.map((channel: Channel) => ({
+                    id: channel.id,
+                    name: channel.name,
+                    avatar: channel.photo || "",
+                })),
+            };
+    
+            onSearch(groupedContacts);
         } catch (error) {
             console.error("Error fetching contacts:", error);
         } finally {
             setIsLoading(false);
         }
     }
+    
 
     return (
         <header className="flex items-center justify-between bg-[#fcfcfc] p-4 shadow-md dark:bg-[#2C2F33]">
