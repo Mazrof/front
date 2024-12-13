@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { getChatsListtest } from "@/services/Contacts/Contacts";
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 import { Chat } from "@/types/SideBar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
+import { ChatRoom } from "@/types/user";
 
 const ChatList = () => {
-    const { setChatId } = useSelectedChatId();
+    const { setChatRoom } = useSelectedChatRoom();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const ChatList = () => {
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
-                    onClick={() => setChatId(String(chat.id))}
+                    onClick={() => setChatRoom({ ...chat, type: "personalChat" } as ChatRoom)}
                 >
                     {chat.avatar.length > 100 ? (
                         <Image
