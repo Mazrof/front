@@ -1,25 +1,24 @@
 "use client";
-import { UploadingAlert } from "./InputMessage/UploadingAlert";
-import InputMessage from "@/components/Chats/InputMessage/InputMessage";
+import { useEffect } from "react";
+import { useSelectedChatRoom } from "@/store/user";
+import PersonalChat from "../PersonalChats/PersonalChat";
 
-import InfoChatBar from "./InfoChatBar";
-import { useSelectedChatId } from "@/store/user";
-type ChatRoomProps = {
-    children: React.ReactNode;
-};
-function ChatRoom({ children }: ChatRoomProps) {
-    const { isSelectedChatId } = useSelectedChatId();
-    const isSelectedChat = isSelectedChatId();
+function ChatRoom() {
+    const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
+    const isSelectedChat = isSelectedChatRoom();
+
+    useEffect(() => {}, [isSelectedChat]);
+
     return (
         <div
-            className={`bg-light dark:bg-dark relative ${!isSelectedChat && "hidden"} min-h-screen flex-1 overflow-hidden md:block`}
+            className={`bg-light dark:bg-dark relative ${
+                !isSelectedChat && "hidden"
+            } min-h-screen flex-1 overflow-hidden md:block`}
         >
             {isSelectedChat && (
                 <>
-                    <InfoChatBar name={"Ahmed Mostafa"} lastSeen={"10:00"} />
-                    {children}
-                    <UploadingAlert />
-                    <InputMessage placeHolder="Message" />
+                    {selectedChatRoom?.type === "personalChat" && <PersonalChat />}
+                    {/* TODO: Add other types like group and channel */}
                 </>
             )}
         </div>

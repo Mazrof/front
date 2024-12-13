@@ -55,7 +55,7 @@ describe("SideBar Component", () => {
                 setShowContacts={mockSetShowContacts}
                 showGlobalSearch={false}
                 setShowGlobalSearch={mockSetShowGlobalSearch}
-                handleSelectChat={mockSetChat}
+                
             />
         );
 
@@ -79,7 +79,7 @@ describe("SideBar Component", () => {
                 setShowContacts={mockSetShowContacts}
                 showGlobalSearch={false}
                 setShowGlobalSearch={mockSetShowGlobalSearch}
-                handleSelectChat={mockSetChat}
+                
             />
         );
 
@@ -103,7 +103,7 @@ describe("SideBar Component", () => {
                 setShowContacts={mockSetShowContacts}
                 showGlobalSearch={false}
                 setShowGlobalSearch={mockSetShowGlobalSearch}
-                handleSelectChat={mockSetChat}
+                
             />
         );
 

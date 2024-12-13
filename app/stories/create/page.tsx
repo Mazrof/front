@@ -13,15 +13,15 @@ export default function MainPage() {
             <div className="space-x-4 space-y-4">
                 <button
                     onClick={() => router.push("/stories/create/photo")}
-                    className="transform rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 p-5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                    className="transform rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 p-5 font-semibold text-white shadow-lg hover:scale-105 hover:shadow-xl"
                 >
                     Take Photo
                 </button>
                 <button
                     onClick={() => router.push("/stories/create/write")}
-                    className="transform rounded-lg bg-gradient-to-r from-green-400 to-green-600 p-5 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                    className="transform rounded-lg bg-gradient-to-r from-green-400 to-green-600 p-5 font-semibold text-white shadow-lg hover:scale-105 hover:shadow-xl"
                 >
-                    Upload Photo
+                    Upload Media
                 </button>
             </div>
         </div>

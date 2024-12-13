@@ -37,6 +37,7 @@ function Settings() {
         if (isShowSettings) {
             fetchProfile();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShowSettings]);
     return (
         <div
