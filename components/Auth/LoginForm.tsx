@@ -10,6 +10,7 @@ import Image from "next/image";
 import { UserToken } from "@/types/user";
 import logo from "../../public/images/logo.jpg";
 import { failResponse, genericResponse } from "@/types/api";
+import { toast } from "@/hooks/use-toast";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z
@@ -50,11 +51,18 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             data.email.trim().toLowerCase(),
             data.password
         );
-        if (response.status === "fail") {
+        if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
-            router.push("/");
+            toast({
+                title: `You Logged in Successfully`,
+                description: "You'll be redirected to Home Page soon",
+                duration: 1500,
+            });
+            setTimeout(() => {
+                router.push("/");
+            }, 1750);
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
