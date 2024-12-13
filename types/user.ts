@@ -1,13 +1,13 @@
 import { SettingsObject } from "./settings";
-
+import { MessageType } from "./Message";
 export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
     [Key in K1 | K2]: T[Key];
 };
 
-export type SelectedChatId = {
-    id: string | null;
-    setChatId: (newId: string | null) => void;
-    isSelectedChatId: () => boolean;
+export type SelectedChatRoom = {
+    selectedChatRoom: ChatRoom|null;
+    setChatRoom: (newRoom: ChatRoom|null) => void;
+    isSelectedChatRoom: () => boolean;
 };
 export type UserType = {
     id: string;
@@ -21,7 +21,7 @@ export type UserToken = {
 };
 export type WhoAmI = {
     user: {
-        id: string;
+        id: number;
         username: string;
     };
 };
@@ -61,3 +61,37 @@ export type ChannelMember = Member & {
 export type GroupMember = Member & {
     groupId: number;
 };
+export type ChannelGroupChatRoom = {
+    id: number;
+    name: string;
+    privacy: boolean;
+    creatorId: number;
+    active: boolean;
+    communityId: number;
+    canAddComments?: boolean;
+    groupSize?: number;
+    invitationLink: string;
+};
+export type SecondUser = {
+    id: number;
+    username: string;
+    photo?: string;
+    screenName: null | string;
+    phone: string;
+    publicKey: string;
+    lastSeen: null | string;
+    activeNow: boolean | null;
+};
+export type ChatRoom = {
+    id: number;
+    type: "personalChat" | "group" | "channel";
+    lastMeesage?: MessageType;
+    channel?: ChannelGroupChatRoom;
+    group?: ChannelGroupChatRoom;
+    secondUser?: SecondUser;
+};
+export type FirstTimeChat = {
+    isFirstTime: boolean,
+    setIsFirstTime:(newIsFirst:boolean)=>void
+}
+export type MyChats = ChatRoom[];

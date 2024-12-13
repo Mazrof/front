@@ -3,15 +3,14 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "../SideBar/Avatar";
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 import { Contact } from "@/types/SideBar";
 import { getContactsList } from "@/services/Contacts/Contacts";
+import { ChatRoom } from "@/types/user";
 export default function ContactsList() {
   const [hasImage, setHasImage] = useState(true);
-  const { setChatId } = useSelectedChatId();
+  const { setChatRoom } = useSelectedChatRoom();
   const [contacts, setContacts] = useState<Contact[]>([]); // Apply the type here
-
-
     useEffect(() => {
         async function fetchContacts() {
             try {
@@ -30,7 +29,8 @@ export default function ContactsList() {
         <div
           key={chat.id}
           className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm transition hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
-          onClick={() => setChatId(String(chat.id))}
+          //ToDo updated after marge SideBar With BE
+          onClick={() => setChatRoom(({ ...chat, type: "personalChat" } as ChatRoom))}
         >
           {hasImage && index % 2 === 0 ? (
             <Image

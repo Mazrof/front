@@ -1,6 +1,6 @@
 "use client";
 import { useSettingsPageType } from "@/store/settings";
-import { useSelectedChatId } from "@/store/user";
+import { useSelectedChatRoom } from "@/store/user";
 import {
     DarkMode,
     SetDarkMode,
@@ -23,9 +23,9 @@ type SideBarProp = {
 };
 
 function SideBar(sideBarProp: SideBarProp) {
-    const { isSelectedChatId } = useSelectedChatId();
+    const { isSelectedChatRoom } = useSelectedChatRoom();
     const { settingPageName } = useSettingsPageType();
-    const isSelectedChat = isSelectedChatId();
+    const isSelectedChat = isSelectedChatRoom();
     if (settingPageName) {
         return null; // Return nothing when settings page is active
     }

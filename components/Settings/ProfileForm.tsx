@@ -78,7 +78,6 @@ function ProfileForm() {
     }
     async function callDB(updates: { [x: string]: string }, fieldName: string) {
         const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
-        console.log(response);
         if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             if (
