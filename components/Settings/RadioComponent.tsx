@@ -7,6 +7,7 @@ import { useSettings, useWhoCanAttributes } from "@/store/settings";
 import { PrivacyOptionsEnum, SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { useWhoAmI } from "@/store/user";
+import { WhoAmI } from "@/types/user";
 export function RadioGroupDemo() {
     const router = useRouter();
     const { attribute, setWhoCanAttributes } = useWhoCanAttributes();
@@ -21,7 +22,10 @@ export function RadioGroupDemo() {
         const updates = {
             [attribute.privacyName]: value,
         };
-        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates,user?.user.id as number);
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(
+            updates,
+            user as WhoAmI
+        );
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             if (
