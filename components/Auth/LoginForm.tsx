@@ -62,7 +62,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             });
             setTimeout(() => {
                 router.push("/");
-            }, 1750);
+            }, 2500);
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {

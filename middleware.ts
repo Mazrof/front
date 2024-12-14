@@ -9,7 +9,7 @@ function isRouteMatched(pathname: string, routes: Set<string>): boolean {
 
 export function middleware(request: NextRequest) {
     const accessToken = request.cookies.get("connect.sid")?.value;
-
+    console.log(accessToken);
     if (!accessToken) {
         if (isRouteMatched(request.nextUrl.pathname, PUBLIC_ROUTES)) {
             return NextResponse.next();
