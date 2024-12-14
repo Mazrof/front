@@ -50,6 +50,15 @@ export async function getBlockedUsers(): Promise<genericResponse<BlockListRespon
     };
     return await apiHandler(request);
 }
+export async function getWhoAmI(): Promise<genericResponse<WhoAmI>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/whoami`,
+        method: "GET",
+        cache: "no-store", // to avoid caching
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
 export async function logout(): Promise<genericResponse<null>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/logout`,

@@ -17,7 +17,6 @@ function PersonalChat() {
     const { selectedChatRoom,setChatRoom } = useSelectedChatRoom();
     const { setIsFirstTime } = useIsFirstTimeChat();
     const { setMessages, checkExistChat, setMessage } = useMessagesStore();
-    console.log(user);
     const FirstFetchMessage = async (page: number) => {
         if (!selectedChatRoom) return; // Early exit if no selectedChatRoom
         const response: genericResponse<MessageTypeBE[]> = await getMessages({
@@ -54,11 +53,11 @@ function PersonalChat() {
             selectedChatRoom?.type === "personalChat" &&
             !checkExistChat(selectedChatRoom.id)
         ) {
-            console.log("first enter");
             FirstFetchMessage(1);
         }
         const socket: Socket = getSocket() as Socket;
         socket?.on("message:receive", (data: MessageTypeBE) => {                
+            console.log(data)
             if (!checkExistChat(data.participantId as number)) {
                 if (selectedChatRoom)
                     setMessages({

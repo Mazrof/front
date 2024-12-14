@@ -30,7 +30,7 @@ export type MessageTypeBE = {
     receiverId?: number;
     replyTo?: number | null;
     participantId: number|null;
-    status: "pinned" | "drafted" | undefined;
+    status?: "pinned" | "drafted" | undefined;
     channelOrGroupId?: number|undefined;
     durationInMinutes?: null | number|undefined;
     readReceipt?: ReadReceipt[];
