@@ -47,6 +47,7 @@ function StickersGifs({ option }: { option: string }) {
                     : undefined, // or null (the message id to which this message is a reply)
             receiverId: undefined,
             inputMessageMentions: undefined,
+            senderId:user?.user.id
         };
         console.log(message)
         // untill return
