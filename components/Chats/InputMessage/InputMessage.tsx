@@ -1,12 +1,15 @@
 "use client";
 import EmojiStickersGif from "./EmojiStickersGif";
 import AttachFiles from "./AttachFiles";
-import { useInputTextMessage } from "@/store/inputMessage";
+import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 import InputMessageButtons from "./InputMessageButtons";
 function InputMessage({ placeHolder }: { placeHolder: string }) {
     const { textMessage, setTextMessage } = useInputTextMessage();
+    const {setIsRecording}=useIsRecording()
     function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
+
         setTextMessage(event.target.value.trimStart());
+        setIsRecording(false)
     }
     return (
         <form

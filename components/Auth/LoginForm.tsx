@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { UserToken } from "@/types/user";
+import { WhoAmI } from "@/types/user";
 import logo from "../../public/images/logo.jpg";
 import { failResponse, genericResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
@@ -47,7 +47,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const response: genericResponse<UserToken> = await LoginWithEmail(
+        const response: genericResponse<WhoAmI> = await LoginWithEmail(
             data.email.trim().toLowerCase(),
             data.password
         );

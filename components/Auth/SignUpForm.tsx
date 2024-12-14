@@ -10,7 +10,7 @@ import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
-import { UserToken } from "@/types/user";
+import {  WhoAmI } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "@/hooks/use-toast";
 
@@ -90,7 +90,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
     // console.log(watch());
     const firstError = Object.entries(errors)[0];
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
-        const response: genericResponse<UserToken> = await SignupWithEmail(
+        const response: genericResponse<WhoAmI> = await SignupWithEmail(
             data.name,
             data.username,
             data.phoneNumber,

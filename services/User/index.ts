@@ -1,13 +1,13 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
-import { BlockListResponse, UserToken } from "@/types/user";
+import { BlockListResponse, WhoAmI } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 
 export async function LoginWithEmail(
     email: string,
     password: string
-): Promise<genericResponse<UserToken>> {
+): Promise<genericResponse<WhoAmI>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/login`,
         method: "POST",
@@ -44,6 +44,15 @@ export async function SignupWithEmail(
 export async function getBlockedUsers(): Promise<genericResponse<BlockListResponse>> {
     const request: ApiRequest = {
         endpoint: `${server}/user/block?blockerID=1`,
+        method: "GET",
+        cache: "no-store", // to avoid caching
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function getWhoAmI(): Promise<genericResponse<WhoAmI>> {
+    const request: ApiRequest = {
+        endpoint: `${server}/auth/whoami`,
         method: "GET",
         cache: "no-store", // to avoid caching
         credentials: "include",

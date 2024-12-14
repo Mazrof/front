@@ -6,8 +6,8 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
     size?: string;
-    document?: string | undefined;
-    audioUrl?: string;
+    documentUrl?: string | undefined;
+    audioUrl?: string|undefined;
     type: "message" | "announcement";
 };
 export type ReadReceipt = {
@@ -20,21 +20,22 @@ export type ReadReceipt = {
 export type MessageTypeBE = {
     id?: number;
     createdAt?: string;
-    inputMessageMentions?: null | number[];
+    inputMessageMentions?: undefined|null | number[];
     isAnnouncement?: boolean;
     isForward?: boolean;
     updatedAt?: string;
     content: null | string;
     url?: null | string;
-    senderId: number;
+    senderId?: number;
     receiverId?: number;
     replyTo?: number | null;
-    participantId: number | null;
-    status: "pinned" | "drafted" | null;
-    channelOrGroupId?: number;
-    durationInMinutes?: null | string;
+    participantId: number|null;
+    status?: "pinned" | "drafted" | undefined;
+    channelOrGroupId?: number|undefined;
+    durationInMinutes?: null | number|undefined;
     readReceipt?: ReadReceipt[];
-    participantType?: "channel" | "group" | "personalChat"; // or group or personalChat
+    participantType?:"channel"|"group"|undefined,// or group or personalChat
+
 };
 export type MessagesStoreType = ChatRoom & {
     messages: MessageTypeBE[];
@@ -42,7 +43,7 @@ export type MessagesStoreType = ChatRoom & {
 export type useMessagesStoreType = {
     chatMessages: MessagesStoreType[];
     setMessages: (newChatMessages: MessagesStoreType) => void;
-    setMessage: (newMessage: MessageTypeBE, participantId: number) => void;
+    setMessage: (newMessage: MessageTypeBE, participantId: number,userId:number) => void;
     updateMessage: (message: MessageTypeBE, participantId: number) => void;
     removeMessage: (message: MessageTypeBE, participantId: number) => void;
     getChatMessage: (participantId: number) => MessageTypeBE[];

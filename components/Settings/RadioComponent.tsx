@@ -6,11 +6,13 @@ import { updateProfile } from "@/services/Settings";
 import { useSettings, useWhoCanAttributes } from "@/store/settings";
 import { PrivacyOptionsEnum, SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { useWhoAmI } from "@/store/user";
+import { WhoAmI } from "@/types/user";
 export function RadioGroupDemo() {
     const router = useRouter();
     const { attribute, setWhoCanAttributes } = useWhoCanAttributes();
     const { setSettings } = useSettings();
-
+    const { user } = useWhoAmI();
     const handleChange = async (value: PrivacyOptionsEnum) => {
         if (!attribute) return;
 
@@ -20,7 +22,10 @@ export function RadioGroupDemo() {
         const updates = {
             [attribute.privacyName]: value,
         };
-        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(
+            updates,
+            user as WhoAmI
+        );
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             if (
@@ -35,7 +40,6 @@ export function RadioGroupDemo() {
             ).data;
             const user: SettingsObject = data.updatedUser;
             setSettings(user);
-
         }
     };
 

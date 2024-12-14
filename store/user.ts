@@ -1,8 +1,20 @@
 import { create } from "zustand";
-import { BlockUsers, FirstTimeChat, SelectedChatRoom } from "@/types/user";
+import { BlockUsers, FirstTimeChat, SelectedChatRoom, useWhoAmIType, WhoAmI } from "@/types/user";
 import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/Message";
+import { handleReturned } from "@/utils/inputMessage";
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
-    selectedChatRoom: null,
+    selectedChatRoom: {
+        secondUser: {
+            id:3,
+            username: "nesma",
+            phone: "01067193062",
+            activeNow: true,
+            screenName: "nesma",
+            publicKey: "23333",
+        },
+        type: "personalChat",
+        id: 1,
+    },
     setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
     isSelectedChatRoom: () => {
         const state: SelectedChatRoom = useSelectedChatRoom.getState(); // get the current state
@@ -32,18 +44,25 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
             chatMessages: [...state.chatMessages, newChatMessages], // Concatenate new messages to the existing array
         }));
     },
-
-    setMessage: (newMessage: MessageTypeBE, participantId: number) => {
+// this function must update if sender not reciver and send media
+    setMessage: (newMessage: MessageTypeBE, participantId: number,userId) => {
         set((state) => ({
             chatMessages: state?.chatMessages?.map((chat) =>
                 chat.id === participantId
                     ? {
                           ...chat,
-                          messages: chat.messages?[...chat.messages, newMessage]:[newMessage], // Add the new message
+                          messages:
+                              newMessage.id === -1 || newMessage.senderId != userId
+                                  ? [...chat.messages, newMessage]
+                                  : chat.messages.map((message, index) =>
+                                        message.id === -1 &&
+                                        index === chat.messages.findIndex((m) => m.id === -1)
+                                            ? handleReturned(message,newMessage) // Update message with ID
+                                            : message
+                                    ),
                       }
                     : chat
             ),
-            
         }));
     },
     checkExistChat: (participantId: number) => {
@@ -84,8 +103,12 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
         }));
     },
 }));
-const useIsFirstTimeChat = create<FirstTimeChat>(set => ({
+const useIsFirstTimeChat = create<FirstTimeChat>((set) => ({
     isFirstTime: false,
-    setIsFirstTime:(newIsFirst:boolean)=>set({isFirstTime:newIsFirst})
-}))
-export { useSelectedChatRoom, useBlockUsers, useMessagesStore, useIsFirstTimeChat };
+    setIsFirstTime: (newIsFirst: boolean) => set({ isFirstTime: newIsFirst }),
+}));
+const useWhoAmI = create<useWhoAmIType>((set) => ({
+    user: null,
+    setWhoAmI: (newUser: WhoAmI) => set({ user: newUser }),
+}));
+export { useSelectedChatRoom, useBlockUsers, useMessagesStore, useIsFirstTimeChat, useWhoAmI };

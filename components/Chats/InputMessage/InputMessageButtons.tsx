@@ -1,40 +1,56 @@
-"use client";
+"\
+e client";
 import { SendMsIcon } from "@/utils/icons";
 import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 import { Socket } from "socket.io-client";
 import { getSocket } from "@/lib/socket";
 import VoiceNoteHandler from "@/components/Chats/InputMessage/VoiceNoteHandler"; // Import VoiceNoteHandler
-import { useIsFirstTimeChat, useSelectedChatRoom } from "@/store/user";
+ import { MessageTypeBE } from "@/types/Message";
+import {  useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
 
 function InputMessageButtons() {
     const { textMessage, setTextMessage } = useInputTextMessage();
-    const { isFirstTime } = useIsFirstTimeChat();
     const { isRecording } = useIsRecording();
     const { selectedChatRoom } = useSelectedChatRoom();
-
+    const { setMessage } = useMessagesStore();
+    const {user}=useWhoAmI()
     // Regular message sending logic
     function handleOnSendMesage(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        console.log(isFirstTime);
-        const socket: Socket = getSocket() as Socket;
-        const message = {
-            content: JSON.stringify({ text: textMessage }),
-            participantId: selectedChatRoom?.id, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats //status: "usual", // or null or drafted //durationInMinutes: "30", // can be null self destored //isAnnouncement: false, // for group announcement //isForward: false, // participantType: 'personalChat',// or group or personalChat //channelOrGroupId: 2, //replyTo: null, // or null (the message id to which this message is a reply) //senderId: 58, // Will be deleted after merging auth, //receiverId: 101, //"inputMessageMentions": null
-        };
-        console.log(message);
-        socket?.emit("message:sent", message);
-        setTextMessage("");
+        const socket: Socket = getSocket() as Socket
+        const message:MessageTypeBE= {
+            content:JSON.stringify({text:textMessage,type:"message"}),
+            participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
+            status: undefined, // or null or drafted
+            durationInMinutes: undefined, // can be null self destored
+            isAnnouncement: false, // for group announcement
+            isForward: false,
+            participantType: undefined , // or group or personalChat when mention
+            channelOrGroupId: undefined,
+            replyTo:
+                (selectedChatRoom?.id as number) !== 31
+                    ? selectedChatRoom?.secondUser?.id
+                    : undefined, // or null (the message id to which this message is a reply)
+            receiverId: undefined,
+            inputMessageMentions: undefined,
+            senderId:user?.user.id
+        }
+        // untill return
+        setMessage({...message,id:-1},selectedChatRoom?.id as number,user?.user?.id as number)
+        socket?.emit("message:sent", message)
+        setTextMessage("")
+
     }
 
     return (
         <>
             {isRecording === false && textMessage !== "" ? (
                 <button
-                    className="input-message-button button-colors"
+                    className="rounded-full bg-blue-700 p-3 text-white transition-colors duration-200 hover:bg-blue-800 "
                     data-testid="sendMsIcon"
                     onClick={handleOnSendMesage}
                 >
-                    <SendMsIcon />
+                    <SendMsIcon/>
                 </button>
             ) : (
                 <VoiceNoteHandler />

@@ -21,6 +21,8 @@ import {
 import { useSettings } from "@/store/settings";
 import { getProfile } from "@/services/Settings";
 import { SettingsObject, SettingResponse } from "@/types/settings";
+import { useWhoAmI } from "@/store/user";
+import { WhoAmI } from "@/types/user";
 function UploadFilesOption() {
     const optionRef = useRef<HTMLDivElement | null>(null);
     const { settings, setSettings } = useSettings();
@@ -29,6 +31,7 @@ function UploadFilesOption() {
     const { setUrl, setFileType } = useFileInfo();
     const { setIsOpenAlert } = useOpenAlert();
     const { setIsMaxSize } = useIsMaxSizeError();
+    const {user}=useWhoAmI()
     const router = useRouter();
     const handleClickOutside = (event: MouseEvent) => {
         if (checkClickOutside(event, optionRef.current)) {
@@ -43,7 +46,7 @@ function UploadFilesOption() {
         }
     };
     const getSettings = async () => {
-        const response: genericResponse<SettingResponse> = await getProfile();
+        const response: genericResponse<SettingResponse> = await getProfile(user as WhoAmI);
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             if (

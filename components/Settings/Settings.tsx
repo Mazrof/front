@@ -12,13 +12,16 @@ import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Storage from "./Storage";
+import { useWhoAmI } from "@/store/user";
+import { WhoAmI } from "@/types/user";
 function Settings() {
     const { settingPageName } = useSettingsPageType();
+    const {user}=useWhoAmI()
     const isShowSettings = settingPageName !== null;
     const { setSettings } = useSettings();
     const router = useRouter();
     const fetchProfile = async () => {
-        const response: genericResponse<SettingResponse> = await getProfile();
+        const response: genericResponse<SettingResponse> = await getProfile(user as WhoAmI);
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             if (
