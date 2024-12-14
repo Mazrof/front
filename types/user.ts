@@ -12,7 +12,25 @@ export type SelectedChatId = {
 export type UserType = {
     id: string;
 };
+export type user = {
+    id: string;
+    username: string;
+    status: boolean;
+    email: string;
+    bio: string;
+    activeNow: boolean;
+    phone: string;
+};
 
+export type Group = {
+    id: string;
+    groupSize: number;
+    hasFilter: boolean;
+    community: {
+        name: string;
+        privacy: boolean;
+    };
+};
 export type UserToken = {
     access_token?: string;
     refresh_token?: string;
@@ -30,11 +48,11 @@ export type BlockUser = {
     id: string;
     photo: string;
     username: string;
-    phone?:string
+    phone?: string;
 };
-export type BlockListResponse={
-    blockList:{blockedUser: BlockUser}[]
-}
+export type BlockListResponse = {
+    blockList: { blockedUser: BlockUser }[];
+};
 export type BlockUsers = {
     blockUsers: BlockUser[] | null;
     setBlockUsers: (userList: BlockUser[]) => void;

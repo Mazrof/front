@@ -1,6 +1,6 @@
 import SignUpForm from "@/components/Auth/SignUpForm";
 import Oauth from "@/components/Auth/Oauth";
-export default async function Login() {
+export default async function signup() {
     return (
         <SignUpForm>
             <Oauth operation="Sign up" />

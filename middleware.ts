@@ -10,10 +10,10 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    if (!accessToken) {
-        const loginUrl = new URL("/login", request.url);
-        return NextResponse.redirect(loginUrl);
-    }
+    // if (!accessToken) {
+    //     const loginUrl = new URL("/login", request.url);
+    //     return NextResponse.redirect(loginUrl);
+    // }
 
     return NextResponse.next();
 }

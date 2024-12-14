@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-
 import { useOTPContext } from "@/store/OTPContext";
 export default function EmailInputForm() {
     const { setOTPContext } = useOTPContext();
