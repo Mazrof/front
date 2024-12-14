@@ -5,25 +5,24 @@ export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
 };
 
 export type SelectedChatRoom = {
-    selectedChatRoom: ChatRoom|null;
-    setChatRoom: (newRoom: ChatRoom|null) => void;
+    selectedChatRoom: ChatRoom | null;
+    setChatRoom: (newRoom: ChatRoom | null) => void;
     isSelectedChatRoom: () => boolean;
 };
 export type UserType = {
     id: string;
 };
 
-
 export type WhoAmI = {
     user: {
         id: number;
         userType: string;
-    }
+    };
 };
 export type useWhoAmIType = {
-    user: WhoAmI|null,
-    setWhoAmI:(newUser:WhoAmI)=>void
-}
+    user: WhoAmI | null;
+    setWhoAmI: (newUser: WhoAmI) => void;
+};
 export type BlockUser = {
     id: string;
     photo: string;
@@ -32,6 +31,7 @@ export type BlockUser = {
 };
 export type BlockListResponse = {
     blockList: { blockedUser: BlockUser }[];
+    phone?: string;
 };
 export type BlockUsers = {
     blockUsers: BlockUser[] | null;
@@ -89,7 +89,7 @@ export type ChatRoom = {
     secondUser?: SecondUser;
 };
 export type FirstTimeChat = {
-    isFirstTime: boolean,
-    setIsFirstTime:(newIsFirst:boolean)=>void
-}
+    isFirstTime: boolean;
+    setIsFirstTime: (newIsFirst: boolean) => void;
+};
 export type MyChats = ChatRoom[];

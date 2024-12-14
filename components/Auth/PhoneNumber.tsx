@@ -20,12 +20,13 @@ type PhoneInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChan
     Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
         onChange?: (value: RPNInput.Value) => void;
         error?: string | boolean; // Add error prop
+        testid?: string;
     };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
     React.ElementRef<typeof RPNInput.default>,
     PhoneInputProps
->(({ className, onChange, error, ...props }, ref) => {
+>(({ className, onChange, testid, error, ...props }, ref) => {
     return (
         <div>
             <RPNInput.default
