@@ -8,10 +8,13 @@ import { Button } from "../ui/button";
 import { SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { useRouter } from "next/navigation";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { useWhoAmI } from "@/store/user";
+import { WhoAmI } from "@/types/user";
 function Storage() {
     const { settingPageName } = useSettingsPageType();
     const isShowStorage = settingPageName === "Storage";
     const { settings, setSettings } = useSettings();
+    const {user}=useWhoAmI()
     const router = useRouter();
     const defaultSizeDownload =
         settings?.autoDownloadSizeLimit !== undefined ? [settings.autoDownloadSizeLimit] : [50];
@@ -33,7 +36,7 @@ function Storage() {
             autoDownloadSizeLimit: sizeDownload[0],
             maxLimitFileSize: sizeUpload[0],
         };
-        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates,user as WhoAmI);
         if (response.status === "fail") {
             const failApiResponse = response as failResponse;
             if (
