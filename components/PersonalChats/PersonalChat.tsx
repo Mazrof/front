@@ -6,18 +6,18 @@ import { MessageTypeBE } from "@/types/Message";
 import { getMessages } from "@/services/Messages";
 import { useEffect } from "react";
 import ChatLayout from "../Chats/ChatLayout";
-import { useIsFirstTimeChat, useMessagesStore, useSelectedChatRoom } from "@/store/user";
-import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { useIsFirstTimeChat, useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
+import { failResponse, genericResponse } from "@/types/api";
 import { useRouter } from "next/navigation";
 import { getSocket } from "@/lib/socket";
 import { Socket } from "socket.io-client";
 function PersonalChat() {
     const router = useRouter();
-    const { selectedChatRoom } = useSelectedChatRoom();
+    const {user}=useWhoAmI()
+    const { selectedChatRoom,setChatRoom } = useSelectedChatRoom();
     const { setIsFirstTime } = useIsFirstTimeChat();
-    const {  setMessages, checkExistChat, chatMessages, setMessage } =
-        useMessagesStore();
-    console.log(chatMessages);
+    const { setMessages, checkExistChat, setMessage } = useMessagesStore();
+    console.log(user);
     const FirstFetchMessage = async (page: number) => {
         if (!selectedChatRoom) return; // Early exit if no selectedChatRoom
         const response: genericResponse<MessageTypeBE[]> = await getMessages({
@@ -58,14 +58,15 @@ function PersonalChat() {
             FirstFetchMessage(1);
         }
         const socket: Socket = getSocket() as Socket;
-        socket?.on("message:receive", (data: MessageTypeBE) => {
+        socket?.on("message:receive", (data: MessageTypeBE) => {                
             if (!checkExistChat(data.participantId as number)) {
                 if (selectedChatRoom)
                     setMessages({
                         ...selectedChatRoom,
                         messages: [data],
                     });
-            } else setMessage(data, data.participantId as number);
+                setChatRoom({...selectedChatRoom, id :data.participantId as number})
+            } else setMessage(data, data.participantId as number,user?.user.id as number);
         });
     }, [selectedChatRoom]);
 

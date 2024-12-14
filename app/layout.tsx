@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import SocketProvider from "@/components/SocketProvider/SocketProvider";
+import SocketProvider from "@/provider/SocketProvider/SocketProvider";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -31,9 +31,7 @@ export default function RootLayout({
                 <link rel="icon" href="/images/logo.jpg" />
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <SocketProvider>
-                    {children}
-                </SocketProvider>
+                <SocketProvider>{children}</SocketProvider>
                 <Toaster />
             </body>
         </html>

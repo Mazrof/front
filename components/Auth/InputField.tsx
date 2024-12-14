@@ -33,7 +33,7 @@ function InputField({
                         input.trim() ? "active" : ""
                     } ${error && "error"}`}
                 >
-                    {id}
+                    {`${id[0].toLocaleUpperCase() + id.slice(1)}`}
                 </span>
             </label>
             {error && (

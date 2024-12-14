@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/services/User";
 import { useState } from "react";
 import { useSettingsPageType } from "@/store/settings";
+import { toast } from "@/hooks/use-toast";
 export function Logout() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { setPageName } = useSettingsPageType();
@@ -13,8 +14,15 @@ export function Logout() {
     async function onLogout() {
         setIsLoading(true);
         await logout();
-        setPageName(null);
-        router.push("/login");
+        toast({
+            title: `You Logged out Successfully`,
+            description: "You'll be redirected to Login Page soon",
+            duration: 1500,
+        });
+        setTimeout(() => {
+            setPageName(null);
+            router.push("/login");
+        }, 1750);
     }
     return (
         <TooltipProvider>

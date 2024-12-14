@@ -1,92 +1,60 @@
-"use client";
-import React from "react";
-import { SendMsIcon, VoiceIcon, DeleteIcon } from "@/utils/icons";
+"\
+e client";
+import { SendMsIcon } from "@/utils/icons";
 import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
 import { Socket } from "socket.io-client";
 import { getSocket } from "@/lib/socket";
+import VoiceNoteHandler from "@/components/Chats/InputMessage/VoiceNoteHandler"; // Import VoiceNoteHandler
  import { MessageTypeBE } from "@/types/Message";
-import { useIsFirstTimeChat, useSelectedChatRoom } from "@/store/user";
+import {  useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
+import { undefined } from "zod";
+
 function InputMessageButtons() {
     const { textMessage, setTextMessage } = useInputTextMessage();
-    const { isRecording, setIsRecording } = useIsRecording();
-    const {isFirstTime}=useIsFirstTimeChat()
-    const {selectedChatRoom}=useSelectedChatRoom()
+    const { isRecording } = useIsRecording();
+    const { selectedChatRoom } = useSelectedChatRoom();
+    const { setMessage } = useMessagesStore();
+    const {user}=useWhoAmI()
+
+    // Regular message sending logic
     function handleOnSendMesage(event: React.MouseEvent<HTMLButtonElement>) {
-        console.log(isFirstTime)
         event.preventDefault();
         const socket: Socket = getSocket() as Socket
         const message:MessageTypeBE= {
-            content:JSON.stringify({text:textMessage}),
-            participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
+            content:JSON.stringify({text:textMessage,type:"message"}),
+            participantId: selectedChatRoom?.id  as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
             status: undefined, // or null or drafted
-            durationInMinutes: 30, // can be null self destored
-            isAnnouncement: false, // for group announcement
-            isForward: false,
+            durationInMinutes: undefined, // can be null self destored
+            isAnnouncement: undefined, // for group announcement
+            isForward: undefined,
             participantType: undefined,// or group or personalChat when mention
             channelOrGroupId: undefined,
-            replyTo: undefined, // or null (the message id to which this message is a reply)
+            replyTo:( selectedChatRoom?.id as number )!==1?selectedChatRoom?.secondUser?.id: undefined, // or null (the message id to which this message is a reply)
             receiverId: undefined,
             inputMessageMentions: undefined
         }
-        console.log(message)
-        socket?.emit("message:sent",message)
+        // untill return
+        setMessage({...message,id:-1},selectedChatRoom?.id as number,user?.user?.id as number)
+        socket?.emit("message:sent", message)
         setTextMessage("")
 
     }
-    function handleOnClickVoice(event: React.MouseEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        setIsRecording(true);
-    }
-    function handleDeleteRecording(event: React.MouseEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        setIsRecording(false);
-    }
-    function handleSendRecording(event: React.MouseEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        setIsRecording(false);
-    }
+
     return (
         <>
-            {textMessage !== "" ? (
+            {isRecording === false && textMessage !== "" ? (
                 <button
-                    className="input-message-button button-colors"
+                    className="rounded-full bg-blue-700 p-3 text-white transition-colors duration-200 hover:bg-blue-800 "
                     data-testid="sendMsIcon"
-                    onClick={(event) => handleOnSendMesage(event)}
-                    data-test="chatList-chatRoom-sendMessage"
+                    onClick={handleOnSendMesage}
                 >
-                    <SendMsIcon />
+                    <SendMsIcon/>
                 </button>
             ) : (
-                <button
-                    className={`input-message-button button-colors ${isRecording ? "hidden" : ""} `}
-                    onClick={(event) => handleOnClickVoice(event)}
-                    data-testid="voiceIcon"
-                    data-test="chatList-chatRoom-startRecording"
-                >
-                    <VoiceIcon />
-                </button>
-            )}
-            {isRecording && (
-                <>
-                    <button
-                        className="input-message-button mr-20 bg-red-500"
-                        onClick={(event) => handleDeleteRecording(event)}
-                        data-testid="deleteIcon"
-                        data-test="chatList-chatRoom-deleteRecording"
-                    >
-                        <DeleteIcon />
-                    </button>
-                    <button
-                        className="input-message-button button-colors"
-                        onClick={(event) => handleSendRecording(event)}
-                        data-testid="sendVoiceIcon"
-                        data-test="chatList-chatRoom-sendRecording"
-                    >
-                        <SendMsIcon />
-                    </button>
-                </>
+                <VoiceNoteHandler />
             )}
         </>
     );
 }
+
 export default InputMessageButtons;

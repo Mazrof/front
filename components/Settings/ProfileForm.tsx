@@ -13,6 +13,8 @@ import { SettingsObject, UpdatedSettingResponse } from "@/types/settings";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { PhoneInput } from "../Auth/PhoneNumber";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { WhoAmI } from "@/types/user";
+import { useWhoAmI } from "@/store/user";
 
 const ProfileSchema = z.object({
     email: z.string().email(),
@@ -52,6 +54,7 @@ const ProfileSchema = z.object({
 type ProfileFormFields = z.infer<typeof ProfileSchema>;
 function ProfileForm() {
     const router = useRouter();
+    const {user}=useWhoAmI()
     const fileInputRef = useRef<HTMLInputElement | null>(null); // Create a ref for the file input
     const [isError, setIsError] = useState(false);
     const { settings, setSettings } = useSettings();
@@ -77,7 +80,7 @@ function ProfileForm() {
         callDB(updates, fieldName);
     }
     async function callDB(updates: { [x: string]: string }, fieldName: string) {
-        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates);
+        const response: genericResponse<UpdatedSettingResponse> = await updateProfile(updates,user as WhoAmI);
         if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             if (

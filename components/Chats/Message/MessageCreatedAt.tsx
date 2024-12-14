@@ -1,5 +1,5 @@
 "use client";
-import { useMessageContext } from "@/provider/MessageProvider";
+import { useMessageContext } from "@/provider/MessageProvider/MessageProvider";
 export function MessageCreatedAt() {
     const { createdAt } = useMessageContext();
     return (

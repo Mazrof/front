@@ -13,19 +13,17 @@ export type UserType = {
     id: string;
 };
 
-export type UserToken = {
-    access_token?: string;
-    refresh_token?: string;
-    error?: string;
-    user: UserType;
-};
+
 export type WhoAmI = {
     user: {
         id: number;
-        username: string;
-    };
+        userType: string;
+    }
 };
-
+export type useWhoAmIType = {
+    user: WhoAmI|null,
+    setWhoAmI:(newUser:WhoAmI)=>void
+}
 export type BlockUser = {
     id: string;
     photo: string;
@@ -79,12 +77,12 @@ export type SecondUser = {
     screenName: null | string;
     phone: string;
     publicKey: string;
-    lastSeen: null | string;
-    activeNow: boolean | null;
+    lastSeen?: null | string;
+    activeNow?: boolean | null;
 };
 export type ChatRoom = {
     id: number;
-    type: "personalChat" | "group" | "channel";
+    type?: "personalChat" | "group" | "channel";
     lastMeesage?: MessageType;
     channel?: ChannelGroupChatRoom;
     group?: ChannelGroupChatRoom;

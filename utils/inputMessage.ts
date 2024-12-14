@@ -1,3 +1,4 @@
+import { MessageType, MessageTypeBE } from "@/types/Message";
 import imageCompression from "browser-image-compression";
 export function checkClickOutside(event: MouseEvent, element: HTMLDivElement | null) {
     return element && !element.contains(event.target as Node);
@@ -87,16 +88,42 @@ export const convertToBase64 = (
     callback: (base64: string | null, error: string | null) => void
 ) => {
     const reader = new FileReader();
-    
+
     reader.onload = () => {
         const base64String = reader.result as string;
-        callback(base64String, null); 
-    };
-    
-    reader.onerror = (error) => {
-        callback(null, `Error: ${error}`); 
+        callback(base64String, null);
     };
 
+    reader.onerror = (error) => {
+        callback(null, `Error: ${error}`);
+    };
 
     reader.readAsDataURL(file);
 };
+export function handleReturned(
+    oldMessage: MessageTypeBE,
+    newMessage: MessageTypeBE
+): MessageTypeBE {
+    if (newMessage.url) {
+        try {
+            const object: MessageType = JSON.parse(oldMessage.content as string);
+
+            // Build the updated object
+            const newObj: MessageType = {
+                audioUrl: object.audioUrl ? newMessage.url : object.audioUrl,
+                imageUrl: object.imageUrl ? [...object.imageUrl, newMessage.url] : object.imageUrl,
+                videoUrl: object.videoUrl ? [...object.videoUrl, newMessage.url] : object.videoUrl,
+                documentUrl: object.documentUrl ? newMessage.url : object.documentUrl,
+                type: object.type,
+            };
+
+            // Merge and stringify the updated content
+            return { ...newMessage, content: JSON.stringify({ ...object, ...newObj }) };
+        } catch (error) {
+            console.error("Error parsing JSON:", error);
+            return newMessage;
+        }
+    }
+
+    return newMessage;
+}

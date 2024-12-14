@@ -7,9 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { UserToken } from "@/types/user";
+import { WhoAmI } from "@/types/user";
 import logo from "../../public/images/logo.jpg";
-import { failResponse, genericResponse } from "@/types/api";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
+import { toast } from "@/hooks/use-toast";
+import { useWhoAmI } from "@/store/user";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z
@@ -26,6 +28,7 @@ const LoginSchema = z.object({
 type LoginFormFields = z.infer<typeof LoginSchema>;
 
 function LoginForm({ children }: { children: React.ReactNode }) {
+    const { setWhoAmI } = useWhoAmI();
     const router = useRouter();
     const {
         register,
@@ -46,15 +49,24 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const response: genericResponse<UserToken> = await LoginWithEmail(
+        const response: genericResponse<WhoAmI> = await LoginWithEmail(
             data.email.trim().toLowerCase(),
             data.password
         );
-        if (response.status === "fail") {
+        if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
-            router.push("/");
+            const data = (response as successResponse<WhoAmI>).data;
+            setWhoAmI(data);
+            toast({
+                title: `You Logged in Successfully`,
+                description: "You'll be redirected to Home Page soon",
+                duration: 1500,
+            });
+            setTimeout(() => {
+                router.push("/");
+            }, 1750);
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
