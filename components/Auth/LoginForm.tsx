@@ -7,10 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { WhoAmI } from "@/types/user";
+// import { WhoAmI } from "@/types/user";
 import logo from "../../public/images/logo.jpg";
-import { failResponse, genericResponse } from "@/types/api";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
+import { LoginResponse } from "@/types/settings";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string(),
@@ -46,7 +47,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const response: genericResponse<WhoAmI> = await LoginWithEmail(
+        const response: genericResponse<LoginResponse> = await LoginWithEmail(
             data.email.trim().toLowerCase(),
             data.password
         );
@@ -54,13 +55,19 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
+            const successApiResponse = response as successResponse<LoginResponse>;
+            const { privateKey } = successApiResponse.data.user;
+            const { user_type } = successApiResponse.data;
+            sessionStorage.setItem("key", privateKey as string);
+            sessionStorage.setItem("type", user_type);
             toast({
                 title: `You Logged in Successfully`,
                 description: "You'll be redirected to Home Page soon",
                 duration: 1500,
             });
             setTimeout(() => {
-                router.push("/");
+                if (user_type === "user") router.push("/");
+                else router.push("/admin-dashboard");
             }, 2500);
         }
     };

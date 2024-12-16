@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { GetUsers, GetGroups, FilterandRemovefilter, BanandUnban } from "@/services/User";
-import { genericResponse } from "@/types/api";
+import { genericResponse, successResponse } from "@/types/api";
 import { Group, user } from "@/types/user";
 
 const AdminDashboard = () => {
@@ -13,11 +13,12 @@ const AdminDashboard = () => {
     // Fetch users
     const fetchUsers = async () => {
         try {
-            const response: genericResponse<user[]> = await GetUsers();
+            const response: genericResponse<{ users: user[] }> = await GetUsers();
             if (response.status === "fail") {
                 console.error("Failed to fetch users");
             } else {
-                setUsers(response.data.users || []);
+                const successApiResponse = response as successResponse<{ users: user[] }>;
+                setUsers(successApiResponse.data.users);
             }
         } catch (error) {
             console.error("Error fetching users:", error);

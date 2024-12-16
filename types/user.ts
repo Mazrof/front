@@ -113,3 +113,8 @@ export type Group = {
         privacy: boolean;
     };
 };
+
+export type Keys = {
+    publicKey: string;
+    privateKey: string;
+};
