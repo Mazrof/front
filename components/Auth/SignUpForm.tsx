@@ -1,21 +1,23 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { useEffect } from "react";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
 import { PhoneInput } from "./PhoneNumber";
-import { SignupWithEmail, SendEmailCode, Recaptcha } from "@/services/User";
+import { SignupWithEmail, SendEmailCode } from "@/services/User";
+// import { Recaptcha } from "@/services/User";
 import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
-import { WhoAmI } from "@/types/user";
+import { Keys, WhoAmI } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "@/hooks/use-toast";
 import { useOTPContext } from "@/store/OTPContext";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
+import { generateKeyPair } from "@/lib/encryption";
 
 // Zod schema for form validation
 const signUpSchema = z
@@ -74,7 +76,7 @@ type SignUpFormFields = z.infer<typeof signUpSchema>;
 
 export function SignUpForm({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+    // const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
     const { setOTPContext } = useOTPContext();
     const {
         control,
@@ -93,45 +95,59 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
         });
     };
     // console.log(watch());
-    const handleCaptchaChange = (token: string | null) => {
-        console.log("Captcha token:", token);
-        setRecaptchaToken(token); // Verify if the CAPTCHA is successfully completed
-    };
+    // const handleCaptchaChange = (token: string | null) => {
+    //     console.log("Captcha token:", token);
+    //     setRecaptchaToken(token); // Verify if the CAPTCHA is successfully completed
+    // };
     const firstError = Object.entries(errors)[0];
     const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
-        if (!recaptchaToken) {
-            setErrorRoot("Please complete the CAPTCHA!");
-        } else {
-            const response: genericResponse<WhoAmI> = await Recaptcha(recaptchaToken);
-            if (response.status === "fail") {
-                const failApiResponse = response as failResponse;
-                setErrorRoot(failApiResponse.message);
-            } else {
-                const response: genericResponse<WhoAmI> = await SignupWithEmail(
-                    data.name,
-                    data.username,
-                    data.phoneNumber,
-                    data.email.trim().toLowerCase(),
-                    data.password
-                );
-                if (response.status === "fail") {
-                    const failApiResponse = response as failResponse;
-                    setErrorRoot(failApiResponse.message);
-                } else {
-                    toast({
-                        title: `Account is created Successfully,${name}`,
-                        description: "You'll be redirected to Login Page soon",
-                        duration: 1500,
-                    });
-                    SendEmailCode(data.email);
-                    setOTPContext("verifyAccount", data.email);
+        // if (!recaptchaToken) {
+        //     setErrorRoot("Please complete the CAPTCHA!");
+        // } else {
+        // const response: genericResponse<WhoAmI> = await Recaptcha(recaptchaToken);
+        // if (response.status === "fail") {
+        //     const failApiResponse = response as failResponse;
+        //     setErrorRoot(failApiResponse.message);
+        // } else {
+        const { privateKey, publicKey }: Keys = await generateKeyPair();
+        console.log(privateKey, publicKey);
+        console.log({
+            name: data.name,
+            username: data.username,
+            phoneNumber: data.phoneNumber,
+            publicKey,
+            privateKey,
+            email: data.email.trim().toLowerCase(),
+            password: data.password,
+        });
+        const response: genericResponse<WhoAmI> = await SignupWithEmail(
+            data.name,
+            data.username,
+            data.phoneNumber,
+            publicKey,
+            privateKey,
+            data.email.trim().toLowerCase(),
+            data.password
+        );
 
-                    setTimeout(() => {
-                        router.push("/verification");
-                    }, 1750);
-                }
-            }
+        if (response.status === "fail" || response.status === "error") {
+            const failApiResponse = response as failResponse;
+            setErrorRoot(failApiResponse.message);
+        } else {
+            toast({
+                title: `Account is created Successfully,${name}`,
+                description: "You'll be redirected to Verification Page soon",
+                duration: 1500,
+            });
+            SendEmailCode(data.email);
+            setOTPContext("verifyAccount", data.email);
+
+            setTimeout(() => {
+                router.push("/verification");
+            }, 1750);
         }
+        // }
+        // }
     };
     const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -250,12 +266,12 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                         {errors.root.message}
                     </div>
                 )}
-                <div className="mt-4">
+                {/* { <div className="mt-4">
                     <ReCAPTCHA
                         sitekey="6LcM_ZoqAAAAAJ3-KONvHtQpiIYC919l4oTz6qbE"
                         onChange={handleCaptchaChange}
                     />
-                </div>
+                </div>} */}
                 {errors.root && (
                     <div
                         className="mx-auto mt-4 text-sm font-semibold text-red-700"

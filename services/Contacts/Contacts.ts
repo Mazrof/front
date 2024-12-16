@@ -26,7 +26,7 @@ export async function getChatsListtest() {
         endpoint: `http://localhost:3000/api/v1/chats/my-chats`,
         method: "GET",
         cache: "no-store", // Avoid caching
-        credentials: "include"
+        credentials: "include",
     };
     return await apiHandler(request);
 }
