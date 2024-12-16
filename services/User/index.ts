@@ -1,7 +1,8 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
-import { BlockListResponse, WhoAmI } from "@/types/user";
+import { LoginResponse } from "@/types/settings";
+import { BlockListResponse, user, WhoAmI } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 
 export async function Recaptcha(token: string): Promise<genericResponse<WhoAmI>> {
@@ -19,7 +20,7 @@ export async function Recaptcha(token: string): Promise<genericResponse<WhoAmI>>
     return response;
 }
 
-export async function GetUsers(): Promise<genericResponse<WhoAmI>> {
+export async function GetUsers(): Promise<genericResponse<{ users: user[] }>> {
     try {
         const request: ApiRequest = {
             endpoint: `${server}/admins/users`,
@@ -124,7 +125,7 @@ export async function VerifyEmailCode(
 export async function LoginWithEmail(
     email: string,
     password: string
-): Promise<genericResponse<WhoAmI>> {
+): Promise<genericResponse<{ user: LoginResponse }>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/login`,
         method: "POST",
@@ -143,13 +144,15 @@ export async function SignupWithEmail(
     username: string,
     phone: string,
     email: string,
-    password: string
+    password: string,
+    publicKey: string,
+    privateKey: string
 ) {
     const request: ApiRequest = {
         endpoint: `${server}/auth/signup`,
         method: "POST",
         cache: "no-store",
-        body: { email, password, phone, username },
+        body: { email, password, phone, username, publicKey, privateKey },
 
         headers: {
             "Content-Type": "application/json",

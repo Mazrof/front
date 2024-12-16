@@ -1,6 +1,11 @@
-export type PrivacyOptionsEnum= "everyone" | "contacts" | "nobody"
+export type PrivacyOptionsEnum = "everyone" | "contacts" | "nobody";
+export type LoginResponse = {
+    id?: string;
+    user_type: "user" | "admin";
+    user: SettingsObject;
+};
 export type SettingsObject = {
-    id?:string,
+    id?: string;
     photo: string;
     screenName: string;
     username: string;
@@ -13,21 +18,21 @@ export type SettingsObject = {
     readReceiptsEnabled: PrivacyOptionsEnum;
     autoDownloadSizeLimit: number;
     maxLimitFileSize: number;
-    privateKey: string|null;
+    privateKey: string | null;
     publicKey: string;
     IsEmailVerified?: boolean;
     IsPhoneVerified?: boolean;
     password?: string;
     passwordChangedAt?: Date | null;
     status?: boolean;
-    lastSeen?: null|Date;
+    lastSeen?: null | Date;
     activeNow?: boolean;
     providerType?: null;
     providerId?: null;
 };
 export type SettingResponse = {
-    user:SettingsObject
-}
+    user: SettingsObject;
+};
 export type UpdatedSettingResponse = {
     updatedUser: SettingsObject;
 };
@@ -35,7 +40,7 @@ export type UserSettings = {
     settings: null | SettingsObject;
     setSettings: (newSettings: SettingsObject) => void;
 };
-export type  PageNameEnum = 
+export type PageNameEnum =
     | "Personal Settings"
     | "Block"
     | "Profile Update"
@@ -49,7 +54,7 @@ export type SettingsPageName = {
     settingPageName: PageNameEnum;
     setPageName: (pageName: PageNameEnum) => void;
 };
-export type PrivacyTitleEnum = "Last Seen" | "Profile Photo" | "Stories" | "Read Receipts"
+export type PrivacyTitleEnum = "Last Seen" | "Profile Photo" | "Stories" | "Read Receipts";
 export type WhoCanAttributeObject = {
     privacyName: string;
     title: PrivacyTitleEnum;
