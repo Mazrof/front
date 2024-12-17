@@ -7,10 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginWithEmail } from "@/services/User";
 import Image from "next/image";
-import { WhoAmI } from "@/types/user";
+// import { WhoAmI } from "@/types/user";
 import logo from "../../public/images/logo.jpg";
-import { failResponse, genericResponse } from "@/types/api";
+import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
+import { LoginResponse } from "@/types/settings";
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z
@@ -18,10 +19,7 @@ const LoginSchema = z.object({
         .min(8, { message: "Password must be at least 8 characters" })
         .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
         .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-        .regex(/\d/, { message: "Password must contain at least one number" })
-        .regex(/[^a-zA-Z0-9]/, {
-            message: "Password must contain at least one special character",
-        }),
+        .regex(/\d/, { message: "Password must contain at least one number" }),
 });
 
 type LoginFormFields = z.infer<typeof LoginSchema>;
@@ -47,7 +45,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         });
     };
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        const response: genericResponse<WhoAmI> = await LoginWithEmail(
+        const response: genericResponse<{ user: LoginResponse }> = await LoginWithEmail(
             data.email.trim().toLowerCase(),
             data.password
         );
@@ -55,14 +53,20 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             const failApiResponse = response as failResponse;
             setErrorRoot(failApiResponse.message);
         } else {
+            const successApiResponse = response as successResponse<{ user: LoginResponse }>;
+            const { privateKey } = successApiResponse.data.user.user;
+            const { user_type } = successApiResponse.data.user;
+            sessionStorage.setItem("key", privateKey as string);
+            document.cookie = `user_type=${user_type}; path=/`;
             toast({
                 title: `You Logged in Successfully`,
                 description: "You'll be redirected to Home Page soon",
                 duration: 1500,
             });
             setTimeout(() => {
-                router.push("/");
-            }, 1750);
+                if (user_type === "user") router.push("/");
+                else if (user_type === "admin") router.push("/admin-dashboard");
+            }, 9500);
         }
     };
     const handleForgetPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,9 +78,13 @@ function LoginForm({ children }: { children: React.ReactNode }) {
         router.push("/signup");
     };
     return (
-        <div className="flex h-full flex-col items-center justify-between p-4">
-            <Image src={logo} alt="Logo" width={70} height={70} className="rounded-full" />
-            <h1 className="bold my-6 text-3xl text-blue-900">LOGIN</h1>
+        <div className="w-full max-w-md rounded-2xl bg-white p-8">
+            <div className="mb-3 flex cursor-pointer items-center justify-center">
+                <Image className="h-24 w-24 rounded-full" src={logo} alt="logo" />
+            </div>
+            <div className="mb-6 flex justify-center">
+                <h1 className="text-center text-3xl text-blue-800">LOGIN</h1>
+            </div>
             <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="login-field">
                     <label>Email</label>
