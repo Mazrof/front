@@ -2,22 +2,30 @@
 
 import { LeftArrowIcon, VoiceCallIcon, VideoCallIcon } from "@/utils/icons";
 import Image from "next/image";
-import logo from "../../public/images/logo.jpg";
 
 import { useSelectedChatRoom } from "@/store/user";
 import { useState, ReactNode } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
-import ChannelDropDownMenu from "../Channels/ChannelDropDownMenu";
-import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
+// import ChannelDropDownMenu from "../Channels/ChannelDropDownMenu";
+// import GroupDropDownMenu from "../Groups/GroupDropDownMenu";
 import PersonalDropDownMenu from "../PersonalChats/PersonalDropDownMenu";
 
 type InfoChatBarProps = {
     name: string;
-    lastSeen: string;
+    chatType: "personalChat" | "group" | "channel";
+
+    imageURL?: string;
+    lastSeen?: string;
     children?: ReactNode; // Combine both InfoChatBarProps and InfoProps
 };
 
-function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
+function InfoChatBar({
+    name,
+    imageURL,
+    lastSeen,
+    chatType = "personalChat",
+    children,
+}: InfoChatBarProps) {
     const { setChatRoom } = useSelectedChatRoom();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -45,31 +53,29 @@ function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
                 <div className="flex gap-6 hover:bg-gray-200 hover:bg-opacity-45">
                     <button
                         className="rounded-full hover:bg-gray-300"
-
                         onClick={(event) => handleOnClickArrow(event)}
-                        // data-test="chatList-chatRoom-LeftArrowButton"
+                        data-test="chatList-chatRoom-LeftArrowButton"
                     >
                         <LeftArrowIcon />
                     </button>
                     <Image
-
                         data-test="chatList-chatRoom-image"
                         className="rounded-full"
-                        src={logo}
+                        src={imageURL as string}
                         alt="logo"
-                        width={50}
-                        height={50}
+                        width={24}
+                        height={24}
                     />
                     <div className="flex flex-col">
-
                         <p className="font-semibold" data-test="chatList-chatRoom-name">
                             {name}
                         </p>
-                        <p className="text-gray-700" data-test="chatList-chatRoom-lastSeen">
-                            {" "}
-                            {`last seen was ${lastSeen} am`}
-                        </p>
-
+                        {chatType === "personalChat" && (
+                            <p className="text-gray-700" data-test="chatList-chatRoom-lastSeen">
+                                {" "}
+                                {`last seen was ${lastSeen} am`}
+                            </p>
+                        )}
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -93,9 +99,8 @@ function InfoChatBar({ name, lastSeen, children }: InfoChatBarProps) {
         </>
     );
 }
-
-InfoChatBar.ChannelDrop = <ChannelDropDownMenu />;
-InfoChatBar.GroupDrop = <GroupDropDownMenu />;
-InfoChatBar.PersonalDrop = <PersonalDropDownMenu/>
+// InfoChatBar.ChannelDrop = <ChannelDropDownMenu />;
+// InfoChatBar.GroupDrop = <GroupDropDownMenu />;
+InfoChatBar.PersonalDrop = <PersonalDropDownMenu />;
 
 export default InfoChatBar;

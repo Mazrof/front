@@ -6,8 +6,12 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
     size?: string;
-    documentUrl?: string | undefined;
-    audioUrl?: string|undefined;
+    documentObject?: {
+        name?: string;
+        documentUrl?: string | undefined;
+        size?: string;
+    };
+    audioUrl?: string | undefined;
     type: "message" | "announcement";
 };
 export type ReadReceipt = {
@@ -20,7 +24,7 @@ export type ReadReceipt = {
 export type MessageTypeBE = {
     id?: number;
     createdAt?: string;
-    inputMessageMentions?: undefined|null | number[];
+    inputMessageMentions?: undefined | null | number[];
     isAnnouncement?: boolean;
     isForward?: boolean;
     updatedAt?: string;
@@ -29,13 +33,12 @@ export type MessageTypeBE = {
     senderId?: number;
     receiverId?: number;
     replyTo?: number | null;
-    participantId: number|null;
+    participantId: number | null;
     status?: "pinned" | "drafted" | undefined;
-    channelOrGroupId?: number|undefined;
-    durationInMinutes?: null | number|undefined;
+    channelOrGroupId?: number | undefined;
+    durationInMinutes?: null | number | undefined;
     readReceipt?: ReadReceipt[];
-    participantType?:"channel"|"group"|undefined,// or group or personalChat
-
+    participantType?: "channel" | "group" | undefined; // or group or personalChat
 };
 export type MessagesStoreType = ChatRoom & {
     messages: MessageTypeBE[];
@@ -43,7 +46,7 @@ export type MessagesStoreType = ChatRoom & {
 export type useMessagesStoreType = {
     chatMessages: MessagesStoreType[];
     setMessages: (newChatMessages: MessagesStoreType) => void;
-    setMessage: (newMessage: MessageTypeBE, participantId: number,userId:number) => void;
+    setMessage: (newMessage: MessageTypeBE, participantId: number, userId: number) => void;
     updateMessage: (message: MessageTypeBE, participantId: number) => void;
     removeMessage: (message: MessageTypeBE, participantId: number) => void;
     getChatMessage: (participantId: number) => MessageTypeBE[];

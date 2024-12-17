@@ -31,10 +31,18 @@ type GroupSettingsInputs = z.infer<typeof groupSettingsSchema>;
 type GroupSettingsProps = {
     groupId: number;
     isOpen: boolean;
+    privacy: boolean;
+    groupSize: number;
     onClose: () => void;
 };
 
-export default function GroupSettings({ groupId, isOpen, onClose }: GroupSettingsProps) {
+export default function GroupSettings({
+    groupId,
+    privacy,
+    groupSize,
+    isOpen,
+    onClose,
+}: GroupSettingsProps) {
     const [error, setError] = useState<string | null>(null);
     const {
         control,
@@ -44,11 +52,10 @@ export default function GroupSettings({ groupId, isOpen, onClose }: GroupSetting
     } = useForm<GroupSettingsInputs>({
         resolver: zodResolver(groupSettingsSchema),
         defaultValues: {
-            privacy: true,
+            privacy,
             abilityToPost: "No One",
             downloadPermission: "No One",
-
-            groupSize: 10,
+            groupSize,
         },
     });
 
