@@ -4,7 +4,15 @@ import { ChannelData } from "@/types/channel";
 import { ApiRequest } from "@/types/request";
 import { ChannelMember, MemberRole } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
-export async function createChannel(body: ChannelData): Promise<genericResponse<object>> {
+type CreateChannelRequest = {
+    name: string;
+    privacy: boolean;
+    canAddComments: boolean;
+    admins: string[];
+};
+export async function createChannel(
+    body: CreateChannelRequest
+): Promise<genericResponse<{ channel: ChannelData }>> {
     const request: ApiRequest = {
         endpoint: `${server}/channels`,
         method: "POST",
