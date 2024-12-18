@@ -13,6 +13,7 @@ export type MessageType = {
     };
     audioUrl?: string | undefined;
     type: "message" | "announcement";
+    name?:string
 };
 export type ReadReceipt = {
     userId: number;
@@ -51,4 +52,5 @@ export type useMessagesStoreType = {
     removeMessage: (message: MessageTypeBE, participantId: number) => void;
     getChatMessage: (participantId: number) => MessageTypeBE[];
     checkExistChat: (participantId: number) => boolean;
+    getChat:(participantId:number)=>ChatRoom
 };

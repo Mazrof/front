@@ -63,17 +63,14 @@ export const convertFileToImageVideo = (
         const fileType = KnowFileType(file);
         if (!fileType) return;
         setFileType(fileType);
-        if (fileType !== "image" && fileType !== "video") {
-            setUrl("");
-            setIsOpenAlert(true);
-            return;
-        }
+       
         const reader = new FileReader();
         reader.onloadend = () => {
             const result = reader.result;
             if (typeof result === "string") {
                 setUrl(result);
                 setIsOpenAlert(true);
+                console.log("file",result)
             }
         };
         reader.readAsDataURL(file);
@@ -113,7 +110,7 @@ export function handleReturned(
                 audioUrl: object.audioUrl ? newMessage.url : object.audioUrl,
                 imageUrl: object.imageUrl ? [...object.imageUrl, newMessage.url] : object.imageUrl,
                 videoUrl: object.videoUrl ? [...object.videoUrl, newMessage.url] : object.videoUrl,
-                documentUrl: object.documentUrl ? newMessage.url : object.documentUrl,
+                documentUrl: object.documentUrl ? [...object.documentUrl, newMessage.url] :  object.documentUrl,
                 type: object.type,
             };
 

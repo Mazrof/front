@@ -23,7 +23,7 @@ export async function getChatsList() {
 }
 export async function getChatsListtest() {
     const request: ApiRequest = {
-        endpoint: `http://localhost:3000/api/v1/chats/my-chats`,
+        endpoint: `${process.env.NEXT_SERVER_IP}api/v1/chats/my-chats`,
         method: "GET",
         cache: "no-store", // Avoid caching
         credentials: "include",

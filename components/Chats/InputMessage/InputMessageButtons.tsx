@@ -31,10 +31,11 @@ function InputMessageButtons() {
                 (selectedChatRoom?.id as number) !== 31
                     ? selectedChatRoom?.secondUser?.id
                     : undefined, // or null (the message id to which this message is a reply)
-            receiverId: undefined,
+            receiverId: 11,
             inputMessageMentions: undefined,
             senderId:user?.user.id
         }
+        console.log("sent ",message)
         // untill return
         setMessage({...message,id:-1},selectedChatRoom?.id as number,user?.user?.id as number)
         socket?.emit("message:sent", message)

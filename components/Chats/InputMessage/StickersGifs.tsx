@@ -45,7 +45,7 @@ function StickersGifs({ option }: { option: string }) {
                 (selectedChatRoom?.id as number) !==31
                     ? selectedChatRoom?.secondUser?.id
                     : undefined, // or null (the message id to which this message is a reply)
-            receiverId: undefined,
+            receiverId: 11,
             inputMessageMentions: undefined,
             senderId:user?.user.id
         };

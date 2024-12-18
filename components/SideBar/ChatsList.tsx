@@ -1,6 +1,6 @@
 "use client";
 import { getChatsListtest } from "@/services/Contacts/Contacts";
-import { useSelectedChatRoom } from "@/store/user";
+import { useMessagesStore, useSelectedChatRoom } from "@/store/user";
 import { Chat } from "@/types/SideBar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { ChatRoom } from "@/types/user";
 const ChatList = () => {
     const { setChatRoom } = useSelectedChatRoom();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
-
+    const {getChat}=useMessagesStore()
     useEffect(() => {
         async function fetchChatsData() {
             try {
@@ -20,10 +20,11 @@ const ChatList = () => {
                 if (storedData) {
                     // If stored data exists, use it directly
                     setChatsList(JSON.parse(storedData));
+                    console.log("store")
                 } else {
                     // If no data in sessionStorage, fetch it
                     const chatsData = await getChatsListtest();
-                    console.log(chatsData);
+                    console.log("sidebar",chatsData);
 
                     const validChatsData = chatsData.map(
                         (chatdata: {
@@ -31,6 +32,7 @@ const ChatList = () => {
                             lastMessage: { content: string; createdAt: string };
                             messagesCount: number;
                             secondUser: { photo: string; username: string };
+                            type: "group" |"personalChat"|"channel"
                         }) => ({
                             id: chatdata.id,
                             lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
@@ -38,6 +40,7 @@ const ChatList = () => {
                             unreadCount: chatdata.messagesCount,
                             avatar: chatdata.secondUser.photo,
                             name: chatdata.secondUser.username,
+                            type: chatdata.type
                         })
                     );
 
@@ -60,7 +63,7 @@ const ChatList = () => {
                 <div
                     key={chat.id}
                     className="flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
-                    onClick={() => setChatRoom({ ...chat, type: "personalChat" } as ChatRoom)}
+                    onClick={() => setChatRoom(getChat(chat.id) as ChatRoom)}
                 >
                     {chat?.avatar?.length > 100 ? (
                         <Image

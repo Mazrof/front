@@ -69,6 +69,7 @@ export type ChatRoom = {
     channel?: ChannelData;
     group?: GroupData;
     secondUser?: SecondUser;
+  messagesCount?:number;
 };
 
 export type ChannelGroupChatRoom = {
@@ -91,7 +92,9 @@ export type SecondUser = {
     publicKey: string;
     lastSeen?: null | string;
     activeNow?: boolean | null;
+
 };
+
 export type FirstTimeChat = {
     isFirstTime: boolean;
     setIsFirstTime: (newIsFirst: boolean) => void;
