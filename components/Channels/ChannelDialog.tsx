@@ -19,6 +19,7 @@ import { Loader2 } from "lucide-react";
 import { createChannel } from "@/services/Channel";
 import { failResponse, genericResponse } from "@/types/api";
 import { useUsers } from "@/hooks/useUsers";
+import { ChannelData } from "@/types/channel";
 
 const channelSchema = z.object({
     name: z
@@ -56,7 +57,8 @@ function ChannelDialog() {
         });
     };
     const onSubmit = async (data: z.infer<typeof channelSchema>) => {
-        const response: genericResponse<object> = await createChannel(data);
+        const response: genericResponse<{ channel: ChannelData }> = await createChannel(data);
+        console.log(response);
         if (response.status === "success") {
             reset();
             setIsOpen(false);

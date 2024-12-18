@@ -29,11 +29,15 @@ type ChannelSettingsInputs = z.infer<typeof channelSettingsSchema>;
 type ChannelSettingsProps = {
     channelId: number;
     isOpen: boolean;
+    canAddComments: boolean;
+    privacy: boolean;
     onClose: () => void;
 };
 
 export default function ChannelSettingsDialog({
     channelId,
+    canAddComments,
+    privacy,
     isOpen,
     onClose,
 }: ChannelSettingsProps) {
@@ -46,8 +50,8 @@ export default function ChannelSettingsDialog({
     } = useForm<ChannelSettingsInputs>({
         resolver: zodResolver(channelSettingsSchema),
         defaultValues: {
-            privacy: false,
-            abilityToComment: false,
+            privacy,
+            abilityToComment: canAddComments,
             downloadPermission: false,
         },
     });

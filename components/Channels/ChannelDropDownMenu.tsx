@@ -14,12 +14,21 @@ import { addMembersToChannel } from "@/services/Channel";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
 import { MemberRole } from "@/types/user";
-
-export default function ChannelDropDownMenu() {
+type channelDropDownMenuProps = {
+    channelId: number;
+    inviteLink: string;
+    canAddComments: boolean;
+    privacy: boolean;
+};
+export default function ChannelDropDownMenu({
+    channelId,
+    inviteLink,
+    canAddComments,
+    privacy,
+}: channelDropDownMenuProps) {
     const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
-    const channelId: number = 16;
     const handleJoiningChannel = async () => {
         try {
             const body: MemberRole = { role: "member" };
@@ -80,13 +89,15 @@ export default function ChannelDropDownMenu() {
                 />
                 <ChannelSettings
                     channelId={channelId}
+                    canAddComments={canAddComments}
+                    privacy={privacy}
                     isOpen={isSettingsOpen}
                     onClose={() => setIsSettingsOpen(false)}
                 />
                 <InviteLinkDialog
                     isOpen={isInviteLinkOpen}
                     onClose={() => setIsInviteLinkOpen(false)}
-                    inviteLink="https://google.com"
+                    inviteLink={inviteLink}
                 />
             </div>
         </>

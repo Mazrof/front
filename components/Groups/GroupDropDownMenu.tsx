@@ -8,22 +8,22 @@ import { ThreeDotsIcon } from "@/utils/icons";
 import { useState } from "react";
 import AddAdmins from "./AddAdmins";
 import GroupSettings from "./GroupSettings";
-import InviteLinkDialog from "@/components/Channels/InviteLink";
 import GroupMembersList from "./GroupMembersList";
 import MuteNotification from "./MuteNotification";
 import { addMembersToGroup } from "@/services/Group";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
 import { MemberRole } from "@/types/user";
-
-export default function GroupDropDownMenu() {
+type groupDropMenuProps = {
+    groupId: number;
+    groupSize: number;
+    privacy: boolean;
+};
+export default function GroupDropDownMenu({ groupId, groupSize, privacy }: groupDropMenuProps) {
     const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
     const [isMembersListOpen, setIsMembersListOpen] = useState(false);
     const [isMuteNotificationsOpen, setIsMuteNotificationsOpen] = useState(false);
-
-    const groupId: number = 1;
 
     const handleJoiningGroup = async () => {
         try {
@@ -67,9 +67,7 @@ export default function GroupDropDownMenu() {
                     <DropdownMenuItem onClick={() => setIsMembersListOpen(true)}>
                         List of Group Members
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsInviteLinkOpen(true)}>
-                        Invite Link
-                    </DropdownMenuItem>
+
                     <DropdownMenuItem onClick={() => setIsMuteNotificationsOpen(true)}>
                         Mute Notifications
                     </DropdownMenuItem>
@@ -89,12 +87,9 @@ export default function GroupDropDownMenu() {
                 <GroupSettings
                     groupId={groupId}
                     isOpen={isSettingsOpen}
+                    groupSize={groupSize}
+                    privacy={privacy}
                     onClose={() => setIsSettingsOpen(false)}
-                />
-                <InviteLinkDialog
-                    isOpen={isInviteLinkOpen}
-                    onClose={() => setIsInviteLinkOpen(false)}
-                    inviteLink="https://example.com"
                 />
                 <GroupMembersList
                     groupId={groupId}

@@ -1,5 +1,10 @@
 export type ChannelData = {
-    name: string;
+    id: number;
+    invitationLink: string;
+    community: {
+        imageURL: string;
+        name: string;
+        privacy: boolean;
+    };
     canAddComments: boolean;
-    privacy: boolean;
 };
