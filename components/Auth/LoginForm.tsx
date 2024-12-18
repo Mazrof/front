@@ -54,7 +54,7 @@ function LoginForm({ children }: { children: React.ReactNode }) {
             setErrorRoot(failApiResponse.message);
         } else {
             const successApiResponse = response as successResponse<{ user: LoginResponse }>;
-            const { privateKey } = successApiResponse.data.user.user;
+            const { privateKey } = successApiResponse.data.user?.user;
             const { user_type } = successApiResponse.data.user;
             sessionStorage.setItem("key", privateKey as string);
             document.cookie = `user_type=${user_type}; path=/`;

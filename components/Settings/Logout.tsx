@@ -22,7 +22,7 @@ export function Logout() {
         setTimeout(() => {
             setPageName(null);
             router.push("/login");
-        }, 1750);
+        }, 1050);
     }
     return (
         <TooltipProvider>

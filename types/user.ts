@@ -79,14 +79,16 @@ export type SecondUser = {
     publicKey: string;
     lastSeen?: null | string;
     activeNow?: boolean | null;
+
 };
 export type ChatRoom = {
     id: number;
     type?: "personalChat" | "group" | "channel";
-    lastMeesage?: MessageType;
+    lastMessage?: MessageType;
     channel?: ChannelGroupChatRoom;
     group?: ChannelGroupChatRoom;
     secondUser?: SecondUser;
+    messagesCount?:number
 };
 export type FirstTimeChat = {
     isFirstTime: boolean;

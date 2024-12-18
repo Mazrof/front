@@ -6,9 +6,10 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
     size?: string;
-    documentUrl?: string | undefined;
+    documentUrl?: string[] | undefined;
     audioUrl?: string|undefined;
     type: "message" | "announcement";
+    name?:string
 };
 export type ReadReceipt = {
     userId: number;
@@ -43,9 +44,10 @@ export type MessagesStoreType = ChatRoom & {
 export type useMessagesStoreType = {
     chatMessages: MessagesStoreType[];
     setMessages: (newChatMessages: MessagesStoreType) => void;
-    setMessage: (newMessage: MessageTypeBE, participantId: number,userId:number) => void;
+    setMessage: (newMessage: MessageTypeBE, participantId: number, userId: number) => void;
     updateMessage: (message: MessageTypeBE, participantId: number) => void;
     removeMessage: (message: MessageTypeBE, participantId: number) => void;
     getChatMessage: (participantId: number) => MessageTypeBE[];
     checkExistChat: (participantId: number) => boolean;
+    getChat:(participantId:number)=>ChatRoom
 };

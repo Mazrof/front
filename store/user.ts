@@ -3,18 +3,7 @@ import { BlockUsers, FirstTimeChat, SelectedChatRoom, useWhoAmIType, WhoAmI } fr
 import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/Message";
 import { handleReturned } from "@/utils/inputMessage";
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
-    selectedChatRoom: {
-        secondUser: {
-            id:3,
-            username: "nesma",
-            phone: "01067193062",
-            activeNow: true,
-            screenName: "nesma",
-            publicKey: "23333",
-        },
-        type: "personalChat",
-        id: 1,
-    },
+    selectedChatRoom: null,
     setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
     isSelectedChatRoom: () => {
         const state: SelectedChatRoom = useSelectedChatRoom.getState(); // get the current state
@@ -44,8 +33,20 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
             chatMessages: [...state.chatMessages, newChatMessages], // Concatenate new messages to the existing array
         }));
     },
-// this function must update if sender not reciver and send media
-    setMessage: (newMessage: MessageTypeBE, participantId: number,userId) => {
+    getChat: (participantId: number) => {
+        const state = get(); // Get current store state
+        const chat = state.chatMessages.find((chat) => chat.id === participantId);
+        return {
+            id: chat?.id as number,
+            type: chat?.type,
+            secondUser: chat?.secondUser,
+            group: chat?.group,
+            channel: chat?.channel,
+            lastMessage: chat?.lastMessage,
+        };
+    },
+    // this function must update if sender not reciver and send media
+    setMessage: (newMessage: MessageTypeBE, participantId: number, userId) => {
         set((state) => ({
             chatMessages: state?.chatMessages?.map((chat) =>
                 chat.id === participantId
@@ -57,7 +58,7 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
                                   : chat.messages.map((message, index) =>
                                         message.id === -1 &&
                                         index === chat.messages.findIndex((m) => m.id === -1)
-                                            ? handleReturned(message,newMessage) // Update message with ID
+                                            ? handleReturned(message, newMessage) // Update message with ID
                                             : message
                                     ),
                       }

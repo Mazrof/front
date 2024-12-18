@@ -26,10 +26,8 @@ const server = `${process.env.NEXT_SERVER_IP}api/v1`;
  * };
  */
 
-export async function getMessages({
-    id,
-    page,
-    limit,
+export async function getMessages( {
+    id, page, limit,
 }: {
     id: number;
     page: number;

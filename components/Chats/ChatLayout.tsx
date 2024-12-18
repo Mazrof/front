@@ -7,6 +7,7 @@ import { MessageCreatedAt } from "./Message/MessageCreatedAt";
 import { MessageVideo } from "./Message/MessageVideo";
 import { useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
 import { VoiceMessage } from "@/components/Chats/Message/VoiceMessage";
+import { MessageDialog } from "./Message/MessageDialog";
 function ChatLayout() {
     const { selectedChatRoom } = useSelectedChatRoom();
     const{user}=useWhoAmI()
@@ -40,6 +41,7 @@ function ChatLayout() {
                             <MessageImage />
                             <MessageVideo />
                             <VoiceMessage />
+                            <MessageDialog/>
                             <MessageText />
                             <MessageCreatedAt />
                         </Message>
