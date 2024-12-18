@@ -1,4 +1,3 @@
-import { MessageType, MessageTypeBE } from "@/types/Message";
 import imageCompression from "browser-image-compression";
 export function checkClickOutside(event: MouseEvent, element: HTMLDivElement | null) {
     return element && !element.contains(event.target as Node);
@@ -19,11 +18,12 @@ export function isAllowedFileSize(size: number, userMaxSize: number) {
     return size <= maxSize;
 }
 export const KnowFileType = (file: File) => {
+    console.log("file",file.type)
     const fileType = file.type.startsWith("image")
         ? "image"
         : file.type.startsWith("video")
           ? "video"
-          : file.name.split(".")[1];
+          : "file";
     return fileType;
 };
 export const compressMedia = async (file: File | null) => {
@@ -97,30 +97,3 @@ export const convertToBase64 = (
 
     reader.readAsDataURL(file);
 };
-export function handleReturned(
-    oldMessage: MessageTypeBE,
-    newMessage: MessageTypeBE
-): MessageTypeBE {
-    if (newMessage.url) {
-        try {
-            const object: MessageType = JSON.parse(oldMessage.content as string);
-
-            // Build the updated object
-            const newObj: MessageType = {
-                audioUrl: object.audioUrl ? newMessage.url : object.audioUrl,
-                imageUrl: object.imageUrl ? [...object.imageUrl, newMessage.url] : object.imageUrl,
-                videoUrl: object.videoUrl ? [...object.videoUrl, newMessage.url] : object.videoUrl,
-                documentUrl: object.documentUrl ? [...object.documentUrl, newMessage.url] :  object.documentUrl,
-                type: object.type,
-            };
-
-            // Merge and stringify the updated content
-            return { ...newMessage, content: JSON.stringify({ ...object, ...newObj }) };
-        } catch (error) {
-            console.error("Error parsing JSON:", error);
-            return newMessage;
-        }
-    }
-
-    return newMessage;
-}

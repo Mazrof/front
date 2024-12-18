@@ -65,7 +65,7 @@ export type GroupMember = Member & {
 export type ChatRoom = {
     id: number;
     type?: "personalChat" | "group" | "channel";
-    lastMeesage?: MessageType;
+    lastMessage?: MessageType;
     channel?: ChannelData;
     group?: GroupData;
     secondUser?: SecondUser;

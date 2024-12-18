@@ -14,6 +14,8 @@ function PersonalChat() {
             <InfoChatBar
                 name={selectedChatRoom.secondUser?.username as string}
                 lastSeen={selectedChatRoom.secondUser?.lastSeen as string}
+                imageURL={selectedChatRoom.secondUser?.photo as string}
+                chatType="personalChat"
             >
                 {InfoChatBar.PersonalDrop}
             </InfoChatBar>

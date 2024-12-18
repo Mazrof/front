@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { BlockUsers, FirstTimeChat, SelectedChatRoom, useWhoAmIType, WhoAmI } from "@/types/user";
 import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/Message";
-import { handleReturned } from "@/utils/inputMessage";
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
     selectedChatRoom: null,
     setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
@@ -58,7 +57,7 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
                                   : chat.messages.map((message, index) =>
                                         message.id === -1 &&
                                         index === chat.messages.findIndex((m) => m.id === -1)
-                                            ? handleReturned(message, newMessage) // Update message with ID
+                                            ? newMessage // Update message with ID
                                             : message
                                     ),
                       }

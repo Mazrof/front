@@ -27,10 +27,7 @@ function InputMessageButtons() {
             isForward: false,
             participantType: undefined , // or group or personalChat when mention
             channelOrGroupId: undefined,
-            replyTo:
-                (selectedChatRoom?.id as number) !== 31
-                    ? selectedChatRoom?.secondUser?.id
-                    : undefined, // or null (the message id to which this message is a reply)
+            replyTo: undefined, // or null (the message id to which this message is a reply)
             receiverId: 11,
             inputMessageMentions: undefined,
             senderId:user?.user.id
