@@ -10,7 +10,7 @@ import { VoiceMessage } from "@/components/Chats/Message/VoiceMessage";
 import { MessageDialog } from "./Message/MessageDialog";
 function ChatLayout() {
     const { selectedChatRoom } = useSelectedChatRoom();
-    const{user}=useWhoAmI()
+    const { user } = useWhoAmI();
     const { getChatMessage } = useMessagesStore();
     const parseMessageContent = (content: string | undefined): MessageType => {
         try {
@@ -29,7 +29,10 @@ function ChatLayout() {
         <div className="mb-60 max-h-[85vh] w-full overflow-y-scroll px-5 transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
             {getChatMessage(selectedChatRoom?.id as number)?.map(
                 (message: MessageTypeBE, index) => (
-                    <div className={`container ${message.senderId===user?.user.id?"ml-auto":"mr-auto"} w-1/2 px-5 lg:w-1/3`} key={index}>
+                    <div
+                        className={`container ${message.senderId === user?.user.id ? "ml-auto" : "mr-auto"} w-1/2 px-5 lg:w-1/3`}
+                        key={index}
+                    >
                         <Message
                             message={
                                 {
