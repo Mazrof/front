@@ -2,57 +2,39 @@
 e client";
 import { SendMsIcon } from "@/utils/icons";
 import { useInputTextMessage, useIsRecording } from "@/store/inputMessage";
-import { Socket } from "socket.io-client";
-import { getSocket } from "@/lib/socket";
 import VoiceNoteHandler from "@/components/Chats/InputMessage/VoiceNoteHandler"; // Import VoiceNoteHandler
- import { MessageTypeBE } from "@/types/Message";
-import {  useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
-import { getTimeWithAddedHours } from "@/utils/inputMessage";
-
+import { useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
+import { sendMessageBE } from "@/utils/inputMessage";
 function InputMessageButtons() {
     const { textMessage, setTextMessage } = useInputTextMessage();
     const { isRecording } = useIsRecording();
     const { selectedChatRoom } = useSelectedChatRoom();
     const { setMessage } = useMessagesStore();
-    const { chatMessages } = useMessagesStore()
-    console.log("chat message",chatMessages)
-    const {user}=useWhoAmI()
+    const { chatMessages } = useMessagesStore();
+    console.log("chat message", chatMessages);
+    const { user } = useWhoAmI();
     // Regular message sending logic
     function handleOnSendMesage(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        const socket: Socket = getSocket() as Socket
-        const message:MessageTypeBE= {
-            content:JSON.stringify({text:textMessage,type:"message"}),
-            participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
-            status: undefined, // or null or drafted
-            durationInMinutes: undefined, // can be null self destored
-            isAnnouncement: false, // for group announcement
-            isForward: false,
-            participantType: undefined , // or group or personalChat when mention
-            channelOrGroupId: undefined,
-            replyTo: undefined, // or null (the message id to which this message is a reply)
-            receiverId: selectedChatRoom?.id ? undefined:selectedChatRoom?.secondUser?.id,
-            inputMessageMentions: undefined,
-            senderId:user?.user.id
-        }
-        console.log("sent ",message)
-        // untill return
-        
-        setMessage({ ...message, id: -1, createdAt: getTimeWithAddedHours(2) },selectedChatRoom?.id as number,user?.user?.id as number)
-        socket?.emit("message:sent", message)
-        setTextMessage("")
-
+        sendMessageBE(
+            selectedChatRoom,
+            user,
+            setMessage,
+            { text: textMessage, type: "message" },
+            undefined
+        );
+        setTextMessage("");
     }
 
     return (
         <>
             {isRecording === false && textMessage !== "" ? (
                 <button
-                    className="rounded-full bg-blue-700 p-3 text-white transition-colors duration-200 hover:bg-blue-800 "
+                    className="rounded-full bg-blue-700 p-3 text-white transition-colors duration-200 hover:bg-blue-800"
                     data-testid="sendMsIcon"
                     onClick={handleOnSendMesage}
                 >
-                    <SendMsIcon/>
+                    <SendMsIcon />
                 </button>
             ) : (
                 <VoiceNoteHandler />

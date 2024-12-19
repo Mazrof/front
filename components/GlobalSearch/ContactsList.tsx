@@ -63,7 +63,7 @@ export default function ContactsList({
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
                                 setChatRoom({
-                                    id: Number(user.id),
+                                    
                                     secondUser: {
                                         id: Number(user.id),
                                         username: user.username,
@@ -103,6 +103,7 @@ export default function ContactsList({
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
                                 setChatRoom({
+
                                     id: group.id,
                                     group: {
                                         id: group.id,
