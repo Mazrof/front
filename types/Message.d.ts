@@ -49,4 +49,5 @@ export type useMessagesStoreType = {
     getChatMessage: (participantId: number) => MessageTypeBE[];
     checkExistChat: (participantId: number) => boolean;
     getChat: (participantId: number) => ChatRoom;
+    addChat:(newChatMessages:MessagesStoreType)=>void
 };

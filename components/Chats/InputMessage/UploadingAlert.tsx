@@ -9,6 +9,7 @@ import {
     useInputTextMessage,
     useIsMaxSizeError,
 } from "@/store/inputMessage";
+import { getTimeWithAddedHours } from "@/utils/inputMessage";
 import { capitalizeFirstLetter } from "@/utils/inputMessage";
 import ShowUploadedFiles from "@/components/Chats/InputMessage/ShowUploadedFiles";
 import { getFileType } from "@/utils/inputMessage";
@@ -48,7 +49,7 @@ export function UploadingAlert() {
         setUploadedFile(null);
         setIsOpenAlert(false);
         setIsMaxSize(false);
-        setCaption("")
+        setCaption("");
         setTextMessage("");
     }
     function sendFile() {
@@ -71,19 +72,20 @@ export function UploadingAlert() {
             participantType: undefined, // or group or personalChat when mention
             channelOrGroupId: undefined,
             replyTo: undefined, // or null (the message id to which this message is a reply)
-            receiverId: 11,
+            receiverId: selectedChatRoom?.id ? undefined : selectedChatRoom?.secondUser?.id,
             inputMessageMentions: undefined,
             senderId: user?.user.id,
         };
         console.log(message);
         // untill return
         setMessage(
-            { ...message, id: -1 },
+            { ...message, id: -1, createdAt: getTimeWithAddedHours(2) },
             selectedChatRoom?.id as number,
             user?.user?.id as number
+
         );
         socket?.emit("message:sent", message);
-       
+
         unSetVariables();
     }
     useEffect(() => {

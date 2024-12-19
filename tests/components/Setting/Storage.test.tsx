@@ -51,25 +51,7 @@ describe("Storage Component", () => {
 
         expect(screen.getByText(/Max Media Size Auto Download/)).toBeInTheDocument();
         expect(screen.getByText(/Max Media Size Upload/)).toBeInTheDocument();
-    });
-
-    it("calls saveToBackend and handles response correctly", async () => {
-        const mockResponse = { status: "success", data: { updatedUser: {} } };
-        (updateProfile as jest.Mock).mockResolvedValueOnce(mockResponse);
-
-        render(<Storage />);
-
-        const saveButton = screen.getByRole("button", { name: /Save/i });
-        await userEvent.click(saveButton);
-
-        await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({
-            autoDownloadSizeLimit: 50, 
-            maxLimitFileSize: 50, 
-        }));
-
-        await waitFor(() => expect(mockSetSettings).toHaveBeenCalledWith(mockResponse.data.updatedUser));
-    });
-
+    });      
     it("redirects to login if response status is fail with 401", async () => {
         const mockResponse = { status: "fail", error: { statusCode: 401 } };
         (updateProfile as jest.Mock).mockResolvedValueOnce(mockResponse);

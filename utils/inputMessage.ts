@@ -1,3 +1,4 @@
+import { MessageType } from "@/types/Message";
 import imageCompression from "browser-image-compression";
 export function checkClickOutside(event: MouseEvent, element: HTMLDivElement | null) {
     return element && !element.contains(event.target as Node);
@@ -97,3 +98,22 @@ export const convertToBase64 = (
 
     reader.readAsDataURL(file);
 };
+export  const parseMessageContent = (content: string | undefined): MessageType => {
+        try {
+            // Try to parse the content if it's a valid JSON string
+            return JSON.parse(content as string);
+        } catch (error) {
+            // Handle the case where JSON is invalid
+            console.error("Error parsing message content:", error);
+            return {
+                type: "message",
+            }; // Return an empty object or a default value
+        }
+    };
+export const getTimeWithAddedHours = (hoursToAdd: number) => {
+    const date = new Date(); // Get the current time
+    date.setHours(date.getHours() + hoursToAdd); // Add the specified hours
+    return date.toISOString(); // Format to ISO 8601 (e.g., "2024-12-19T18:32:00.353Z")
+    
+};
+
