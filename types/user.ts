@@ -69,7 +69,7 @@ export type ChatRoom = {
     channel?: ChannelData;
     group?: GroupData;
     secondUser?: SecondUser;
-  messagesCount?:number;
+    messagesCount?: number;
 };
 
 export type ChannelGroupChatRoom = {
@@ -86,13 +86,13 @@ export type ChannelGroupChatRoom = {
 export type SecondUser = {
     id: number;
     username: string;
+    email?: string;
     photo?: string;
     screenName: null | string;
     phone: string;
     publicKey: string;
     lastSeen?: null | string;
     activeNow?: boolean | null;
-
 };
 
 export type FirstTimeChat = {
