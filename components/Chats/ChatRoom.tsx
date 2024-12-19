@@ -9,7 +9,9 @@ function ChatRoom() {
     const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
 
-    useEffect(() => {}, [isSelectedChat]);
+    useEffect(() => {
+        
+    }, [isSelectedChat]);
     console.log("selected id", selectedChatRoom);
     return (
         <div

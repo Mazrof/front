@@ -1,5 +1,8 @@
-import { MessageType } from "@/types/Message";
+import { getSocket } from "@/lib/socket";
+import { MessageType, MessageTypeBE } from "@/types/Message";
+import { ChatRoom, WhoAmI } from "@/types/user";
 import imageCompression from "browser-image-compression";
+import { Socket } from "socket.io-client";
 export function checkClickOutside(event: MouseEvent, element: HTMLDivElement | null) {
     return element && !element.contains(event.target as Node);
 }
@@ -19,7 +22,7 @@ export function isAllowedFileSize(size: number, userMaxSize: number) {
     return size <= maxSize;
 }
 export const KnowFileType = (file: File) => {
-    console.log("file",file.type)
+    console.log("file", file.type);
     const fileType = file.type.startsWith("image")
         ? "image"
         : file.type.startsWith("video")
@@ -64,14 +67,14 @@ export const convertFileToImageVideo = (
         const fileType = KnowFileType(file);
         if (!fileType) return;
         setFileType(fileType);
-       
+
         const reader = new FileReader();
         reader.onloadend = () => {
             const result = reader.result;
             if (typeof result === "string") {
                 setUrl(result);
                 setIsOpenAlert(true);
-                console.log("file",result)
+                console.log("file", result);
             }
         };
         reader.readAsDataURL(file);
@@ -98,22 +101,57 @@ export const convertToBase64 = (
 
     reader.readAsDataURL(file);
 };
-export  const parseMessageContent = (content: string | undefined): MessageType => {
-        try {
-            // Try to parse the content if it's a valid JSON string
-            return JSON.parse(content as string);
-        } catch (error) {
-            // Handle the case where JSON is invalid
-            console.error("Error parsing message content:", error);
-            return {
-                type: "message",
-            }; // Return an empty object or a default value
-        }
-    };
+export const parseMessageContent = (content: string | undefined): MessageType => {
+    try {
+        // Try to parse the content if it's a valid JSON string
+        return JSON.parse(content as string);
+    } catch (error) {
+        // Handle the case where JSON is invalid
+        console.error("Error parsing message content:", error);
+        return {
+            type: "message",
+        }; // Return an empty object or a default value
+    }
+};
 export const getTimeWithAddedHours = (hoursToAdd: number) => {
     const date = new Date(); // Get the current time
     date.setHours(date.getHours() + hoursToAdd); // Add the specified hours
     return date.toISOString(); // Format to ISO 8601 (e.g., "2024-12-19T18:32:00.353Z")
-    
 };
 
+export const sendMessageBE = (
+    selectedChatRoom: ChatRoom | null,
+    user: WhoAmI | null,
+    setMessage: (newMessage: MessageTypeBE, participantId: number, userId: number) => void,
+    object: MessageType,
+    status: "pinned" | "drafted" | undefined
+) => {
+    const socket: Socket = getSocket() as Socket;
+    const message: MessageTypeBE = {
+        content: JSON.stringify(object),
+        participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
+        status: status, // or null or drafted
+        durationInMinutes: undefined, // can be null self destored
+        isAnnouncement: false, // for group announcement
+        isForward: false,
+        participantType: undefined, // or group or personalChat when mention
+        channelOrGroupId:
+            selectedChatRoom?.type === "channel"
+                ? selectedChatRoom?.channel?.id
+                : selectedChatRoom?.type === "group"
+                  ? selectedChatRoom?.group?.id
+                  : undefined,
+        replyTo: undefined, // or null (the message id to which this message is a reply)
+        receiverId: selectedChatRoom?.id ? undefined : selectedChatRoom?.secondUser?.id,
+        inputMessageMentions: undefined,
+        senderId: user?.user.id,
+    };
+    console.log(message);
+    // untill return
+    setMessage(
+        { ...message, id: -1, createdAt: getTimeWithAddedHours(2) },
+        selectedChatRoom?.id as number,
+        user?.user?.id as number
+    );
+    socket?.emit("message:sent", message);
+};

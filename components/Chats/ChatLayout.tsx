@@ -13,7 +13,7 @@ function ChatLayout() {
     const { selectedChatRoom } = useSelectedChatRoom();
     const { user } = useWhoAmI();
     const { getChatMessage } = useMessagesStore();
-   
+
     return (
         <div className="mb-60 max-h-[85vh] w-full overflow-y-scroll px-5 transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
             {getChatMessage(selectedChatRoom?.id as number)?.map(
@@ -22,21 +22,23 @@ function ChatLayout() {
                         className={`container ${message.senderId === user?.user.id ? "ml-auto" : "mr-auto"} w-1/2 px-5 lg:w-1/3`}
                         key={index}
                     >
-                        <Message
-                            message={
-                                {
-                                    ...parseMessageContent(message?.content as string),
-                                    createdAt: message?.createdAt,
-                                } as MessageType
-                            }
-                        >
-                            <MessageImage />
-                            <MessageVideo />
-                            <VoiceMessage />
-                            <MessageFile />
-                            <MessageText />
-                            <MessageCreatedAt />
-                        </Message>
+                        {message.status !== "drafted" && (
+                            <Message
+                                message={
+                                    {
+                                        ...parseMessageContent(message?.content as string),
+                                        createdAt: message?.createdAt,
+                                    } as MessageType
+                                }
+                            >
+                                <MessageImage />
+                                <MessageVideo />
+                                <VoiceMessage />
+                                <MessageFile />
+                                <MessageText />
+                                <MessageCreatedAt />
+                            </Message>
+                        )}
                     </div>
                 )
             )}
