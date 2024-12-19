@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { sendQuery } from "@/services/Contacts/Contacts";
+import { ChannelData } from "@/types/channel";
+import { GroupData } from "@/types/group";
 import {
     Channel,
     Contact,
@@ -9,6 +11,7 @@ import {
     ShowGlobalSearch,
     User,
 } from "@/types/SideBar";
+import { SecondUser } from "@/types/user";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 export default function ContactsSearchBar({
@@ -19,9 +22,9 @@ export default function ContactsSearchBar({
     showGlobalSearch: ShowGlobalSearch;
     setShowGlobalSearch: SetShowGlobalSearch;
     onSearch: (contacts: {
-        users: Contact[];
-        groups: Contact[];
-        channels: Contact[];
+        users: SecondUser[];
+        groups: GroupData[];
+        channels: ChannelData[];
     }) => void;
 }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -32,27 +35,32 @@ export default function ContactsSearchBar({
         setIsLoading(true);
         try {
             const result = await sendQuery(query);
-    
+            console.log(result);
             const groupedContacts = {
-                users: result.data.users.map((user: User) => ({
+                users: result.data.users.map((user: SecondUser) => ({
                     id: user.id,
-                    name: user.name,
-                    phone:user.phone,
-                    email:user.email,
-                    avatar: user.photo || "",
+                    username: user.username,
+                    email: user.email,
+                    photo: user.photo,
+                    screenName: user.screenName,
+                    phone: user.phone,
+                    publicKey: user.publicKey,
+                    lastSeen: user.lastSeen,
+                    activeNow: user.activeNow,
                 })),
-                groups: result.data.groups.map((group: Group) => ({
+                groups: result.data.groups.map((group: GroupData) => ({
                     id: group.id,
-                    name: group.name,
-                    avatar: group.photo || "", 
+                    groupSize: group.groupSize,
+                    community: group.community,
                 })),
-                channels: result.data.channels.map((channel: Channel) => ({
+                channels: result.data.channels.map((channel: ChannelData) => ({
                     id: channel.id,
-                    name: channel.name,
-                    avatar: channel.photo || "",
+                    invitationLink: channel.invitationLink,
+                    community: channel.community,
+                    canAddComments: channel.canAddComments,
                 })),
             };
-    
+
             onSearch(groupedContacts);
         } catch (error) {
             console.error("Error fetching contacts:", error);
@@ -60,7 +68,6 @@ export default function ContactsSearchBar({
             setIsLoading(false);
         }
     }
-    
 
     return (
         <header className="flex items-center justify-between bg-[#fcfcfc] p-4 shadow-md dark:bg-[#2C2F33]">

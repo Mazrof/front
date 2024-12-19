@@ -4,7 +4,7 @@ import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
     selectedChatRoom: {
         id: 12,
-        type:"personalChat"
+        type: "personalChat",
     },
     setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
     isSelectedChatRoom: () => {
