@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import {
     Dialog,
@@ -17,9 +18,10 @@ function DeleteMessage() {
     const handleDelete = async () => {
         setIsDeleting(true);
         try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
             console.log("Message deleted successfully!");
             setIsOpen(false);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             console.error("Failed to delete the message.");
         } finally {
@@ -49,7 +51,8 @@ function DeleteMessage() {
                             type="button"
                             variant="outline"
                             className="mr-2"
-                            data-test="delete-cancelButton"
+                            data-testid="delete-cancelButton"
+                            disabled={isDeleting}
                         >
                             Cancel
                         </Button>
@@ -59,12 +62,12 @@ function DeleteMessage() {
                         onClick={handleDelete}
                         disabled={isDeleting}
                         className="bg-red-500 text-white hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
-                        data-test="delete-confirmButton"
+                        data-testid="delete-confirmButton"
                     >
                         {isDeleting ? (
                             <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Deleting...
+                                <Loader2 data-testid="loader" className="mr-2 h-4 w-4 animate-spin" />
+                                <span>Deleting...</span>
                             </>
                         ) : (
                             "Sure"

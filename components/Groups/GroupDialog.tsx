@@ -117,7 +117,7 @@ function GroupDialog() {
                                 >
                                     <div>
                                         <RadioGroupItem
-                                            value="false"
+                                            value="true"
                                             id="public"
                                             data-test="group-privacy-public"
                                         />
@@ -125,7 +125,7 @@ function GroupDialog() {
                                     </div>
                                     <div>
                                         <RadioGroupItem
-                                            value="true"
+                                            value="false"
                                             id="private"
                                             data-test="group-privacy-private"
                                         />

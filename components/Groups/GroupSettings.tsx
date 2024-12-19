@@ -100,11 +100,11 @@ export default function GroupSettings({
                                     className="flex space-x-4"
                                 >
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="false" id="public" />
+                                        <RadioGroupItem value="true" id="public" />
                                         <Label htmlFor="public">Public</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="true" id="private" />
+                                        <RadioGroupItem value="false" id="private" />
                                         <Label htmlFor="private">Private</Label>
                                     </div>
                                 </RadioGroup>

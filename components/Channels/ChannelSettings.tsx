@@ -78,9 +78,12 @@ export default function ChannelSettingsDialog({
                     Channel Settings
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent aria-describedby="channel-settings-description">
                 <DialogHeader>
                     <DialogTitle>Channel Settings</DialogTitle>
+                    <p id="channel-settings-description" className="text-sm text-gray-500">
+                        Manage your channel&apos;s privacy, commenting, and download settings.
+                    </p>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-2">
@@ -96,7 +99,7 @@ export default function ChannelSettingsDialog({
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value="false"
+                                            value="true"
                                             id="public"
                                             className="text-blue-500 dark:text-blue-400"
                                         />
@@ -109,7 +112,7 @@ export default function ChannelSettingsDialog({
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value="true"
+                                            value="false"
                                             id="private"
                                             className="text-blue-500 dark:text-blue-400"
                                         />
