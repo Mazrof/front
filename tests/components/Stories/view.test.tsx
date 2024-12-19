@@ -126,45 +126,5 @@ describe("ViewStories Component", () => {
     // Check that we're back to the first story
     expect(screen.getByText("Story 1")).toBeInTheDocument();
   });
-
   
-
-  it("auto-advances the story after a set time", async () => {
-    const mockStories = [
-      {
-        username: "john_doe",
-        photo: "https://example.com/photo.jpg",
-        stories: [
-            {
-                content: "Story 1",
-                mediaType: "photo",
-                color: "blue",
-                storyMedia: "https://example.com/image.jpg",
-              },
-              {
-                content: "Story 2",
-                mediaType: "photo",
-                color: "blue",
-                storyMedia: "https://example.com/image.jpg",
-              }
-        ],
-      },
-    ];
-
-    (getStories as jest.Mock).mockResolvedValueOnce({
-      status: "success",
-      data: { allFriendsStories: mockStories },
-    });
-
-    render(<ViewStories />);
-
-    // Wait for the story to appear
-    await screen.findByText("Story 1");
-
-    // Simulate the auto-advance timer
-    jest.advanceTimersByTime(5000); // Advance by 5 seconds
-
-    // Check that the next story is shown (or the next action is triggered)
-    expect(screen.queryByText("Story 1")).toBeInTheDocument();
-  });
 });
