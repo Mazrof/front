@@ -8,6 +8,7 @@ import GroupChats from "../Groups/GroupChats/GroupChats";
 function ChatRoom() {
     const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
+
     useEffect(() => {}, [isSelectedChat]);
     console.log("selected id", selectedChatRoom);
     return (
