@@ -7,12 +7,15 @@ import { getSocket } from "@/lib/socket";
 import VoiceNoteHandler from "@/components/Chats/InputMessage/VoiceNoteHandler"; // Import VoiceNoteHandler
  import { MessageTypeBE } from "@/types/Message";
 import {  useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
+import { getTimeWithAddedHours } from "@/utils/inputMessage";
 
 function InputMessageButtons() {
     const { textMessage, setTextMessage } = useInputTextMessage();
     const { isRecording } = useIsRecording();
     const { selectedChatRoom } = useSelectedChatRoom();
     const { setMessage } = useMessagesStore();
+    const { chatMessages } = useMessagesStore()
+    console.log("chat message",chatMessages)
     const {user}=useWhoAmI()
     // Regular message sending logic
     function handleOnSendMesage(event: React.MouseEvent<HTMLButtonElement>) {
@@ -28,13 +31,14 @@ function InputMessageButtons() {
             participantType: undefined , // or group or personalChat when mention
             channelOrGroupId: undefined,
             replyTo: undefined, // or null (the message id to which this message is a reply)
-            receiverId: 11,
+            receiverId: selectedChatRoom?.id ? undefined:selectedChatRoom?.secondUser?.id,
             inputMessageMentions: undefined,
             senderId:user?.user.id
         }
         console.log("sent ",message)
         // untill return
-        setMessage({...message,id:-1},selectedChatRoom?.id as number,user?.user?.id as number)
+        
+        setMessage({ ...message, id: -1, createdAt: getTimeWithAddedHours(2) },selectedChatRoom?.id as number,user?.user?.id as number)
         socket?.emit("message:sent", message)
         setTextMessage("")
 

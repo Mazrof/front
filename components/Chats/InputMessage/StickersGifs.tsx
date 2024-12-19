@@ -5,12 +5,13 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { Stickers, Gifs } from "@/data";
 import { StickerGif } from "@/types/inputMessage";
-import { convertToBase64 } from "@/utils/inputMessage";
+import { convertToBase64, getTimeWithAddedHours } from "@/utils/inputMessage";
 import { Socket } from "socket.io-client";
 import { getSocket } from "@/lib/socket";
 import { MessageTypeBE } from "@/types/Message";
-import { useMessagesStore, useSelectedChatRoom, useWhoAmI  
- } from "@/store/user";
+import {
+    useMessagesStore, useSelectedChatRoom, useWhoAmI
+} from "@/store/user";
 
 function StickersGifs({ option }: { option: string }) {
     const { selectedChatRoom } = useSelectedChatRoom();
@@ -26,14 +27,13 @@ function StickersGifs({ option }: { option: string }) {
                 console.log(error);
             } else {
                 console.log(base64)
-                 onSendStickers(base64 as string);
+                onSendStickers(base64 as string);
             }
         });
     };
     function onSendStickers(url: string) {
-        const socket: Socket = getSocket() as Socket;
-        const message: MessageTypeBE = {
-            content: JSON.stringify({ imageUrl:[ url] ,type:"message"}),
+        const socket: Socket = getSocket() as Socket; const message: MessageTypeBE = {
+            content: JSON.stringify({ imageUrl: [url], type: "message" }),
             participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
             status: undefined, // or null or drafted
             durationInMinutes: undefined, // can be null self destored
@@ -41,14 +41,14 @@ function StickersGifs({ option }: { option: string }) {
             isForward: false,
             participantType: undefined, // or group or personalChat when mention
             channelOrGroupId: undefined,
-            replyTo:undefined, // or null (the message id to which this message is a reply)
-            receiverId: 11,
+            replyTo: undefined, // or null (the message id to which this message is a reply)
+            receiverId: selectedChatRoom?.id ? undefined : selectedChatRoom?.secondUser?.id,
             inputMessageMentions: undefined,
-            senderId:user?.user.id
-        };
+            senderId: user?.user.id
+        }
         console.log(message)
         // untill return
-        setMessage({ ...message, id: -1 }, selectedChatRoom?.id as number, user?.user?.id as number)
+        setMessage({ ...message, id: -1, createdAt: getTimeWithAddedHours(2) }, selectedChatRoom?.id as number, user?.user?.id as number)
         socket?.emit("message:sent", message);
     }
     const { stickers, gifs, setGifs, setStickers } = useStickersGifs();

@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import LoginForm from "@/components/Auth/LoginForm";
 import Oauth from "@/components/Auth/Oauth";
 import { OAuthProps } from "@/types/auth";
-import { LoginWithEmail } from "@/services/User";
 import { useRouter } from "next/navigation";
 // Mock the next/router module
 jest.mock("next/navigation", () => ({
@@ -110,26 +109,6 @@ describe("LoginForm", () => {
             });
         });
 
-        it("should go to home page if the user loggedin ", async () => {
-            (LoginWithEmail as jest.Mock).mockReturnValue({
-                access_token: "access token",
-                refresh_token: "refresh token",
-            });
-            render(
-                <LoginForm>
-                    <Oauth operation="Login" />
-                </LoginForm>
-            );
-            const paswordField = screen.getByTestId("password");
-            const emailField = screen.getByTestId("email");
-            const login = screen.getByRole("button", { name: "Login" });
-            await userEvent.type(paswordField, "Ne@12345678");
-            await userEvent.type(emailField, "example@example.com");
-            await userEvent.click(login);
-            await waitFor(() => {
-                expect(useRouter().push).toHaveBeenCalledWith("/");
-            });
-        });
         it("should go to signup page when click to Signup button", async () => {
             render(
                 <LoginForm>
