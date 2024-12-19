@@ -6,14 +6,10 @@ export type MessageType = {
     createdAt?: string | undefined;
     videoUrl?: string[] | undefined;
     size?: string;
-    documentObject?: {
-        name?: string;
-        documentUrl?: string | undefined;
-        size?: string;
-    };
+    documentUrl?: string | undefined;
     audioUrl?: string | undefined;
     type: "message" | "announcement";
-    name?:string
+    name?: string;
 };
 export type ReadReceipt = {
     userId: number;
@@ -52,5 +48,5 @@ export type useMessagesStoreType = {
     removeMessage: (message: MessageTypeBE, participantId: number) => void;
     getChatMessage: (participantId: number) => MessageTypeBE[];
     checkExistChat: (participantId: number) => boolean;
-    getChat:(participantId:number)=>ChatRoom
+    getChat: (participantId: number) => ChatRoom;
 };
