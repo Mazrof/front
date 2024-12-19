@@ -5,23 +5,19 @@ import { useMessageContext } from "@/provider/MessageProvider/MessageProvider";
 import { Download, FileIcon } from "lucide-react";
 
 export default function MessageFile() {
-    const { documentObject } = useMessageContext();
-    const { documentUrl, size, name } = documentObject as {
-        documentUrl: string;
-        name: string;
-        size: string;
-    };
+    const message = useMessageContext();
+    const { documentUrl, size, name } = message;
 
     const handleDownload = () => {
         const link = document.createElement("a");
-        link.href = documentUrl;
+        link.href = documentUrl as string;
         link.download = name || "file";
         link.click();
     };
 
     return (
         <>
-            {documentObject && (
+            {documentUrl && (
                 <div
                     className="flex w-fit max-w-md cursor-pointer flex-col rounded-lg bg-white p-4 shadow-md dark:bg-[rgb(39,39,39)]"
                     onClick={handleDownload}
