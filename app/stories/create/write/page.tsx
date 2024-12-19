@@ -2,13 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { sendStory } from "@/services/Stories/Stories";
 
 export default function CreateStoryWithText() {
   const [text, setText] = useState<string>("");
   const [color, setColor] = useState<string>("blue");
-  const [backgroundMedia, setBackgroundMedia] = useState<string | null>(null); // Handles both image and video
-  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
-  const [mediaType, setMediaType] = useState<"image" | "video" | null>("image"); // Media type
+  const [backgroundMedia, setBackgroundMedia] = useState<string | null>(null);
+  const [mediaType, setMediaType] = useState<"image" | "video" | null>("image");
   const router = useRouter();
 
   const colors = ["blue", "green", "yellow", "red", "purple", "black"];
@@ -29,7 +29,6 @@ export default function CreateStoryWithText() {
       reader.onloadend = () => {
         const base64Media = reader.result as string;
         setBackgroundMedia(base64Media);
-        setMediaPreview(URL.createObjectURL(file));
         setMediaType(fileType);
         setColor(""); // Reset color when media is selected
       };
@@ -40,25 +39,25 @@ export default function CreateStoryWithText() {
 
   const handleDeselectMedia = () => {
     setBackgroundMedia(null);
-    setMediaPreview(null);
     setMediaType("image");
     setColor("blue");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const story = {
-      text,
-      color,
-      backgroundMedia,
-      mediaType, 
-      createdAt: Date.now(),
+      content: text || "",
+      mediaType: backgroundMedia ? (mediaType === "image" ? "photo" : "video") : "photo",
+      color: backgroundMedia ? "blue" : color,
+      storyMedia: backgroundMedia || undefined,
     };
 
-    const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
-    const updatedStories = [...existingStories, story];
-    localStorage.setItem("stories", JSON.stringify(updatedStories));
-
-    router.push("/stories");
+    try {
+      await sendStory(story);
+      router.push("/stories");
+    } catch (error) {
+      console.error("Error submitting story:", error);
+      alert("Failed to submit the story. Please try again.");
+    }
   };
 
   return (
@@ -66,7 +65,7 @@ export default function CreateStoryWithText() {
       className="h-screen w-screen flex flex-col justify-center items-center"
       style={{
         backgroundColor: backgroundMedia ? "transparent" : color,
-        backgroundImage: mediaType === "image" ? `url(${mediaPreview})` : "none",
+        backgroundImage: mediaType === "image" ? `url(${backgroundMedia})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -76,39 +75,26 @@ export default function CreateStoryWithText() {
           value={text}
           onChange={handleTextChange}
           placeholder="Write your story here..."
-          className="w-full bg-transparent text-white text-xl text-center p-4 rounded-lg border-2 border-white mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400 "
+          className="w-full bg-transparent text-white text-xl text-center p-4 rounded-lg border-2 border-white mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-
         <div className="flex gap-4 mb-6 justify-center">
           {colors.map((clr) => (
             <button
               key={clr}
               onClick={() => handleColorChange(clr)}
               style={{ backgroundColor: clr }}
-              className="w-12 h-12 rounded-full  transform hover:scale-105"
+              className="w-12 h-12 rounded-full transform hover:scale-105"
             ></button>
           ))}
         </div>
-
         <div className="mb-6 text-center">
           <input
             type="file"
             accept="image/*,video/*"
             onChange={handleMediaUpload}
-            className="text-white py-2 px-4 bg-blue-500 rounded-lg cursor-pointer  hover:bg-blue-600"
+            className="text-white py-2 px-4 bg-blue-500 rounded-lg cursor-pointer hover:bg-blue-600"
           />
         </div>
-
-        {mediaPreview && mediaType === "video" && (
-          <div className="mb-6">
-            <video
-              src={mediaPreview}
-              controls
-              className="w-full rounded-lg shadow-lg"
-            ></video>
-          </div>
-        )}
-
         {backgroundMedia && (
           <div className="mb-6 text-center">
             <button
@@ -119,7 +105,6 @@ export default function CreateStoryWithText() {
             </button>
           </div>
         )}
-
         <div className="text-center">
           <button
             onClick={handleSubmit}
