@@ -7,7 +7,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { ChatRoom } from "@/types/user";
-
+import { parseMessageContent } from "@/utils/inputMessage";
 const ChatList = () => {
     const { setChatRoom } = useSelectedChatRoom();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
@@ -36,7 +36,7 @@ const ChatList = () => {
                             type: "group" | "personalChat" | "channel";
                         }) => ({
                             id: chatdata.id,
-                            lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
+                            lastMessage: parseMessageContent(chatdata.lastMessage.content), // Extract text from JSON string
                             time: chatdata.lastMessage.createdAt,
                             unreadCount: chatdata.messagesCount,
                             avatar: chatdata.secondUser.photo,
@@ -57,7 +57,7 @@ const ChatList = () => {
         // Fetch chat data when the component mounts
         fetchChatsData();
     }, []); // Empty dependency array ensures this runs only once on mount
-
+    console.log("Mychats", chatMessages);
     return (
         <div className="custom-scrollbar max-h-screen space-y-4 overflow-y-auto p-2">
             {chatMessages.map((chat) => (
@@ -70,13 +70,13 @@ const ChatList = () => {
                         <Image
                             src={
                                 chat.secondUser?.photo ||
-                                (chat.channel?.community.imageURL as string) ||
-                                (chat.group?.community.imageURL as string)
+                                (chat.channel?.imageURL as string) ||
+                                (chat.group?.imageURL as string)
                             }
                             alt={
                                 chat.secondUser?.username ||
-                                (chat.channel?.community.name as string) ||
-                                (chat.group?.community.name as string)
+                                (chat.channel?.name as string) ||
+                                (chat.group?.name as string)
                             }
                             width={50}
                             height={50}
@@ -88,8 +88,8 @@ const ChatList = () => {
                             <Avatar
                                 name={
                                     chat.secondUser?.username ||
-                                    (chat.channel?.community.name as string) ||
-                                    (chat.group?.community.name as string)
+                                    (chat.channel?.name as string) ||
+                                    (chat.group?.name as string)
                                 }
                             />
                         </div>
@@ -102,8 +102,8 @@ const ChatList = () => {
                                 data-test="chatList-chat-name"
                             >
                                 {chat.secondUser?.username ||
-                                    (chat.channel?.community.name as string) ||
-                                    (chat.group?.community.name as string)}
+                                    (chat.channel?.name as string) ||
+                                    (chat.group?.name as string)}
                             </h3>
                             <span
                                 className="text-xs text-gray-400 dark:text-gray-500"
@@ -117,10 +117,10 @@ const ChatList = () => {
                                 className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400"
                                 data-test="chatList-chat-lastMessage"
                             >
-                                {chat.lastMessage?.text}
+                                {parseMessageContent(chat.lastMessage?.content as string)?.text}
                             </p>
                             <div className="flex min-w-7 items-center space-x-1">
-                                {(chat?.messagesCount as number) > 0 ? (
+                                {Number(chat.messagesCount) > 0 ? (
                                     <span
                                         className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#04be2d] text-xs font-semibold text-white dark:bg-blue-500 dark:text-white"
                                         data-test="chatList-chat-unReadCount"

@@ -1,5 +1,5 @@
 import { SettingsObject } from "./settings";
-import { MessageType } from "./Message";
+import {  MessageTypeBE } from "./Message";
 import { ChannelData } from "./channel";
 import { GroupData } from "./group";
 export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
@@ -65,11 +65,11 @@ export type GroupMember = Member & {
 export type ChatRoom = {
     id: number;
     type?: "personalChat" | "group" | "channel";
-    lastMessage?: MessageType;
+    lastMessage?: MessageTypeBE;
     channel?: ChannelData;
     group?: GroupData;
     secondUser?: SecondUser;
-  messagesCount?:number;
+    messagesCount?: number;
 };
 
 export type ChannelGroupChatRoom = {
@@ -86,13 +86,13 @@ export type ChannelGroupChatRoom = {
 export type SecondUser = {
     id: number;
     username: string;
+    email?: string;
     photo?: string;
     screenName: null | string;
     phone: string;
     publicKey: string;
     lastSeen?: null | string;
     activeNow?: boolean | null;
-
 };
 
 export type FirstTimeChat = {

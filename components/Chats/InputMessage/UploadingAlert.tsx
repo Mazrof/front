@@ -9,9 +9,11 @@ import {
     useInputTextMessage,
     useIsMaxSizeError,
 } from "@/store/inputMessage";
+import { sendMessageBE } from "@/utils/inputMessage";
 import { capitalizeFirstLetter } from "@/utils/inputMessage";
 import ShowUploadedFiles from "@/components/Chats/InputMessage/ShowUploadedFiles";
 import { getFileType } from "@/utils/inputMessage";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -22,11 +24,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getSocket } from "@/lib/socket";
 import React from "react";
 import { useSettings } from "@/store/settings";
-import { Socket } from "socket.io-client";
-import { MessageTypeBE } from "@/types/Message";
 import { useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
 export function UploadingAlert() {
     const { isOpenAlert, setIsOpenAlert } = useOpenAlert();
@@ -48,42 +47,26 @@ export function UploadingAlert() {
         setUploadedFile(null);
         setIsOpenAlert(false);
         setIsMaxSize(false);
-        setCaption("")
+        setCaption("");
         setTextMessage("");
     }
     function sendFile() {
-        const socket: Socket = getSocket() as Socket;
-        const message: MessageTypeBE = {
-            content: JSON.stringify({
+        sendMessageBE(
+            selectedChatRoom,
+            user,
+            setMessage,
+            {
                 imageUrl: fileType == "image" ? [url] : undefined,
                 videoUrl: fileType == "video" ? [url] : undefined,
-                documentUrl: fileType == "file" ? [url] : undefined,
-                size: uploadedFile?.size,
+                documentUrl: fileType == "file" ? url : undefined,
+                size:undefined,
                 name: uploadedFile?.name,
                 text: caption,
                 type: "message",
-            }),
-            participantId: selectedChatRoom?.id as number, // id of the place where the message is going to be sent or null if you will provide receiverId for new personal chats
-            status: undefined, // or null or drafted
-            durationInMinutes: undefined, // can be null self destored
-            isAnnouncement: false, // for group announcement
-            isForward: false,
-            participantType: undefined, // or group or personalChat when mention
-            channelOrGroupId: undefined,
-            replyTo: undefined, // or null (the message id to which this message is a reply)
-            receiverId: 11,
-            inputMessageMentions: undefined,
-            senderId: user?.user.id,
-        };
-        console.log(message);
-        // untill return
-        setMessage(
-            { ...message, id: -1 },
-            selectedChatRoom?.id as number,
-            user?.user?.id as number
+            },
+            undefined
         );
-        socket?.emit("message:sent", message);
-       
+
         unSetVariables();
     }
     useEffect(() => {

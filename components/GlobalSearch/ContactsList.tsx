@@ -3,18 +3,20 @@
 import { useSelectedChatRoom } from "@/store/user";
 import { Contact } from "@/types/SideBar";
 import Image from "next/image";
-import { ChatRoom } from "@/types/user";
+import { ChatRoom, SecondUser } from "@/types/user";
 import React, { useEffect, useState } from "react";
 import Avatar from "../SideBar/Avatar";
+import { GroupData } from "@/types/group";
+import { ChannelData } from "@/types/channel";
 export default function ContactsList({
     groupedContacts,
     setShowGlobalSearch,
     showGlobalSearch,
 }: {
     groupedContacts: {
-        users: Contact[];
-        groups: Contact[];
-        channels: Contact[];
+        users: SecondUser[];
+        groups: GroupData[];
+        channels: ChannelData[];
     };
     setShowGlobalSearch: (value: boolean) => void;
     showGlobalSearch: boolean;
@@ -39,7 +41,7 @@ export default function ContactsList({
 
     const handleKeyDown = (
         event: React.KeyboardEvent,
-        chat: Contact,
+        chat: SecondUser | GroupData | ChannelData,
         type: "personalChat" | "group" | "channel"
     ) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -60,16 +62,27 @@ export default function ContactsList({
                             key={user.id}
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
-                                setChatRoom({ ...user, type: "personalChat" } as ChatRoom);
+                                setChatRoom({
+                                    
+                                    secondUser: {
+                                        id: Number(user.id),
+                                        username: user.username,
+                                        photo: user.photo,
+                                        publicKey: user.publicKey,
+                                        phone: String(user.phone),
+                                        screenName: user.screenName,
+                                    },
+                                    type: "personalChat",
+                                } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
                             }}
                             onKeyDown={(event) => handleKeyDown(event, user, "personalChat")} // Handle keyboard events
                             tabIndex={0} // Make the div focusable
                         >
-                            <Avatar name={user.name} />
+                            <Avatar name={user.username} />
                             <div className="ml-2 flex-col">
                                 <h3 className="text-lg font-semibold text-black dark:text-white">
-                                    {user.name}
+                                    {user.username}
                                 </h3>
                                 <div className="text-sm text-gray-400 dark:text-gray-400">
                                     {user.phone}
@@ -89,16 +102,19 @@ export default function ContactsList({
                             key={group.id}
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
-                                setChatRoom({ ...group, type: "group" } as ChatRoom);
+                                setChatRoom({
+                                    group,
+                                    type: "group",
+                                } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
                             }}
                             onKeyDown={(event) => handleKeyDown(event, group, "group")} // Handle keyboard events
                             tabIndex={0} // Make the div focusable
                         >
-                            <Avatar name={group.name} />
+                            <Avatar name={group.community.name} />
                             <div className="ml-4">
                                 <h3 className="text-lg font-semibold text-black dark:text-white">
-                                    {group.name}
+                                    {group.community.name}
                                 </h3>
                             </div>
                         </div>
@@ -115,16 +131,19 @@ export default function ContactsList({
                             key={channel.id}
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
-                                setChatRoom({ ...channel, type: "channel" } as ChatRoom);
+                                setChatRoom({
+                                    channel,
+                                    type: "channel",
+                                } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
                             }}
                             onKeyDown={(event) => handleKeyDown(event, channel, "channel")} // Handle keyboard events
                             tabIndex={0} // Make the div focusable
                         >
-                            <Avatar name={channel.name} />
+                            <Avatar name={channel.community.name} />
                             <div className="ml-4">
                                 <h3 className="text-lg font-semibold text-black dark:text-white">
-                                    {channel.name}
+                                    {channel.community.name}
                                 </h3>
                             </div>
                         </div>
