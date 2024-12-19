@@ -2,7 +2,7 @@
 
 import { LeftArrowIcon, VoiceCallIcon, VideoCallIcon } from "@/utils/icons";
 import Image from "next/image";
-
+import Avatar from "../SideBar/Avatar";
 import { useSelectedChatRoom } from "@/store/user";
 import { useState, ReactNode } from "react";
 import Voicecall from "../Voicecalls/Voicecall";
@@ -28,7 +28,6 @@ function InfoChatBar({
 }: InfoChatBarProps) {
     const { setChatRoom } = useSelectedChatRoom();
     const [isOpen, setIsOpen] = useState(false);
-
     const openModal = () => setIsOpen(true);
 
     const handleOnClickArrow = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,14 +57,18 @@ function InfoChatBar({
                     >
                         <LeftArrowIcon />
                     </button>
-                    <Image
-                        data-test="chatList-chatRoom-image"
-                        className="rounded-full"
-                        src={imageURL as string}
-                        alt="logo"
-                        width={24}
-                        height={24}
-                    />
+                    {imageURL ? (
+                        <Image
+                            data-test="chatList-chatRoom-image"
+                            className="rounded-full"
+                            src={imageURL as string}
+                            alt="logo"
+                            width={24}
+                            height={24}
+                        />
+                    ) : (<div className="rounded-full object-cover" data-test="chatList-chat-avatar">
+                        <Avatar name={name} />
+                    </div>)}
                     <div className="flex flex-col">
                         <p className="font-semibold" data-test="chatList-chatRoom-name">
                             {name}
