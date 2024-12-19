@@ -37,7 +37,7 @@ export default function MessageFile() {
                     </div>
 
                     <div className="mt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                        <span>{name.split(".")[0]}</span>
+                        <span>{name?.split(".")[0]}</span>
                         <Button
                             variant="ghost"
                             size="sm"
