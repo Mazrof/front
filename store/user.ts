@@ -2,10 +2,7 @@ import { create } from "zustand";
 import { BlockUsers, FirstTimeChat, SelectedChatRoom, useWhoAmIType, WhoAmI } from "@/types/user";
 import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/Message";
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
-    selectedChatRoom: {
-        id: 12,
-        type: "personalChat",
-    },
+    selectedChatRoom:null,
     setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
     isSelectedChatRoom: () => {
         const state: SelectedChatRoom = useSelectedChatRoom.getState(); // get the current state
