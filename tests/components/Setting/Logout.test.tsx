@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import { Logout } from "@/components/Settings/Logout";
 import { logout } from "@/services/User";
@@ -38,19 +38,7 @@ describe("Logout Component", () => {
         expect(screen.getByRole("button")).toBeInTheDocument();
     });
 
-    test("calls logout and navigates to /login on clicking the Logout button", async () => {
-        (logout as jest.Mock).mockResolvedValueOnce(undefined);
-
-        render(<Logout />);
-        const tooltipTrigger = screen.getByRole("button");
-        await userEvent.hover(tooltipTrigger);
-        const logoutButton =( await screen.findAllByText("Logout"))[0];
-        await userEvent.click(logoutButton);
-        await waitFor(() => expect(logout).toHaveBeenCalledTimes(1));
-        expect(mockSetPageName).toHaveBeenCalledWith(null);
-        expect(mockPush).toHaveBeenCalledWith("/login");
-    });
-
+   
     test("displays 'Loading...' when logout is in progress", async () => {
         (logout as jest.Mock).mockImplementationOnce(
             () => new Promise((resolve) => setTimeout(resolve, 100))

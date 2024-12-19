@@ -6,7 +6,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { ChatRoom } from "@/types/user";
-
+import { parseMessageContent } from "@/utils/inputMessage";
 const ChatList = () => {
     const { setChatRoom } = useSelectedChatRoom();
     const [chatsList, setChatsList] = useState<Chat[]>([]); // Apply the type here
@@ -35,7 +35,7 @@ const ChatList = () => {
                             type: "group" | "personalChat" | "channel";
                         }) => ({
                             id: chatdata.id,
-                            lastMessage: JSON.parse(chatdata.lastMessage.content).text, // Extract text from JSON string
+                            lastMessage: parseMessageContent(chatdata.lastMessage.content), // Extract text from JSON string
                             time: chatdata.lastMessage.createdAt,
                             unreadCount: chatdata.messagesCount,
                             avatar: chatdata.secondUser.photo,
@@ -116,7 +116,7 @@ const ChatList = () => {
                                 className="max-w-36 truncate text-sm text-gray-400 dark:text-gray-400"
                                 data-test="chatList-chat-lastMessage"
                             >
-                                {chat.lastMessage?.text}
+                                {parseMessageContent(chat.lastMessage?.content as string)?.text}
                             </p>
                             <div className="flex min-w-7 items-center space-x-1">
                                 {(chat?.messagesCount as number) > 0 ? (

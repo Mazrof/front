@@ -6,8 +6,7 @@ import PersonalChat from "../PersonalChats/PersonalChat";
 function ChatRoom() {
     const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
-    useEffect(() => {}, [isSelectedChat]);
-   console.log("selected id",selectedChatRoom);
+    console.log("selected id",selectedChatRoom);
     return (
         <div
             className={`bg-light dark:bg-dark relative ${

@@ -31,8 +31,23 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
     chatMessages: [], // Initial state for chat messages
 
     setMessages: (newChatMessages: MessagesStoreType) => {
+        set((state) => {
+            // Check if the chat already exists
+            const chatExists = state.chatMessages.some((chat) => chat.id === newChatMessages.id);
+
+            // If the chat exists, return the state unchanged; otherwise, add the new chat
+            if (chatExists) {
+                return state;
+            }
+
+            return {
+                chatMessages: [...state.chatMessages, newChatMessages],
+            };
+        });
+    },
+    addChat: (newChat:MessagesStoreType) => {
         set((state) => ({
-            chatMessages: [...state.chatMessages, newChatMessages], // Concatenate new messages to the existing array
+            chatMessages: [...state.chatMessages, newChat],
         }));
     },
     getChat: (participantId: number) => {

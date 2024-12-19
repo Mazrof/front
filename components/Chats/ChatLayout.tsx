@@ -8,23 +8,12 @@ import { MessageVideo } from "./Message/MessageVideo";
 import { useMessagesStore, useSelectedChatRoom, useWhoAmI } from "@/store/user";
 import { VoiceMessage } from "@/components/Chats/Message/VoiceMessage";
 import MessageFile from "./Message/MessageFile";
+import { parseMessageContent } from "@/utils/inputMessage";
 function ChatLayout() {
     const { selectedChatRoom } = useSelectedChatRoom();
     const { user } = useWhoAmI();
     const { getChatMessage } = useMessagesStore();
-    const parseMessageContent = (content: string | undefined): MessageType => {
-        try {
-            // Try to parse the content if it's a valid JSON string
-            return JSON.parse(content as string);
-        } catch (error) {
-            // Handle the case where JSON is invalid
-            console.error("Error parsing message content:", error);
-            return {
-                type: "message",
-            }; // Return an empty object or a default value
-        }
-    };
-
+   
     return (
         <div className="mb-60 max-h-[85vh] w-full overflow-y-scroll px-5 transition-all duration-300 ease-in scrollbar scrollbar-track-transparent scrollbar-thumb-[rgba(0,0,0,0.35)]">
             {getChatMessage(selectedChatRoom?.id as number)?.map(
