@@ -6,10 +6,15 @@ import InfoChatBar from "@/components/Chats/InfoChatBar";
 import ChatLayout from "@/components/Chats/ChatLayout";
 import { useSelectedChatRoom } from "@/store/user";
 import GroupDropDownMenu from "../GroupDropDownMenu";
+import { GroupData } from "@/types/group";
 
 function GroupChats() {
-    const { group } = useSelectedChatRoom();
-    const { id, groupSize, community } = group;
+    const { selectedChatRoom } = useSelectedChatRoom();
+    console.log("group", selectedChatRoom);
+    // Ensure selectedChatRoom is defined before rendering
+    if (!selectedChatRoom) return <div>Loading...</div>;
+    const { group } = selectedChatRoom;
+    const { id, groupSize, community } = group as GroupData;
     const { name, privacy, imageURL } = community;
     return (
         <div>

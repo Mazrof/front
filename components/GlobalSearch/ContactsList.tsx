@@ -104,7 +104,11 @@ export default function ContactsList({
                             onClick={() => {
                                 setChatRoom({
                                     id: group.id,
-                                    group,
+                                    group: {
+                                        id: group.id,
+                                        community: group.community,
+                                        groupSize: group.groupSize,
+                                    },
                                     type: "group",
                                 } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
@@ -134,7 +138,12 @@ export default function ContactsList({
                             onClick={() => {
                                 setChatRoom({
                                     id: channel.id,
-                                    channel,
+                                    channel: {
+                                        id: channel.id,
+                                        canAddComments: channel.canAddComments,
+                                        invitationLink: channel.invitationLink,
+                                        community: channel.community,
+                                    },
                                     type: "channel",
                                 } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
