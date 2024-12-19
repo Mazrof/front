@@ -2,7 +2,7 @@ import React from "react";
 import { genAvatar } from "../../utils/genAvatar";
 
 const Avatar = ({ name }: { name: string }) => {
-    const avatarLetter = genAvatar(name);
+    const avatarLetter = genAvatar(name || "Normal");
 
     return (
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white">
