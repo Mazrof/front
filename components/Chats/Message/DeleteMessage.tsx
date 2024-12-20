@@ -19,9 +19,10 @@ function DeleteMessage() {
         setIsDeleting(true);
         try {
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             console.log("Message deleted successfully!");
             setIsOpen(false);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             console.error("Failed to delete the message.");
         } finally {
@@ -66,7 +67,10 @@ function DeleteMessage() {
                     >
                         {isDeleting ? (
                             <>
-                                <Loader2 data-testid="loader" className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2
+                                    data-testid="loader"
+                                    className="mr-2 h-4 w-4 animate-spin"
+                                />
                                 <span>Deleting...</span>
                             </>
                         ) : (

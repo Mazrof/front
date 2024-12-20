@@ -2,7 +2,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ChannelSettingsDialog from "../../../components/Channels/ChannelSettings";
 import { updateChannelSettings } from "../../../services/Channel";
-import { toast } from "../../../hooks/use-toast";
 
 // Mock dependencies
 jest.mock("../../../services/Channel", () => ({
@@ -37,20 +36,20 @@ describe("ChannelSettingsDialog", () => {
 
     it("renders the channel settings dialog when open", () => {
         render(<ChannelSettingsDialog {...defaultProps} />);
-        
+
         expect(screen.getByRole("dialog")).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Channel Settings" })).toBeInTheDocument();
     });
 
     it("doesn't render the dialog when isOpen is false", () => {
         render(<ChannelSettingsDialog {...{ ...defaultProps, isOpen: false }} />);
-        
+
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
     it("renders form fields with default values", () => {
         render(<ChannelSettingsDialog {...defaultProps} />);
-        
+
         // Check privacy options
         const publicRadio = screen.getByRole("radio", { name: "Public" });
         const privateRadio = screen.getByRole("radio", { name: "Private" });
@@ -128,7 +127,11 @@ describe("ChannelSettingsDialog", () => {
         await userEvent.click(screen.getByRole("button", { name: "Save Settings" }));
 
         await waitFor(() => {
-            expect(screen.getByText(`An unexpected error Error: ${errorMessage} occurred. Please try again later.`)).toBeInTheDocument();
+            expect(
+                screen.getByText(
+                    `An unexpected error Error: ${errorMessage} occurred. Please try again later.`
+                )
+            ).toBeInTheDocument();
             expect(defaultProps.onClose).not.toHaveBeenCalled();
         });
     });

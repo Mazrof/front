@@ -76,7 +76,7 @@
     "@types/compress.js": "^1.1.3",
     "@types/express": "^5.0.0",
     "@types/handbrake-js": "^5.0.4",
-    "@types/jest": "^29.5.13",
+    "@types/jest": "^29.5.14",
     "@types/json-server": "^0.14.7",
     "@types/masonry-layout": "^4.2.8",
     "@types/node": "^20",

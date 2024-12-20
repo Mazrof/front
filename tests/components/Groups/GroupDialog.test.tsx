@@ -41,7 +41,7 @@ jest.mock("@/components/ui/dialog", () => ({
 }));
 
 jest.mock("@/components/ui/button", () => ({
-    Button: (props: any) => (
+    Button: (props) => (
         <button data-testid="button" {...props}>
             {props.children}
         </button>
@@ -49,11 +49,11 @@ jest.mock("@/components/ui/button", () => ({
 }));
 
 jest.mock("@/components/ui/input", () => ({
-    Input: (props: any) => <input data-testid="input-name" {...props} />,
+    Input: (props) => <input data-testid="input-name" {...props} />,
 }));
 
 jest.mock("@/components/ui/label", () => ({
-    Label: (props: any) => (
+    Label: (props) => (
         <label data-testid={`label-${props.htmlFor}`} {...props}>
             {props.children}
         </label>
@@ -61,12 +61,12 @@ jest.mock("@/components/ui/label", () => ({
 }));
 
 jest.mock("@/components/ui/radio-group", () => ({
-    RadioGroup: ({ children, onValueChange, value }: any) => (
+    RadioGroup: ({ children, onValueChange, value }) => (
         <div data-testid="radio-group" data-value={value}>
             {children}
         </div>
     ),
-    RadioGroupItem: (props: any) => <input type="radio" {...props} />,
+    RadioGroupItem: (props) => <input type="radio" {...props} />,
 }));
 
 describe("GroupDialog", () => {
@@ -136,16 +136,16 @@ describe("GroupDialog", () => {
             privacy: false,
             canAddComments: true,
             groupSize: 100,
-            admins: []
+            admins: [],
         });
     });
 
     it("handles API error", async () => {
         const user = userEvent.setup();
         const mockCreateGroup = createGroup as jest.Mock;
-        mockCreateGroup.mockResolvedValueOnce({ 
-            status: "fail", 
-            message: "Error creating group" 
+        mockCreateGroup.mockResolvedValueOnce({
+            status: "fail",
+            message: "Error creating group",
         });
 
         render(<GroupDialog />);
