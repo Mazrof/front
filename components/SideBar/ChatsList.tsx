@@ -70,13 +70,13 @@ const ChatList = () => {
                         <Image
                             src={
                                 chat.secondUser?.photo ||
-                                (chat.channel?.community.imageURL as string) ||
-                                (chat.group?.community.imageURL as string)
+                                (chat.channel?.image as string) ||
+                                (chat.group?.image as string)
                             }
                             alt={
                                 chat.secondUser?.username ||
-                                (chat.channel?.community.name as string) ||
-                                (chat.group?.community.name as string)
+                                (chat.channel?.name as string) ||
+                                (chat.group?.name as string)
                             }
                             width={50}
                             height={50}
@@ -88,8 +88,8 @@ const ChatList = () => {
                             <Avatar
                                 name={
                                     chat.secondUser?.username ||
-                                    (chat.channel?.community.name as string) ||
-                                    (chat.group?.community.name as string)
+                                    (chat.channel?.name as string) ||
+                                    (chat.group?.name as string)
                                 }
                             />
                         </div>
@@ -102,8 +102,8 @@ const ChatList = () => {
                                 data-test="chatList-chat-name"
                             >
                                 {chat.secondUser?.username ||
-                                    (chat.channel?.community.name as string) ||
-                                    (chat.group?.community.name as string)}
+                                    (chat.channel?.name as string) ||
+                                    (chat.group?.name as string)}
                             </h3>
                             <span
                                 className="text-xs text-gray-400 dark:text-gray-500"

@@ -4,11 +4,11 @@ import { ApiRequest } from "@/types/request";
 import { GroupMember } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 export async function createGroup(body: {
-    name: string;
-    privacy: boolean;
-    canAddComments: boolean;
-    groupSize: number;
-    admins: string[];
+    name?: string;
+    privacy?: boolean;
+    canAddComments?: boolean;
+    groupSize?: number;
+    admins?: string[];
 }): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/groups`,

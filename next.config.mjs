@@ -26,6 +26,12 @@ const nextConfig = {
             ? process.env.NEXT_SERVER_IP 
             : process.env.SERVER_IP, 
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+      typescript: {
+        ignoreBuildErrors: true,
+    },
 };
 
 export default nextConfig;

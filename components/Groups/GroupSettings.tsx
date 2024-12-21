@@ -17,7 +17,7 @@ import { useState } from "react";
 import { updateGroupSettings } from "@/services/Group"; // Hypothetical service
 import { failResponse, genericResponse } from "@/types/api";
 import { convertToBase64 } from "@/utils/inputMessage";
-
+import Image from "next/image";
 // Zod schema for form validation
 const groupSettingsSchema = z.object({
     name: z.string().min(1, "Group name is required."),
@@ -52,6 +52,7 @@ export default function GroupSettings({
     const [error, setError] = useState<string | null>(null);
     const {
         control,
+        watch,
         reset,
         handleSubmit,
         formState: { errors, isSubmitting },
@@ -63,6 +64,10 @@ export default function GroupSettings({
             groupSize,
         },
     });
+    console.log(watch());
+    const watchedImage: File = watch("image");
+    const imagePath =
+        watchedImage && watchedImage.size > 0 ? URL.createObjectURL(watchedImage) : imageURL;
 
     const onSubmit: SubmitHandler<GroupSettingsInputs> = async (data) => {
         try {
@@ -84,7 +89,7 @@ export default function GroupSettings({
                 imageURL: base64 || imageURL,
                 groupSize: data.groupSize,
             };
-
+            console.log(body);
             const response: genericResponse<object> = await updateGroupSettings(groupId, body);
 
             if (response.status === "success") {
@@ -134,6 +139,13 @@ export default function GroupSettings({
 
                     <div className="space-y-2">
                         <Label className="text-gray-700 dark:text-gray-300">Group Image</Label>
+                        <Image
+                            width={64}
+                            height={64}
+                            src={imagePath}
+                            alt="Channel"
+                            className="h-16 w-16 rounded-full object-cover"
+                        />
                         <Controller
                             control={control}
                             name="image"
@@ -205,6 +217,8 @@ export default function GroupSettings({
                                 <input
                                     {...field}
                                     type="number"
+                                    value={field.value || ""}
+                                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                     className="mx-3 max-w-[100px] rounded-md border border-black px-2 shadow-sm focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800"
                                     placeholder="Enter group size"
                                 />

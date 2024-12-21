@@ -17,7 +17,7 @@ import { useState } from "react";
 import { updateChannelSettings } from "@/services/Channel";
 import { failResponse, genericResponse } from "@/types/api";
 import { convertToBase64 } from "@/utils/inputMessage";
-
+import Image from "next/image";
 // Zod schema for form validation
 const channelSettingsSchema = z.object({
     name: z.string().min(1, "Channel name is required."),
@@ -53,6 +53,7 @@ export default function ChannelSettings({
     const [error, setError] = useState<string | null>(null);
     const {
         control,
+        watch,
         reset,
         handleSubmit,
         formState: { errors, isSubmitting },
@@ -65,6 +66,9 @@ export default function ChannelSettings({
             canAddComments,
         },
     });
+    const watchedImage: File = watch("image");
+    const imagePath =
+        watchedImage && watchedImage.size > 0 ? URL.createObjectURL(watchedImage) : imageURL;
 
     const onSubmit: SubmitHandler<ChannelSettingsInputs> = async (data) => {
         try {
@@ -87,7 +91,7 @@ export default function ChannelSettings({
                 imageURL: base64,
                 canAddComments: data.canAddComments,
             };
-
+            console.log(body);
             const response: genericResponse<object> = await updateChannelSettings(channelId, body);
 
             if (response.status === "success") {
@@ -137,6 +141,13 @@ export default function ChannelSettings({
 
                     <div className="space-y-2">
                         <Label className="text-gray-700 dark:text-gray-300">Channel Image</Label>
+                        <Image
+                            width={64}
+                            height={64}
+                            src={imagePath}
+                            alt="Channel"
+                            className="h-16 w-16 rounded-full object-cover"
+                        />
                         <Controller
                             control={control}
                             name="image"
