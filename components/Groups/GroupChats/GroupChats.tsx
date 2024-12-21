@@ -9,6 +9,7 @@ import GroupDropDownMenu from "../GroupDropDownMenu";
 import { GroupData } from "@/types/group";
 import { useGroupMembers } from "@/hooks/useGroupMembers";
 import { GroupMember } from "@/types/user";
+import MessageLoading from "@/components/Chats/Message/MessageLoading";
 
 function GroupChats() {
     const { selectedChatRoom } = useSelectedChatRoom();
@@ -24,6 +25,15 @@ function GroupChats() {
     const { members, loading, error } = useGroupMembers(id);
     let role: "none" | "admin" | "member" = "none";
     let hasMessagePermissions = false;
+    if (loading) return <MessageLoading />;
+    if (error)
+        return (
+            <div className="flex h-full items-center justify-center text-2xl text-red-700 dark:text-red-400">
+                <p className="max-w-screen-md rounded-md bg-white p-3 dark:bg-black">
+                    You can &apos;t Access this Group
+                </p>
+            </div>
+        );
     if (!loading && members.length > 0) {
         const myMemberData = members.find((member: GroupMember) => member.userId === myId);
         if (myMemberData) {
@@ -31,8 +41,6 @@ function GroupChats() {
             hasMessagePermissions = myMemberData.hasMessagePermissions;
         }
     }
-    if (loading) return <div>Loading members...</div>;
-    if (error) return <div>Error: {error}</div>;
     return (
         <div>
             <InfoChatBar name={name} imageURL={imageURL} chatType="group">

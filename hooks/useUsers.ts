@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { getAllUsers } from "@/services/Settings";
+import { useWhoAmI } from "@/store/user";
 import { failResponse, genericResponse, successResponse } from "@/types/api";
 import { SettingsObject } from "@/types/settings";
 import { User } from "@/types/user";
@@ -9,7 +10,7 @@ export const useUsers = () => {
     const [users, setusers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
+    const { user } = useWhoAmI();
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -19,7 +20,9 @@ export const useUsers = () => {
                     const successfulResponse = response as successResponse<{
                         users: SettingsObject[];
                     }>;
-                    const filteredusers = successfulResponse.data.users as User[];
+                    const filteredusers = successfulResponse.data.users.filter(
+                        (member) => member.id !== user?.user.id
+                    ) as User[];
                     console.log(filteredusers);
                     setusers(filteredusers);
                 } else {

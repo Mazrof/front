@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { deleteGroup } from "@/services/Group";
 import { failResponse, genericResponse } from "@/types/api";
+import { useSelectedChatRoom } from "@/store/user";
 
 type DeleteGroupProps = {
     groupId: number;
@@ -19,18 +20,19 @@ type DeleteGroupProps = {
 export default function DeleteGroup({ groupId, isOpen, onClose }: DeleteGroupProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const { setChatRoom } = useSelectedChatRoom();
     const handleDelete = async () => {
         setIsSubmitting(true);
         setError(null);
 
         try {
             const response: genericResponse<object> = await deleteGroup(groupId);
-            if (response.status === "success") {
-                onClose();
-            } else {
+            if (response?.status === "fail") {
                 const failApiResponse = response as failResponse;
                 setError(failApiResponse.message);
+            } else {
+                onClose();
+                setChatRoom(null);
             }
         } catch (err) {
             setError(`An unexpected error occurred: ${err}. Please try again later.`);

@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import { deleteMember } from "@/services/Channel";
 import { failResponse, genericResponse } from "@/types/api";
-import { useWhoAmI } from "@/store/user";
+import { useSelectedChatRoom, useWhoAmI } from "@/store/user";
 
 type LeaveChannelProps = {
     channelId: number;
@@ -22,6 +22,7 @@ type LeaveChannelProps = {
 export default function LeaveChannel({ channelId, isOpen, onClose }: LeaveChannelProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { setChatRoom } = useSelectedChatRoom();
     const me = useWhoAmI();
     const handleLeave = async () => {
         setIsSubmitting(true);
@@ -32,11 +33,12 @@ export default function LeaveChannel({ channelId, isOpen, onClose }: LeaveChanne
                 channelId,
                 Number(me.user?.user.id)
             );
-            if (response.status === "success") {
-                onClose();
-            } else {
+            if (response?.status === "fail") {
                 const failApiResponse = response as failResponse;
                 setError(failApiResponse.message);
+            } else {
+                onClose();
+                setChatRoom(null);
             }
         } catch (err) {
             setError(`An unexpected error occurred: ${err}. Please try again later.`);
@@ -48,7 +50,7 @@ export default function LeaveChannel({ channelId, isOpen, onClose }: LeaveChanne
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogTrigger asChild>
-                <Button className="bg-yellow-500 text-white hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-800">
+                <Button className="bg-red-500 text-white hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800">
                     Leave Channel
                 </Button>
             </DialogTrigger>
@@ -72,7 +74,7 @@ export default function LeaveChannel({ channelId, isOpen, onClose }: LeaveChanne
                         type="button"
                         onClick={handleLeave}
                         disabled={isSubmitting}
-                        className="w-full bg-yellow-500 text-white hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-800"
+                        className="w-full bg-red-500 text-white hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
                     >
                         {isSubmitting ? "Leaving..." : "Leave"}
                     </Button>

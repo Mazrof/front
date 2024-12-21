@@ -49,11 +49,11 @@ export default function DeleteMember({ groupId, isOpen, onClose }: DeleteMemberP
     const onSubmit: SubmitHandler<MemberFormInputs> = async ({ userId }) => {
         try {
             const response = await deleteMember(groupId, userId);
-            if (response.status === "success") {
+            if (response?.status === "fail") {
+                setError("Failed to delete member. Please try again.");
+            } else {
                 reset();
                 onClose();
-            } else {
-                setError("Failed to delete member. Please try again.");
             }
         } catch (err) {
             console.error("Failed to delete member:", err);

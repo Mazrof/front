@@ -21,6 +21,7 @@ async function apiHandler({
             credentials,
         };
         const response = await fetch(endpoint, options);
+        if (method === "DELETE" && response.ok) return;
         const data = await response.json();
         return data;
     } catch (error) {

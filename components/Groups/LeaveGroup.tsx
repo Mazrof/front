@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import { deleteMember } from "@/services/Group";
 import { failResponse, genericResponse } from "@/types/api";
-import { useWhoAmI } from "@/store/user";
+import { useSelectedChatRoom, useWhoAmI } from "@/store/user";
 
 type LeaveGroupProps = {
     groupId: number;
@@ -22,6 +22,7 @@ type LeaveGroupProps = {
 export default function LeaveGroup({ groupId, isOpen, onClose }: LeaveGroupProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { setChatRoom } = useSelectedChatRoom();
     const me = useWhoAmI();
     const handleLeave = async () => {
         setIsSubmitting(true);
@@ -32,11 +33,12 @@ export default function LeaveGroup({ groupId, isOpen, onClose }: LeaveGroupProps
                 groupId,
                 Number(me.user?.user.id)
             );
-            if (response.status === "success") {
-                onClose();
-            } else {
+            if (response?.status === "fail") {
                 const failApiResponse = response as failResponse;
                 setError(failApiResponse.message);
+            } else {
+                onClose();
+                setChatRoom(null);
             }
         } catch (err) {
             setError(`An unexpected error occurred: ${err}. Please try again later.`);

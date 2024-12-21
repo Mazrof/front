@@ -88,7 +88,9 @@ export default function GroupDropDownMenu({
                     <ThreeDotsIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="dark:bg-black dark:text-white">
-                    <DropdownMenuItem onClick={handleJoiningGroup}>Join Group</DropdownMenuItem>
+                    {myRole === "none" && (
+                        <DropdownMenuItem onClick={handleJoiningGroup}>Join Group</DropdownMenuItem>
+                    )}
                     {myRole === "admin" && (
                         <DropdownMenuItem onClick={() => setIsAddMemberOpen(true)}>
                             Add Member

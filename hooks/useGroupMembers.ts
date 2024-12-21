@@ -7,7 +7,6 @@ export function useGroupMembers(GroupId: number) {
     const [members, setMembers] = useState<GroupMember[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
     useEffect(() => {
         const fetchMembers = async () => {
             try {
