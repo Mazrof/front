@@ -1,11 +1,10 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { GetUsers, GetGroups, FilterandRemovefilter, BanandUnban } from "@/services/User";
-import { genericResponse } from "@/types/api";
+import { GetUsers, GetGroups, FilterandRemovefilter, BanandUnban } from "@/services/AdminDashboard";
+import { genericResponse, successResponse } from "@/types/api";
 import { Group, user } from "@/types/user";
 
-const AdminDashboard = () => {
+function AdminDashboard({ children }: { children: React.ReactNode }): JSX.Element {
     const [selectedOption, setSelectedOption] = useState<string>("users");
     const [groups, setGroups] = useState<Group[]>([]);
     const [users, setUsers] = useState<user[]>([]);
@@ -13,11 +12,12 @@ const AdminDashboard = () => {
     // Fetch users
     const fetchUsers = async () => {
         try {
-            const response: genericResponse<user[]> = await GetUsers();
+            const response: genericResponse<{ users: user[] }> = await GetUsers();
             if (response.status === "fail") {
                 console.error("Failed to fetch users");
             } else {
-                setUsers(response.data.users || []);
+                const successApiResponse = response as successResponse<{ users: user[] }>;
+                setUsers(successApiResponse.data.users);
             }
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -27,11 +27,12 @@ const AdminDashboard = () => {
     // Fetch groups
     const fetchGroups = async () => {
         try {
-            const response: genericResponse<Group[]> = await GetGroups();
+            const response: genericResponse<{ groups: Group[] }> = await GetGroups();
             if (response.status === "fail") {
                 console.error("Failed to fetch groups");
             } else {
-                setGroups(response.data.groups || []);
+                const successApiResponse = response as successResponse<{ groups: Group[] }>;
+                setGroups(successApiResponse.data.groups || []);
             }
         } catch (error) {
             console.error("Error fetching groups:", error);
@@ -114,7 +115,7 @@ const AdminDashboard = () => {
                             key={index}
                             className="rounded-lg bg-gray-200 p-4 text-blue-900 shadow-sm"
                         >
-                            {selectedOption === "groups" ? (
+                            {selectedOption === "groups" && "community" in item ? (
                                 <div className="flex justify-between">
                                     <p className="font-bold">
                                         Group Name:{" "}
@@ -141,7 +142,7 @@ const AdminDashboard = () => {
                                         {item.hasFilter ? "Remove Filter" : "Apply Filter"}
                                     </button>
                                 </div>
-                            ) : (
+                            ) : "username" in item ? (
                                 <div className="flex justify-between">
                                     <p>{item.username}</p>
                                     <p>{item.email}</p>
@@ -156,13 +157,13 @@ const AdminDashboard = () => {
                                         {item.status ? "Ban User" : "Unban User"}
                                     </button>
                                 </div>
-                            )}
+                            ) : null}
                         </li>
                     ))}
                 </ul>
             </div>
         </div>
     );
-};
+}
 
 export default AdminDashboard;

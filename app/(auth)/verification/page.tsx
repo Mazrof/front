@@ -8,7 +8,6 @@ import { SendEmailCode, VerifyEmailCode } from "@/services/User";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { failResponse, genericResponse } from "@/types/api";
-import { UserToken } from "@/types/user";
 
 export default function VerificationPage() {
     const [otp, setOTP] = useState<string>(""); // Ensure otp is always a string
@@ -46,7 +45,7 @@ export default function VerificationPage() {
         }
 
         try {
-            const response: genericResponse<UserToken> = await VerifyEmailCode(email, otp);
+            const response: genericResponse<string> = await VerifyEmailCode(email, otp);
 
             if (response.status === "fail") {
                 const failApiResponse = response as failResponse;

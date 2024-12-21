@@ -2,7 +2,7 @@ import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
 import { ApiRequest } from "@/types/request";
 import { BlockListResponse, UserToken } from "@/types/user";
-const server = `http://localhost:3000/api/v1`;
+const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 
 export async function Recaptcha(token: string): Promise<genericResponse<UserToken>> {
     const request: ApiRequest = {
@@ -10,63 +10,6 @@ export async function Recaptcha(token: string): Promise<genericResponse<UserToke
         method: "POST",
         cache: "no-store",
         body: { token },
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-
-export async function GetUsers(): Promise<genericResponse<UserToken>> {
-    try {
-        const request: ApiRequest = {
-            endpoint: `${server}/admins/users`,
-            method: "GET",
-            cache: "no-store",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-        };
-        return await apiHandler(request);
-    } catch (error) {
-        console.error("Error in GetUsers:", error);
-        throw new Error("Failed to fetch users");
-    }
-}
-export async function GetGroups(): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/groups`,
-        method: "GET",
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function BanandUnban(id: string): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/admins/${id}`,
-        method: "PATCH",
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function FilterandRemovefilter(id: string): Promise<genericResponse<UserToken>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/admins/${id}`,
-        method: "POST",
-        cache: "no-store",
         headers: {
             "Content-Type": "application/json",
         },
@@ -107,7 +50,7 @@ export async function SendPhoneCode(phone: string): Promise<genericResponse<User
 export async function VerifyEmailCode(
     email: string,
     code: string
-): Promise<genericResponse<UserToken>> {
+): Promise<genericResponse<string>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/verify-code`,
         method: "POST",
@@ -144,7 +87,7 @@ export async function SignupWithEmail(
     phone: string,
     email: string,
     password: string
-) {
+): Promise<genericResponse<string>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/signup`,
         method: "POST",

@@ -22,7 +22,7 @@ export default function Home() {
         showGlobalSearch: showGlobalSearch,
         setShowGlobalSearch: setShowGlobalSearch,
     };
-  
+
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? (

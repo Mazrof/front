@@ -6,12 +6,14 @@ import { useEffect } from "react";
 import InputField from "./InputField";
 import logo from "../../public/images/logo.jpg";
 import { PhoneInput } from "./PhoneNumber";
-import { SignupWithEmail, SendEmailCode, Recaptcha } from "@/services/User";
+import {
+    SignupWithEmail,
+    SendEmailCode /*, Recaptcha   don't  forget to use it*/,
+} from "@/services/User";
 import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
-import { UserToken } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useOTPContext } from "@/store/OTPContext";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -106,7 +108,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 const failApiResponse = response as failResponse;
                 setErrorRoot(failApiResponse.message);
             } else {
-                const response: genericResponse<UserToken> = await SignupWithEmail(
+                const response: genericResponse<string> = await SignupWithEmail(
                     data.name,
                     data.username,
                     data.phoneNumber,
@@ -192,6 +194,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     render={({ field }) => {
                         return (
                             <PhoneInput
+                                data-testid="PhoneNumber"
                                 id="PhoneNumber"
                                 {...field}
                                 error={
@@ -233,6 +236,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 />
                 <div className="mt-4">
                     <ReCAPTCHA
+                        data-testid="Recaptcha"
                         sitekey="6LcM_ZoqAAAAAJ3-KONvHtQpiIYC919l4oTz6qbE"
                         onChange={handleCaptchaChange}
                     />
