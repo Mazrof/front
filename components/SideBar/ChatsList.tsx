@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { getChatsListtest } from "@/services/Contacts/Contacts";
 import { useMessagesStore, useSelectedChatRoom } from "@/store/user";

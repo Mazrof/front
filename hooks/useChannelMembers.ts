@@ -7,7 +7,6 @@ export function useChannelMembers(channelId: number) {
     const [members, setMembers] = useState<ChannelMember[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
     useEffect(() => {
         const fetchMembers = async () => {
             try {
@@ -18,6 +17,7 @@ export function useChannelMembers(channelId: number) {
                     const successApiResponse = response as successResponse<{
                         members: ChannelMember[];
                     }>;
+
                     setMembers(successApiResponse.data.members);
                 } else {
                     setError("Failed to fetch members.");

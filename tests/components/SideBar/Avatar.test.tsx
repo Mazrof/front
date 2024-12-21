@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Avatar from '@/components/SideBar/Avatar'; // Adjust the path based on your file structure
 import { genAvatar } from '@/utils/genAvatar';
+import '@testing-library/jest-dom';
 
 // Mock the genAvatar function
 jest.mock('../../../utils/genAvatar');

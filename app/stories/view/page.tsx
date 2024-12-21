@@ -1,91 +1,139 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
+import React from "react";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getStories } from "@/services/Stories/Stories";
+import Avatar from "@/components/SideBar/Avatar";
+import Image from "next/image";
 
 interface Story {
-    createdAt: number;
-    text: string;
+    content: string;
+    mediaType: "photo" | "video";
     color: string;
-    backgroundImage?: string; // Image URL or base64
-    mediaType: "image" | "video"; // Image or video story
-    backgroundMedia?: string; // Media URL (image or video)
+    storyMedia: string;
+}
+
+interface FriendStories {
+    username: string;
+    photo: string | null;
+    stories: Story[];
 }
 
 export default function ViewStories() {
     const router = useRouter();
-    const [stories, setStories] = useState<Story[]>([]);
+    const [friendsStories, setFriendsStories] = useState<FriendStories[]>([]);
+    const [currentFriendIndex, setCurrentFriendIndex] = useState<number>(0);
     const [currentStoryIndex, setCurrentStoryIndex] = useState<number>(0);
     const [progress, setProgress] = useState<number>(0);
     const videoRef = useRef<HTMLVideoElement | null>(null);
-    const [videoDuration, setVideoDuration] = useState<number | null>(null);
     const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 
-    const handleNext = useCallback(() => {
+    const handleNextStory = useCallback(() => {
         setProgress(0); // Reset progress
-        if (currentStoryIndex + 1 >= stories.length) {
-            router.push("/stories");
+        const currentFriend = friendsStories[currentFriendIndex];
+
+        if (currentStoryIndex + 1 >= currentFriend.stories.length) {
+            handleNextFriend();
         } else {
             setCurrentStoryIndex((prevIndex) => prevIndex + 1);
         }
-    }, [currentStoryIndex, stories.length, router]);
+    }, [currentStoryIndex, friendsStories, currentFriendIndex]);
 
-    const handlePrev = () => {
+    const handlePrevStory = useCallback(() => {
         setProgress(0);
-        setCurrentStoryIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+        if (currentStoryIndex === 0) {
+            handlePrevFriend();
+        } else {
+            setCurrentStoryIndex((prevIndex) => prevIndex - 1);
+        }
         clearAutoAdvanceTimer();
-    };
+    }, [currentStoryIndex]);
 
-    const clearAutoAdvanceTimer = () => {
+    const handleNextFriend = useCallback(() => {
+        if (currentFriendIndex + 1 >= friendsStories.length) {
+            router.push("/stories");
+        } else {
+            setCurrentFriendIndex((prevIndex) => prevIndex + 1);
+            setCurrentStoryIndex(0);
+        }
+    }, [currentFriendIndex, friendsStories.length]);
+
+    const handlePrevFriend = useCallback(() => {
+        if (currentFriendIndex === 0) {
+            return;
+        }
+        setCurrentFriendIndex((prevIndex) => prevIndex - 1);
+        setCurrentStoryIndex(0);
+    }, [currentFriendIndex]);
+
+    const clearAutoAdvanceTimer = useCallback(() => {
         if (autoAdvanceTimer.current) {
             clearTimeout(autoAdvanceTimer.current);
             autoAdvanceTimer.current = null;
         }
-    };
+    }, []);
 
     useEffect(() => {
-        const storedStories = JSON.parse(localStorage.getItem("stories") || "[]");
-
-        const now = Date.now();
-        const validStories = storedStories.filter((story: Story) => {
-            if (typeof story.createdAt !== "number" || story.createdAt.toString().length !== 13) {
-                console.warn("Invalid createdAt format, skipping story:", story);
-                return false;
+        async function fetchStories() {
+            try {
+                const response = await getStories();
+                if (response?.status === "success" && response?.data?.allFriendsStories) {
+                    const formattedStories: FriendStories[] = response.data.allFriendsStories.map(
+                        (friend: {
+                            username: string;
+                            photo: string | null; // Allow `null`
+                            stories: {
+                                content: string;
+                                mediaType: string;
+                                color: string;
+                                StoryMedia: string;
+                            }[];
+                        }) => ({
+                            username: friend.username,
+                            photo: friend.photo || "", // Fallback to an empty string if `null`
+                            stories: friend.stories.map(
+                                (story: {
+                                    content: string;
+                                    mediaType: string;
+                                    color: string;
+                                    StoryMedia: string;
+                                }) => ({
+                                    content: story.content,
+                                    mediaType: story.mediaType as "photo" | "video", // Explicitly cast to expected type
+                                    color: story.color,
+                                    storyMedia: story.StoryMedia, // Match API response
+                                })
+                            ),
+                        })
+                    );
+                    setFriendsStories(formattedStories);
+                } else {
+                    console.error("Invalid response structure", response);
+                }
+            } catch (error) {
+                console.error("Failed to fetch stories", error);
             }
-            return now - story.createdAt < 5 * 60 * 1000;
-        });
-
-        setStories(validStories);
-
-        const interval = setInterval(() => {
-            setStories((prevStories) =>
-                prevStories.filter((story) => Date.now() - story.createdAt < 5 * 60 * 1000)
-            );
-        }, 60000);
-
-        return () => clearInterval(interval);
+        }
+        fetchStories();
     }, []);
 
     useEffect(() => {
         clearAutoAdvanceTimer();
 
-        if (stories.length > 0 && currentStoryIndex < stories.length) {
-            const currentStory = stories[currentStoryIndex];
+        if (friendsStories.length > 0) {
+            const currentStory = friendsStories[currentFriendIndex]?.stories[currentStoryIndex];
 
-            if (currentStory.mediaType === "image") {
-                setProgress(0);
-
+            if (currentStory.mediaType === "photo") {
                 let progressInterval: NodeJS.Timeout | null = null;
 
-                // Auto-advance timer
                 autoAdvanceTimer.current = setTimeout(() => {
-                    handleNext();
-                }, 5000); // Adjust duration as needed
+                    handleNextStory();
+                }, 5000);
 
-                // Progress bar update logic
                 progressInterval = setInterval(() => {
                     setProgress((prev) => {
-                        const newProgress = prev + 100 / (5000 / 100); // Increment progress every 100ms
+                        const newProgress = prev + 100 / (5000 / 100);
                         if (newProgress >= 100) {
                             clearInterval(progressInterval!);
                             return 100;
@@ -94,24 +142,21 @@ export default function ViewStories() {
                     });
                 }, 100);
 
-                return () => {
-                    clearInterval(progressInterval!);
-                };
+                return () => clearInterval(progressInterval!);
             } else if (currentStory.mediaType === "video" && videoRef.current) {
                 videoRef.current.addEventListener("loadedmetadata", () => {
-                    if (videoRef.current) {
-                        setVideoDuration(videoRef.current.duration);
-                        videoRef.current.play();
-                    }
+                    videoRef.current?.play();
                 });
 
                 const interval = setInterval(() => {
                     if (videoRef.current) {
                         const currentTime = videoRef.current.currentTime;
-                        setProgress((currentTime / videoDuration!) * 100);
+                        const duration = videoRef.current.duration;
+                        setProgress((currentTime / duration) * 100);
+
                         if (videoRef.current.ended) {
                             clearInterval(interval);
-                            handleNext();
+                            handleNextStory();
                         }
                     }
                 }, 100);
@@ -119,12 +164,10 @@ export default function ViewStories() {
                 return () => clearInterval(interval);
             }
         }
-
         return clearAutoAdvanceTimer;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentStoryIndex, stories, handleNext]);
+    }, [currentFriendIndex, currentStoryIndex, friendsStories, handleNextStory, clearAutoAdvanceTimer]);
 
-    if (stories.length === 0) {
+    if (friendsStories.length === 0) {
         return (
             <div className="flex min-h-screen items-center justify-center bg-gray-100">
                 <p className="text-lg text-gray-500">No stories to display.</p>
@@ -132,15 +175,14 @@ export default function ViewStories() {
         );
     }
 
-    const currentStory = stories[currentStoryIndex];
+    const currentFriend = friendsStories[currentFriendIndex];
+    const currentStory = currentFriend.stories[currentStoryIndex];
 
     return (
         <div
             style={{
                 backgroundColor: currentStory.color,
-                backgroundImage: currentStory.backgroundMedia
-                    ? `url(${currentStory.backgroundMedia})`
-                    : "none",
+                backgroundImage: `url(${currentStory.storyMedia})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
@@ -154,26 +196,43 @@ export default function ViewStories() {
                 ></div>
             </div>
 
+            {/* Username and Avatar */}
+            <div className="absolute top-6 left-6 flex items-center space-x-2">
+                {currentFriend.photo ? (
+                    <Image
+                        src={currentFriend.photo}
+                        alt={currentFriend.username}
+                        width={50}
+                        height={50}
+                        className="h-12 w-12 rounded-full object-cover"
+                    />
+                ) : (
+                    <Avatar name={currentFriend.username} />
+                )}
+                <span className="text-white text-lg font-semibold">{currentFriend.username}</span>
+            </div>
+
             <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center px-6">
                 {/* Previous Button */}
                 <button
-                    onClick={handlePrev}
+                    onClick={handlePrevStory}
+                    aria-label="previous"
                     className="absolute left-0 top-0 z-20 h-full w-1/3 border-none bg-transparent shadow-none"
                 ></button>
 
                 {/* Story Content */}
-                {currentStory.mediaType === "image" && currentStory.text && (
+                {currentStory.mediaType === "photo" && currentStory.content && (
                     <div
                         className="text-center text-3xl font-semibold text-white sm:text-4xl"
                         data-test="story-text"
                     >
-                        {currentStory.text}
+                        {currentStory.content}
                     </div>
                 )}
-                {currentStory.mediaType === "video" && currentStory.backgroundMedia && (
+                {currentStory.mediaType === "video" && (
                     <video
                         ref={videoRef}
-                        src={currentStory.backgroundMedia}
+                        src={currentStory.storyMedia}
                         className="h-full w-full object-cover"
                         playsInline
                     ></video>
@@ -181,7 +240,8 @@ export default function ViewStories() {
 
                 {/* Next Button */}
                 <button
-                    onClick={handleNext}
+                    onClick={handleNextStory}
+                    aria-label="Next"
                     className="absolute right-0 top-0 h-full w-1/3 border-none bg-transparent shadow-none"
                 ></button>
             </div>
@@ -189,10 +249,11 @@ export default function ViewStories() {
             {/* Back Home Button */}
             <button
                 onClick={() => {
-                    clearAutoAdvanceTimer(); // Clear any ongoing timers
+                    clearAutoAdvanceTimer();
                     router.push("/stories");
                 }}
-                data-test="story-backHomeButton"
+                
+                aria-label="BackHome"
                 className="absolute bottom-6 left-6 z-30 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg hover:bg-red-700"
             >
                 Back Home

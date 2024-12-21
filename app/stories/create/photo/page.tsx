@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-
+import { sendStory } from "@/services/Stories/Stories"; 
 export default function CreateStoryWithPhoto() {
     const [photo, setPhoto] = useState<string | null>(null); // Base64 string of the captured photo
     const videoRef = useRef<HTMLVideoElement>(null); // Reference for the video element
     const canvasRef = useRef<HTMLCanvasElement>(null); // Reference for the canvas element
     const [isCameraOpen, setIsCameraOpen] = useState<boolean>(false); // Camera state
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Submission state
     const router = useRouter();
 
     // Open the camera
@@ -47,22 +48,28 @@ export default function CreateStoryWithPhoto() {
     };
 
     // Save the photo as a story
-    const saveStory = () => {
-
-        if (photo) {
-            const existingStories = JSON.parse(localStorage.getItem("stories") || "[]");
-            const newStory = {
-                text: "",
-                backgroundMedia: photo, // Base64 string stored here
-                mediaType: "image",
-                createdAt: Date.now(), // Ensure timestamp is valid
-            };
-            const updatedStories = [...existingStories, newStory];
-            localStorage.setItem("stories", JSON.stringify(updatedStories));
-
-            router.push("/stories");
-        } else {
+    const saveStory = async () => {
+        if (!photo) {
             alert("No photo to save!");
+            return;
+        }
+
+        const storyData = {
+            content: "", // No text content
+            mediaType: "photo",
+            color: "blue", // No specific color as a background for the photo
+            storyMedia: photo,
+        };
+
+        setIsSubmitting(true);
+        try {
+            await sendStory(storyData); // Call the backend API
+            router.push("/stories"); // Navigate to the stories page
+        } catch (error) {
+            console.error("Error submitting the story:", error);
+            alert("Failed to save the story. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -88,6 +95,7 @@ export default function CreateStoryWithPhoto() {
                         className="w-full max-w-md rounded-lg shadow-lg"
                         autoPlay
                         playsInline
+                        aria-label="Camera Preview"
                     />
                     <canvas ref={canvasRef} className="hidden"></canvas>
                     <button
@@ -112,9 +120,10 @@ export default function CreateStoryWithPhoto() {
                     <div className="mt-4 flex gap-4">
                         <button
                             onClick={saveStory}
-                            className="transform rounded-lg bg-green-600 px-6 py-2 text-white shadow-lg  hover:scale-105 hover:bg-green-700"
+                            className="transform rounded-lg bg-green-600 px-6 py-2 text-white shadow-lg hover:scale-105 hover:bg-green-700"
+                            disabled={isSubmitting}
                         >
-                            Save Story
+                            {isSubmitting ? "Saving..." : "Save Story"}
                         </button>
                         <button
                             onClick={() => setPhoto(null)}
