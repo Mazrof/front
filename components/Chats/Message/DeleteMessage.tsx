@@ -6,6 +6,7 @@ import {
     DialogContent,
     DialogFooter,
     DialogHeader,
+    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,10 @@ function DeleteMessage() {
             // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1000));
             console.log("Message deleted successfully!");
-            setIsOpen(false);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate async operation
+            setIsOpen(false); // Close the dialog after operation completes
         } catch (error) {
-            console.error("Failed to delete the message.");
+            console.error("Failed to delete the message.",error);
         } finally {
             setIsDeleting(false);
         }
@@ -39,9 +40,9 @@ function DeleteMessage() {
             </DialogTrigger>
             <DialogContent className="bg-white dark:bg-gray-900 sm:max-w-[425px]">
                 <DialogHeader>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                         Delete Message
-                    </h2>
+                    </DialogTitle>
                     <p className="text-gray-700 dark:text-gray-300">
                         Are you sure you want to delete this message? This action cannot be undone.
                     </p>

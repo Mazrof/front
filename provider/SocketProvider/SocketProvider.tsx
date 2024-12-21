@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation"; // Import usePathname
 import { initializeSocket, disconnectSocket } from "@/lib/socket";
 import { useMessagesStore, useWhoAmI } from "@/store/user";
@@ -20,7 +20,7 @@ interface SocketProviderProps {
 const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const { user } = useWhoAmI();
     const pathname = usePathname(); // Track the current URL path
-    const { setMessages, checkExistChat, setMessage } = useMessagesStore();
+    const { setMessages, checkExistChat, setMessage, addChat } = useMessagesStore();
     const router = useRouter();
 
     const [socket, setSocket] = useState<Socket | null>(null); // Manage socket as a state
@@ -61,6 +61,37 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         const socketInstance = initializeSocket();
         setSocket(socketInstance); // Set socket state
     }
+    const fetchNewChat = async (participantId: number) => {
+        try {
+            const chatsData: MyChats | failResponse = await getChatsListtest();
+            if ((chatsData as failResponse).status === "fail") {
+                console.error("Failed to fetch chat list");
+                return;
+            }
+            const newChat = (chatsData as MyChats).find((chat) => chat.id === participantId);
+            if (newChat) {
+                const response: genericResponse<MessageTypeBE[]> = await getMessages({
+                    id: newChat.id,
+                    page: 1,
+                    limit: 100,
+                });
+                if (response.status === "fail" || response.status === "error") {
+                    const failApiResponse = response as failResponse;
+                    if (failApiResponse?.error?.statusCode === 401) {
+                        router.push("/login");
+                    }
+                } else {
+                    const data: MessageTypeBE[] = response as unknown as MessageTypeBE[];
+                    addChat({
+                        ...newChat,
+                        messages: data.reverse(),
+                    });
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching new chat:", error);
+        }
+    };
 
     useEffect(() => {
         if (pathname === "/" || pathname === "/stories") {
@@ -87,10 +118,9 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
                 console.log("received", data);
 
                 if (!checkExistChat(data.participantId as number)) {
-                    console.log("new chat detected");
-                }
-
-               else setMessage(data, data.participantId as number, user?.user.id as number);
+                    console.log("New chat detected, fetching chat list...");
+                    fetchNewChat(data.participantId as number);
+                } else setMessage(data, data.participantId as number, user?.user.id as number);
             });
         }
 

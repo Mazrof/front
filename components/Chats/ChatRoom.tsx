@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import { useSelectedChatRoom } from "@/store/user";
 import PersonalChat from "../PersonalChats/PersonalChat";
 import ChannelChats from "../Channels/ChannelChats/ChannelChats";
@@ -8,10 +7,7 @@ import GroupChats from "../Groups/GroupChats/GroupChats";
 function ChatRoom() {
     const { isSelectedChatRoom, selectedChatRoom } = useSelectedChatRoom();
     const isSelectedChat = isSelectedChatRoom();
-
-    useEffect(() => {
-        
-    }, [isSelectedChat]);
+    
     console.log("selected id", selectedChatRoom);
     return (
         <div

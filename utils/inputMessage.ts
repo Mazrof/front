@@ -146,7 +146,7 @@ export const sendMessageBE = (
         inputMessageMentions: undefined,
         senderId: user?.user.id,
     };
-    console.log(message);
+    console.log("send message",message);
     // untill return
     setMessage(
         { ...message, id: -1, createdAt: getTimeWithAddedHours(2) },

@@ -2,8 +2,13 @@ import { create } from "zustand";
 import { BlockUsers, FirstTimeChat, SelectedChatRoom, useWhoAmIType, WhoAmI } from "@/types/user";
 import { useMessagesStoreType, MessagesStoreType, MessageTypeBE } from "@/types/Message";
 const useSelectedChatRoom = create<SelectedChatRoom>((set) => ({
-    selectedChatRoom:null,
-    setChatRoom: (newChatRoom) => set({ selectedChatRoom: newChatRoom }),
+    previousChatRoom: null,
+    selectedChatRoom: null,
+    setChatRoom: (newChatRoom) =>
+        set((state) => ({
+            previousChatRoom: state.selectedChatRoom, // Update previousChatRoom
+            selectedChatRoom: newChatRoom, // Set the new selectedChatRoom
+        })),
     isSelectedChatRoom: () => {
         const state: SelectedChatRoom = useSelectedChatRoom.getState(); // get the current state
         return state.selectedChatRoom !== null;
@@ -42,7 +47,7 @@ const useMessagesStore = create<useMessagesStoreType>((set, get) => ({
             };
         });
     },
-    addChat: (newChat:MessagesStoreType) => {
+    addChat: (newChat: MessagesStoreType) => {
         set((state) => ({
             chatMessages: [...state.chatMessages, newChat],
         }));
