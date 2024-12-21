@@ -4,7 +4,7 @@ import { GetUsers, GetGroups, FilterandRemovefilter, BanandUnban } from "@/servi
 import { genericResponse, successResponse } from "@/types/api";
 import { Group, user } from "@/types/user";
 
-function AdminDashboard({ children }: { children: React.ReactNode }): JSX.Element {
+function AdminDashboard() {
     const [selectedOption, setSelectedOption] = useState<string>("users");
     const [groups, setGroups] = useState<Group[]>([]);
     const [users, setUsers] = useState<user[]>([]);
