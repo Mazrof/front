@@ -6,29 +6,57 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThreeDotsIcon } from "@/utils/icons";
 import { useState } from "react";
-import AddAdmins from "./AddAdmins";
 import GroupSettings from "./GroupSettings";
 import GroupMembersList from "./GroupMembersList";
 import MuteNotification from "./MuteNotification";
-import { addMembersToGroup } from "@/services/Group";
+import { addMemberToGroup } from "@/services/Group";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
-import { MemberRole } from "@/types/user";
+import AddMember from "./AddMember";
+import DeleteMember from "./DeleteMember";
+import DeleteGroup from "./DeleteGroup";
+import EditMember from "./EditMember";
+import LeaveGroup from "./LeaveGroup";
+import { useWhoAmI } from "@/store/user";
 type groupDropMenuProps = {
+    myRole: "none" | "admin" | "member";
     groupId: number;
     groupSize: number;
     privacy: boolean;
+    name: string;
+    imageURL: string;
 };
-export default function GroupDropDownMenu({ groupId, groupSize, privacy }: groupDropMenuProps) {
-    const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
+export default function GroupDropDownMenu({
+    name,
+    imageURL,
+    myRole,
+    groupId,
+    groupSize,
+    privacy,
+}: groupDropMenuProps) {
+    const [isAddMemberOpen, setIsAddMemberOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isDeleteGroupOpen, setIsDeleteGroupOpen] = useState(false);
+    const [isEditMemberOpen, setIsEditMemberOpen] = useState(false);
+    const [isDeleteMemberOpen, setIsDeleteMemberOpen] = useState(false);
+    const [isLeaveGroupOpen, setIsLeaveGroupOpen] = useState(false);
     const [isMembersListOpen, setIsMembersListOpen] = useState(false);
     const [isMuteNotificationsOpen, setIsMuteNotificationsOpen] = useState(false);
-
+    const { user } = useWhoAmI();
     const handleJoiningGroup = async () => {
         try {
-            const body: MemberRole = { role: "member" };
-            const response = await addMembersToGroup(body, groupId);
+            const body: {
+                memberId: number;
+                role: "admin" | "member";
+                hasMessagePermissions: boolean;
+                hasDownloadPermissions: boolean;
+            } = {
+                memberId: Number(user?.user.id),
+                role: "member",
+                hasMessagePermissions: false,
+                hasDownloadPermissions: false,
+            };
+            const response = await addMemberToGroup(body, groupId);
 
             if (response.status === "fail") {
                 const failApiResponse = response as failResponse;
@@ -60,31 +88,63 @@ export default function GroupDropDownMenu({ groupId, groupSize, privacy }: group
                     <ThreeDotsIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="dark:bg-black dark:text-white">
-                    <DropdownMenuItem onClick={() => setIsAddAdminsOpen(true)}>
-                        Add Admins
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleJoiningGroup}>Join Group</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsMembersListOpen(true)}>
-                        List of Group Members
-                    </DropdownMenuItem>
+                    {myRole === "none" && (
+                        <DropdownMenuItem onClick={handleJoiningGroup}>Join Group</DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsAddMemberOpen(true)}>
+                            Add Member
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsEditMemberOpen(true)}>
+                            Edit Member
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsDeleteMemberOpen(true)}>
+                            Delete Member
+                        </DropdownMenuItem>
+                    )}
+                    {myRole !== "none" && (
+                        <DropdownMenuItem onClick={() => setIsMembersListOpen(true)}>
+                            List of Group Members
+                        </DropdownMenuItem>
+                    )}
 
-                    <DropdownMenuItem onClick={() => setIsMuteNotificationsOpen(true)}>
-                        Mute Notifications
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
-                        Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>Send Announcement</DropdownMenuItem>
+                    {myRole !== "none" && (
+                        <DropdownMenuItem onClick={() => setIsMuteNotificationsOpen(true)}>
+                            Mute Notifications
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
+                            Settings
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsDeleteGroupOpen(true)}>
+                            Delete Group
+                        </DropdownMenuItem>
+                    )}
+                    {myRole !== "none" && (
+                        <DropdownMenuItem onClick={() => setIsLeaveGroupOpen(true)}>
+                            Leave Group
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && <DropdownMenuItem>Send Announcement</DropdownMenuItem>}
                     <DropdownMenuItem>Forward Message</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             <div className="hidden">
-                <AddAdmins
+                <AddMember
                     groupId={groupId}
-                    isOpen={isAddAdminsOpen}
-                    onClose={() => setIsAddAdminsOpen(false)}
+                    isOpen={isAddMemberOpen}
+                    onClose={() => setIsAddMemberOpen(false)}
                 />
                 <GroupSettings
+                    name={name}
+                    imageURL={imageURL}
                     groupId={groupId}
                     isOpen={isSettingsOpen}
                     groupSize={groupSize}
@@ -100,6 +160,26 @@ export default function GroupDropDownMenu({ groupId, groupSize, privacy }: group
                     groupId={groupId}
                     isOpen={isMuteNotificationsOpen}
                     onClose={() => setIsMuteNotificationsOpen(false)}
+                />
+                <DeleteMember
+                    isOpen={isDeleteMemberOpen}
+                    onClose={() => setIsDeleteMemberOpen(false)}
+                    groupId={groupId}
+                />
+                <DeleteGroup
+                    isOpen={isDeleteGroupOpen}
+                    groupId={groupId}
+                    onClose={() => setIsDeleteGroupOpen(false)}
+                />
+                <EditMember
+                    groupId={groupId}
+                    isOpen={isEditMemberOpen}
+                    onClose={() => setIsEditMemberOpen(false)}
+                />
+                <LeaveGroup
+                    groupId={groupId}
+                    isOpen={isLeaveGroupOpen}
+                    onClose={() => setIsLeaveGroupOpen(false)}
                 />
             </div>
         </>

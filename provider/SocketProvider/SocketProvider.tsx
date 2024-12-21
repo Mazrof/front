@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"; // Import usePathname
 import { initializeSocket, disconnectSocket } from "@/lib/socket";
 import { useMessagesStore, useWhoAmI } from "@/store/user";
 import { failResponse, genericResponse } from "@/types/api";
@@ -19,17 +19,18 @@ interface SocketProviderProps {
 
 const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const { user } = useWhoAmI();
-    const pathname = usePathname();
-    const { setMessages, checkExistChat, setMessage, addChat } = useMessagesStore(); // Add `addChat` to update the store
+    const pathname = usePathname(); // Track the current URL path
+    const { setMessages, checkExistChat, setMessage, addChat } = useMessagesStore();
     const router = useRouter();
 
-    const [socket, setSocket] = useState<Socket | null>(null);
+    const [socket, setSocket] = useState<Socket | null>(null); // Manage socket as a state
 
     // Fetch chats and messages
     const firstFetchMessages = async () => {
         const chatsData: MyChats | failResponse = await getChatsListtest();
-        if ((chatsData as failResponse).status === "fail") router.push("/login");
+        if ((chatsData as failResponse).status == "fail") router.push("/login");
         else {
+            console.log("chats", chatsData as MyChats);
             for (const chat of chatsData as MyChats) {
                 const response: genericResponse<MessageTypeBE[]> = await getMessages({
                     id: chat.id,
@@ -44,6 +45,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
                     }
                 } else {
                     const data: MessageTypeBE[] = response as unknown as MessageTypeBE[];
+                    console.log("returned data", data);
                     setMessages({
                         ...chat,
                         messages: data.reverse(),
@@ -53,7 +55,12 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         }
     };
 
-    // Fetch new chat when a message from a new person is received
+    // Initialize socket connection
+    async function Initialize() {
+        await firstFetchMessages();
+        const socketInstance = initializeSocket();
+        setSocket(socketInstance); // Set socket state
+    }
     const fetchNewChat = async (participantId: number) => {
         try {
             const chatsData: MyChats | failResponse = await getChatsListtest();
@@ -61,9 +68,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
                 console.error("Failed to fetch chat list");
                 return;
             }
-
             const newChat = (chatsData as MyChats).find((chat) => chat.id === participantId);
-
             if (newChat) {
                 const response: genericResponse<MessageTypeBE[]> = await getMessages({
                     id: newChat.id,
@@ -88,46 +93,44 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         }
     };
 
-    // Initialize socket connection
-    async function Initialize() {
-        await firstFetchMessages();
-        const socketInstance = initializeSocket();
-        setSocket(socketInstance);
-    }
-
     useEffect(() => {
         if (pathname === "/" || pathname === "/stories") {
+            console.log("path", pathname);
             Initialize();
         } else {
+            // Disconnect socket when pathname is not relevant
             disconnectSocket();
-            setSocket(null);
+            setSocket(null); // Clear socket state when not needed
         }
 
         return () => {
+            // Cleanup on unmount or path change
             disconnectSocket();
-            setSocket(null);
+            setSocket(null); // Clear socket state
         };
-    }, [pathname]);
+    }, [pathname]); // Run this effect when pathname changes
 
     useEffect(() => {
         if (socket) {
+            console.log("socket initialized", socket);
+            // Listen for messages only when the socket is initialized
             socket.on("message:receive", (data: MessageTypeBE) => {
-                console.log("recieve",data)
+                console.log("received", data);
+
                 if (!checkExistChat(data.participantId as number)) {
                     console.log("New chat detected, fetching chat list...");
                     fetchNewChat(data.participantId as number);
-                } else {
-                    setMessage(data, data.participantId as number, user?.user.id as number);
-                }
+                } else setMessage(data, data.participantId as number, user?.user.id as number);
             });
         }
 
         return () => {
+            // Cleanup socket listener when the socket changes or on unmount
             if (socket) {
                 socket.off("message:receive");
             }
         };
-    }, [socket]);
+    }, [socket]); // Dependency array with `socket`
 
     return <>{children}</>;
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { Copy } from "lucide-react";
 
 type InviteLinkDialogProps = {
@@ -32,6 +32,9 @@ export default function InviteLinkDialog({ inviteLink, isOpen, onClose }: Invite
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Invite Link</DialogTitle>
+                    <DialogDescription>
+                        Share this link to invite others to join the channel
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
                     <p className="break-words rounded-lg border border-gray-300 bg-gray-50 p-3 text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">

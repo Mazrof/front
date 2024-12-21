@@ -103,7 +103,13 @@ export default function ContactsList({
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
                                 setChatRoom({
-                                    group,
+
+                                    id: group.id,
+                                    group: {
+                                        id: group.id,
+                                        community: group.community,
+                                        groupSize: group.groupSize,
+                                    },
                                     type: "group",
                                 } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);
@@ -132,7 +138,13 @@ export default function ContactsList({
                             className="mt-2 flex cursor-pointer items-center rounded-lg bg-[#f3f3f3] p-3 shadow-sm hover:bg-[#e9e9e9] dark:bg-[#212121] dark:hover:bg-[#3b3b3b]"
                             onClick={() => {
                                 setChatRoom({
-                                    channel,
+                                    id: channel.id,
+                                    channel: {
+                                        id: channel.id,
+                                        canAddComments: channel.canAddComments,
+                                        invitationLink: channel.invitationLink,
+                                        community: channel.community,
+                                    },
                                     type: "channel",
                                 } as ChatRoom);
                                 setShowGlobalSearch(!showGlobalSearch);

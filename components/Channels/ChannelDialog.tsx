@@ -114,7 +114,7 @@ function ChannelDialog() {
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value="false"
+                                            value="true"
                                             id="public"
                                             className="text-blue-500 dark:text-blue-400"
                                             data-test="channel-privacy-public"
@@ -128,7 +128,7 @@ function ChannelDialog() {
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value="true"
+                                            value="false"
                                             id="private"
                                             className="text-blue-500 dark:text-blue-400"
                                             data-test="channel-privacy-private"

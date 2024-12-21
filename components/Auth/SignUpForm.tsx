@@ -124,10 +124,10 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             data.name,
             data.username,
             data.phoneNumber,
-            publicKey,
-            privateKey,
             data.email.trim().toLowerCase(),
-            data.password
+            data.password,
+            publicKey,
+            privateKey
         );
 
         if (response.status === "fail" || response.status === "error") {

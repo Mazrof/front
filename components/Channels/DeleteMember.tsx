@@ -11,80 +11,53 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { addAdminsToChannel } from "@/services/Channel";
+import { deleteMember } from "@/services/Channel";
 import { ChannelMember } from "@/types/user";
-import { Checkbox } from "../ui/checkbox";
+import { useState } from "react";
 
-const adminSchema = z.object({
-    selectedAdmins: z
-        .array(
-            z.object({
-                userId: z.number(),
-                role: z.string().default("admin"),
-                hasDownloadPermissions: z.boolean().default(false),
-            })
-        )
-        .min(1, "Please select at least one admin."),
+const memberSchema = z.object({
+    userId: z.number().min(1, "Please select a member to delete."),
 });
 
-type AdminFormInputs = z.infer<typeof adminSchema>;
+type MemberFormInputs = z.infer<typeof memberSchema>;
 
-type AddAdminsProps = {
+type DeleteMemberProps = {
     channelId: number;
     isOpen: boolean;
     onClose: () => void;
 };
 
-export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps) {
+export default function DeleteMember({ channelId, isOpen, onClose }: DeleteMemberProps) {
     const { members, loading, error } = useChannelMembers(channelId);
+    const [globalError, setError] = useState<string | null>(null);
 
     const {
-        register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting, errors },
         reset,
         setValue,
-        getValues,
-    } = useForm<AdminFormInputs>({
-        resolver: zodResolver(adminSchema),
+        watch,
+    } = useForm<MemberFormInputs>({
+        resolver: zodResolver(memberSchema),
         defaultValues: {
-            selectedAdmins: [],
+            userId: 0,
         },
     });
-    const toggleAdmin = (userId: number) => {
-        const selected = getValues("selectedAdmins");
-        const index = selected.findIndex((admin) => admin.userId === userId);
 
-        if (index > -1) {
-            // Remove admin
-            selected.splice(index, 1);
-        } else {
-            // Add admin
-            selected.push({
-                userId,
-                role: "admin",
-                hasDownloadPermissions: false,
-            });
-        }
+    const selectedUserId = watch("userId");
 
-        setValue("selectedAdmins", selected, { shouldValidate: true });
-    };
-
-    const onSubmit: SubmitHandler<AdminFormInputs> = async (data) => {
+    const onSubmit: SubmitHandler<MemberFormInputs> = async ({ userId }) => {
         try {
-            const formattedAdmins = data.selectedAdmins.map((admin) => ({
-                userId: admin.userId,
-                role: "admin",
-                hasDownloadPermissions: admin.hasDownloadPermissions,
-            }));
-
-            const response = await addAdminsToChannel({ admins: formattedAdmins }, channelId);
-            console.log("Add Admins Response:", response);
-
-            reset(); // Clear form
-            onClose(); // Close dialog
+            const response = await deleteMember(channelId, userId);
+            if (response?.status === "fail") {
+                setError("Failed to delete member. Please try again.");
+            } else {
+                reset();
+                onClose();
+            }
         } catch (err) {
-            console.error("Failed to add admins:", err);
+            console.error("Failed to delete member:", err);
+            setError("An unexpected error occurred.");
         }
     };
 
@@ -93,7 +66,7 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
             <DialogContent className="bg-white dark:bg-gray-900 sm:max-w-[425px]">
                 <DialogHeader>
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                        Add new Admins
+                        Delete Member
                     </h2>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -105,18 +78,16 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
                         ) : (
                             <>
                                 <p className="mb-2 text-gray-600 dark:text-gray-300">
-                                    Select users to make them admins:
+                                    Select a user to delete:
                                 </p>
                                 <div className="space-y-2">
                                     {members?.map((member: ChannelMember) => (
                                         <div key={member.userId} className="flex items-center">
-                                            <Checkbox
+                                            <input
+                                                type="radio"
                                                 id={`member-${member.userId}`}
-                                                checked={getValues("selectedAdmins").some(
-                                                    (selected) => selected.userId === member.userId
-                                                )}
-                                                onCheckedChange={() => toggleAdmin(member.userId)}
-                                                {...register("selectedAdmins")}
+                                                checked={selectedUserId === member.userId}
+                                                onChange={() => setValue("userId", member.userId)}
                                                 className="mr-2"
                                             />
                                             <label
@@ -128,14 +99,13 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
                                         </div>
                                     ))}
                                 </div>
-                                {errors.selectedAdmins && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.selectedAdmins.message}
-                                    </p>
-                                )}
                             </>
                         )}
                     </div>
+                    {errors.userId && (
+                        <p className="text-sm text-red-500">{errors.userId.message}</p>
+                    )}
+                    {globalError && <p className="text-sm text-red-500">{globalError}</p>}
                     <DialogFooter className="mt-4">
                         <DialogClose asChild>
                             <Button type="button" variant="outline" className="mr-2">
@@ -145,15 +115,15 @@ export default function AddAdmins({ channelId, isOpen, onClose }: AddAdminsProps
                         <Button
                             type="submit"
                             disabled={isSubmitting || loading}
-                            className="bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
+                            className="bg-red-500 text-white hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
                         >
                             {isSubmitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Submitting...
+                                    Deleting...
                                 </>
                             ) : (
-                                "Submit"
+                                "Delete"
                             )}
                         </Button>
                     </DialogFooter>

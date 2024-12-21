@@ -73,7 +73,7 @@ function InfoChatBar({
                         <p className="font-semibold" data-test="chatList-chatRoom-name">
                             {name}
                         </p>
-                        {chatType === "personalChat" && (
+                        {(chatType === "personalChat" &&lastSeen) && (
                             <p className="text-gray-700" data-test="chatList-chatRoom-lastSeen">
                                 {" "}
                                 {`last seen was ${lastSeen} am`}
