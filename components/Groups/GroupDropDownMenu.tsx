@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThreeDotsIcon } from "@/utils/icons";
 import { useState } from "react";
-import AddAdmins from "./AddAdmins";
+import AddAdmins from "./AddMember";
 import GroupSettings from "./GroupSettings";
 import GroupMembersList from "./GroupMembersList";
 import MuteNotification from "./MuteNotification";

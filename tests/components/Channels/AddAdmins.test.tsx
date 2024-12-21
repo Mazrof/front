@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import AddAdmins from "../../../components/Channels/AddAdmins";
+import AddAdmins from "../../../components/Channels/AddSubscriber";
 import { useChannelMembers } from "../../../hooks/useChannelMembers";
-import { addAdminsToChannel } from "../../../services/Channel";
+import { addMembersToChannel } from "../../../services/Channel";
 import { ReactElement } from "react";
 // Mock the hooks and services
 jest.mock("../../../hooks/useChannelMembers");
@@ -95,7 +95,7 @@ describe("AddAdmins", () => {
             loading: false,
             error: null,
         });
-        (addAdminsToChannel as jest.Mock).mockResolvedValue({ success: true });
+        (addMembersToChannel as jest.Mock).mockResolvedValue({ success: true });
     });
 
     it("renders loading state correctly", () => {
@@ -161,7 +161,7 @@ describe("AddAdmins", () => {
         await userEvent.click(submitButton);
 
         await waitFor(() => {
-            expect(addAdminsToChannel).toHaveBeenCalledWith(
+            expect(addMembersToChannel).toHaveBeenCalledWith(
                 {
                     admins: [
                         {
@@ -180,7 +180,7 @@ describe("AddAdmins", () => {
 
     it("handles form submission error correctly", async () => {
         const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-        (addAdminsToChannel as jest.Mock).mockRejectedValue(new Error("Submission failed"));
+        (addMembersToChannel as jest.Mock).mockRejectedValue(new Error("Submission failed"));
 
         render(<AddAdmins {...defaultProps} />);
 

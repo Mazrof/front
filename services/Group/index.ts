@@ -1,6 +1,5 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import { MemberRole } from "@/types/user";
 import { GroupData } from "@/types/group";
 import { ApiRequest } from "@/types/request";
 import { GroupMember } from "@/types/user";
@@ -51,8 +50,13 @@ export async function addAdminsToGroup(body: object, groupId: number) {
     };
     return await apiHandler(request);
 }
-export async function addMembersToGroup(
-    body: MemberRole,
+export async function addMemberToGroup(
+    body: {
+        memberId: number;
+        role: "admin" | "member";
+        hasMessagePermissions: boolean;
+        hasDownloadPermissions: boolean;
+    },
     groupId: number
 ): Promise<genericResponse<object>> {
     const request: ApiRequest = {
@@ -69,6 +73,39 @@ export async function muteNotification(groupId: number, body: object) {
     const request: ApiRequest = {
         endpoint: `${server}/groups/${groupId}/mute`,
         method: "POST",
+        cache: "no-store",
+        body,
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+
+export async function deleteGroup(groupId: number) {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}`,
+        method: "DELETE",
+        cache: "no-store",
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function deleteMember(groupId: number, memberId: number) {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/members/${memberId}`,
+        method: "DELETE",
+        cache: "no-store",
+        credentials: "include",
+    };
+    return await apiHandler(request);
+}
+export async function editMember(
+    body: { role: string; hasDownloadPermissions: boolean },
+    groupId: number,
+    memberId: number
+) {
+    const request: ApiRequest = {
+        endpoint: `${server}/groups/${groupId}/members/${memberId}`,
+        method: "PATCH",
         cache: "no-store",
         body,
         credentials: "include",

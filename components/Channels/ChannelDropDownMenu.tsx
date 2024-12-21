@@ -6,14 +6,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreeDotsIcon } from "@/utils/icons";
-import AddAdmins from "./AddAdmins";
+import AddAdmins from "./AddSubscriber";
 import { useState } from "react";
 import ChannelSettings from "./ChannelSettings";
 import InviteLinkDialog from "./InviteLink";
-import { addMembersToChannel } from "@/services/Channel";
+import { joinChannel } from "@/services/Channel";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
-import { MemberRole } from "@/types/user";
 type channelDropDownMenuProps = {
     channelId: number;
     inviteLink: string;
@@ -31,9 +30,9 @@ export default function ChannelDropDownMenu({
     const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
     const handleJoiningChannel = async () => {
         try {
-            const body: MemberRole = { role: "member" };
-            const response = await addMembersToChannel(body, channelId);
-
+            const body: { token: string } = { token: inviteLink };
+            const response = await joinChannel(body);
+            console.log(response);
             if (response.status === "fail") {
                 const failApiResponse = response as failResponse;
                 toast({
