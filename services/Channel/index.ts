@@ -36,7 +36,12 @@ export async function getChannelMembers(
 //TODO: Add Name >>> For Body
 export async function updateChannelSettings(
     channelId: number,
-    body: object
+    body: {
+        name: string;
+        privacy: boolean;
+        imageURL: string;
+        canAddComments: boolean;
+    }
 ): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/channels/${channelId}/`,

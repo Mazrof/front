@@ -16,12 +16,16 @@ import { Label } from "../ui/label";
 import { useState } from "react";
 import { updateChannelSettings } from "@/services/Channel";
 import { failResponse, genericResponse } from "@/types/api";
+import { convertToBase64 } from "@/utils/inputMessage";
 
 // Zod schema for form validation
 const channelSettingsSchema = z.object({
+    name: z.string().min(1, "Channel name is required."),
     privacy: z.boolean(),
-    abilityToComment: z.boolean(),
-    downloadPermission: z.boolean(),
+    image: z
+        .instanceof(File)
+        .refine((file) => file.size <= 5 * 1024 * 1024, "Image size must be less than 5MB."),
+    canAddComments: z.boolean(),
 });
 
 type ChannelSettingsInputs = z.infer<typeof channelSettingsSchema>;
@@ -31,6 +35,7 @@ type ChannelSettingsProps = {
     isOpen: boolean;
     canAddComments: boolean;
     privacy: boolean;
+    name: string;
     onClose: () => void;
 };
 
@@ -38,6 +43,7 @@ export default function ChannelSettingsDialog({
     channelId,
     canAddComments,
     privacy,
+    name,
     isOpen,
     onClose,
 }: ChannelSettingsProps) {
@@ -50,15 +56,36 @@ export default function ChannelSettingsDialog({
     } = useForm<ChannelSettingsInputs>({
         resolver: zodResolver(channelSettingsSchema),
         defaultValues: {
+            name,
             privacy,
-            abilityToComment: canAddComments,
-            downloadPermission: false,
+            canAddComments,
         },
     });
 
     const onSubmit: SubmitHandler<ChannelSettingsInputs> = async (data) => {
         try {
-            const response: genericResponse<object> = await updateChannelSettings(channelId, data);
+            // Await the base64 conversion and handle the null case
+            const base64 = await new Promise<string>((resolve, reject) => {
+                convertToBase64(data.image, (base64, error) => {
+                    if (error) {
+                        reject("Can't Convert the image to base64");
+                    } else if (base64 === null) {
+                        reject("The image could not be converted to base64 (received null).");
+                    } else {
+                        resolve(base64);
+                    }
+                });
+            });
+
+            const body = {
+                name: data.name,
+                privacy: data.privacy,
+                imageURL: base64,
+                canAddComments: data.canAddComments,
+            };
+
+            const response: genericResponse<object> = await updateChannelSettings(channelId, body);
+
             if (response.status === "success") {
                 reset();
                 onClose();
@@ -67,7 +94,7 @@ export default function ChannelSettingsDialog({
                 setError(failApiResponse.message);
             }
         } catch (err) {
-            setError(`An unexpected error ${err} occurred. Please try again later.`);
+            setError(`An unexpected error occurred: ${err}. Please try again later.`);
         }
     };
 
@@ -82,10 +109,47 @@ export default function ChannelSettingsDialog({
                 <DialogHeader>
                     <DialogTitle>Channel Settings</DialogTitle>
                     <p id="channel-settings-description" className="text-sm text-gray-500">
-                        Manage your channel&apos;s privacy, commenting, and download settings.
+                        Manage your channel&apos;s settings.
                     </p>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="space-y-2">
+                        <Label className="text-gray-700 dark:text-gray-300">Channel Name</Label>
+                        <Controller
+                            control={control}
+                            name="name"
+                            render={({ field }) => (
+                                <input
+                                    type="text"
+                                    {...field}
+                                    className="w-full rounded-lg border px-4 py-2 focus:ring focus:ring-blue-300 dark:focus:ring-blue-600"
+                                />
+                            )}
+                        />
+                        {errors.name && (
+                            <p className="text-sm text-red-500">{errors.name.message}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label className="text-gray-700 dark:text-gray-300">Channel Image</Label>
+                        <Controller
+                            control={control}
+                            name="image"
+                            render={({ field }) => (
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => field.onChange(e.target.files?.[0] || null)}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-600 dark:file:bg-blue-700 dark:hover:file:bg-blue-800"
+                                />
+                            )}
+                        />
+                        {errors.image && (
+                            <p className="text-sm text-red-500">{errors.image.message}</p>
+                        )}
+                    </div>
+
                     <div className="space-y-2">
                         <Label className="text-gray-700 dark:text-gray-300">Channel Privacy</Label>
                         <Controller
@@ -137,7 +201,7 @@ export default function ChannelSettingsDialog({
                         </Label>
                         <Controller
                             control={control}
-                            name="abilityToComment"
+                            name="canAddComments"
                             render={({ field }) => (
                                 <RadioGroup
                                     onValueChange={(value) => field.onChange(value === "true")}
@@ -173,59 +237,8 @@ export default function ChannelSettingsDialog({
                                 </RadioGroup>
                             )}
                         />
-                        {errors.abilityToComment && (
-                            <p className="text-sm text-red-500">
-                                {errors.abilityToComment.message}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label className="text-gray-700 dark:text-gray-300">
-                            Download Permission
-                        </Label>
-                        <Controller
-                            control={control}
-                            name="downloadPermission"
-                            render={({ field }) => (
-                                <RadioGroup
-                                    onValueChange={(value) => field.onChange(value === "true")}
-                                    defaultValue={field.value.toString()}
-                                    className="flex space-x-4"
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="false"
-                                            id="no_download"
-                                            className="text-blue-500 dark:text-blue-400"
-                                        />
-                                        <Label
-                                            htmlFor="no_download"
-                                            className="text-gray-700 dark:text-gray-300"
-                                        >
-                                            No Downloads
-                                        </Label>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="true"
-                                            id="allow_download"
-                                            className="text-blue-500 dark:text-blue-400"
-                                        />
-                                        <Label
-                                            htmlFor="allow_download"
-                                            className="text-gray-700 dark:text-gray-300"
-                                        >
-                                            Allow Downloads
-                                        </Label>
-                                    </div>
-                                </RadioGroup>
-                            )}
-                        />
-                        {errors.downloadPermission && (
-                            <p className="text-sm text-red-500">
-                                {errors.downloadPermission.message}
-                            </p>
+                        {errors.canAddComments && (
+                            <p className="text-sm text-red-500">{errors.canAddComments.message}</p>
                         )}
                     </div>
 

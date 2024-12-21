@@ -29,7 +29,12 @@ export async function getGroupMembers(
 
 export async function updateGroupSettings(
     groupId: number,
-    body: object
+    body: {
+        name: string;
+        privacy: boolean;
+        imageURL: string;
+        groupSize: number;
+    }
 ): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/groups/${groupId}/`,
