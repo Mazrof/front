@@ -8,9 +8,11 @@ export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
 
 export type SelectedChatRoom = {
     selectedChatRoom: ChatRoom | null;
+    previousChatRoom: ChatRoom | null;
     setChatRoom: (newRoom: ChatRoom | null) => void;
     isSelectedChatRoom: () => boolean;
 };
+
 export type UserType = {
     id: string;
 };

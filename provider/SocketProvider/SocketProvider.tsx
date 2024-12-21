@@ -112,6 +112,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     useEffect(() => {
         if (socket) {
             socket.on("message:receive", (data: MessageTypeBE) => {
+                console.log("recieve",data)
                 if (!checkExistChat(data.participantId as number)) {
                     console.log("New chat detected, fetching chat list...");
                     fetchNewChat(data.participantId as number);
