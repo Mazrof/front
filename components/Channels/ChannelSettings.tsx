@@ -45,6 +45,7 @@ export default function ChannelSettings({
     canAddComments,
     privacy,
     name,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     imageURL,
     isOpen,
     onClose,
@@ -59,7 +60,7 @@ export default function ChannelSettings({
         resolver: zodResolver(channelSettingsSchema),
         defaultValues: {
             name,
-            image: imageURL,
+            image: undefined,
             privacy,
             canAddComments,
         },

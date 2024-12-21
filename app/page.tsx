@@ -17,8 +17,8 @@ export default function Home() {
     const [showGlobalSearch, setShowGlobalSearch] = useState(false);
     const [chat, setChat] = useState(null);
     const [darkMode, setDarkMode] = useState(false);
-    const router = useRouter()
-    const { setWhoAmI } = useWhoAmI()
+    const router = useRouter();
+    const { setWhoAmI } = useWhoAmI();
     const sideBarProp = {
         darkMode: darkMode,
         setDarkMode: setDarkMode,
@@ -28,18 +28,18 @@ export default function Home() {
         setShowGlobalSearch: setShowGlobalSearch,
     };
     const getUser = async () => {
-        const response: genericResponse<WhoAmI> = await getWhoAmI()
+        const response: genericResponse<WhoAmI> = await getWhoAmI();
         if (response.status === "fail" || response.status === "error") {
             const failApiResponse = response as failResponse;
-            router.push("/login")
+            router.push("/login");
         } else {
             const data = (response as successResponse<WhoAmI>).data;
-            setWhoAmI(data)
+            setWhoAmI(data);
         }
-    }
+    };
     useEffect(() => {
-       getUser()
-    }, [])
+        getUser();
+    }, []);
     return (
         <div className={`min-w-screen flex max-h-screen max-w-full ${darkMode && "dark"} `}>
             {showContacts ? (
@@ -50,15 +50,7 @@ export default function Home() {
                 <SideBar {...sideBarProp} />
             )}
             <Settings />
-            {/* <Suspense
-                fallback={
-                    <ChatRoom>
-                        <MessageLoading />
-                    </ChatRoom>
-                }
-            >
-                <ChatRoom />
-            </Suspense> */}
+
             <ChatRoom />
         </div>
     );

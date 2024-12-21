@@ -15,7 +15,6 @@ import { User } from "@/types/user";
 import { failResponse } from "@/types/api";
 import { useState } from "react";
 import { useUsers } from "@/hooks/useUsers";
-
 const memberSchema = z.object({
     selectedmember: z
         .object({
@@ -23,17 +22,15 @@ const memberSchema = z.object({
             role: z.string().default("member"),
             hasDownloadPermissions: z.boolean().default(false),
         })
-        .required("Please select an member."),
+        .refine((val) => val !== undefined, { message: "Please select a member." }), // Fix the typo in the error message too
 });
 
 type memberFormInputs = z.infer<typeof memberSchema>;
-
 type AddSubscriberProps = {
     channelId: number;
     isOpen: boolean;
     onClose: () => void;
 };
-
 export default function AddSubscriber({ channelId, isOpen, onClose }: AddSubscriberProps) {
     const { users, isLoading, error } = useUsers();
     const [globalError, setError] = useState<string | null>(null);
@@ -47,7 +44,11 @@ export default function AddSubscriber({ channelId, isOpen, onClose }: AddSubscri
     } = useForm<memberFormInputs>({
         resolver: zodResolver(memberSchema),
         defaultValues: {
-            selectedmember: undefined,
+            selectedmember: {
+                userId: 0, // Provide a valid number default
+                role: "member",
+                hasDownloadPermissions: false,
+            },
         },
     });
 

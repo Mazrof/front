@@ -1,5 +1,5 @@
-import { OTPState } from "@/types/auth"
-import { create } from "zustand"
+import { OTPState } from "@/types/auth";
+import { create } from "zustand";
 
 export const useOTPContext = create<OTPState>((set) => ({
     email: "",

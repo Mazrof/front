@@ -24,7 +24,9 @@ const memberSchema = z.object({
             hasMessagePermissions: z.boolean().default(false),
             hasDownloadPermissions: z.boolean().default(false),
         })
-        .required("Please select a user and configure their permissions."),
+        .refine((val) => val !== undefined, {
+            message: "Please select a user and configure their permissions.",
+        }),
 });
 
 type memberFormInputs = z.infer<typeof memberSchema>;

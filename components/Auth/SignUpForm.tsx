@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { failResponse, genericResponse } from "@/types/api";
-import { Keys, WhoAmI } from "@/types/user";
+import { Keys } from "@/types/user";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "@/hooks/use-toast";
 import { useOTPContext } from "@/store/OTPContext";
@@ -120,7 +120,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
             email: data.email.trim().toLowerCase(),
             password: data.password,
         });
-        const response: genericResponse<WhoAmI> = await SignupWithEmail(
+        const response: genericResponse<string> = await SignupWithEmail(
             data.name,
             data.username,
             data.phoneNumber,
@@ -220,6 +220,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                     render={({ field }) => {
                         return (
                             <PhoneInput
+                                data-testid="PhoneNumber"
                                 id="phoneNumber"
                                 {...field}
                                 error={
@@ -268,6 +269,7 @@ export function SignUpForm({ children }: { children: React.ReactNode }) {
                 )}
                 {/* { <div className="mt-4">
                     <ReCAPTCHA
+                        data-testid="Recaptcha"
                         sitekey="6LcM_ZoqAAAAAJ3-KONvHtQpiIYC919l4oTz6qbE"
                         onChange={handleCaptchaChange}
                     />

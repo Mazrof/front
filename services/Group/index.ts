@@ -1,10 +1,15 @@
 import apiHandler from "@/lib/apiHandler";
 import { genericResponse } from "@/types/api";
-import { GroupData } from "@/types/group";
 import { ApiRequest } from "@/types/request";
 import { GroupMember } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
-export async function createGroup(body: GroupData): Promise<genericResponse<object>> {
+export async function createGroup(body: {
+    name: string;
+    privacy: boolean;
+    canAddComments: boolean;
+    groupSize: number;
+    admins: string[];
+}): Promise<genericResponse<object>> {
     const request: ApiRequest = {
         endpoint: `${server}/groups`,
         method: "POST",

@@ -81,7 +81,7 @@ export default function GroupSettings({
             const body = {
                 name: data.name,
                 privacy: data.privacy,
-                imageURL: base64,
+                imageURL: base64 || imageURL,
                 groupSize: data.groupSize,
             };
 

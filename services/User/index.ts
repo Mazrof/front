@@ -20,63 +20,6 @@ export async function Recaptcha(token: string): Promise<genericResponse<WhoAmI>>
     return response;
 }
 
-export async function GetUsers(): Promise<genericResponse<{ users: user[] }>> {
-    try {
-        const request: ApiRequest = {
-            endpoint: `${server}/admins/users`,
-            method: "GET",
-            cache: "no-store",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-        };
-        return await apiHandler(request);
-    } catch (error) {
-        console.error("Error in GetUsers:", error);
-        throw new Error("Failed to fetch users");
-    }
-}
-export async function GetGroups(): Promise<genericResponse<WhoAmI>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/groups`,
-        method: "GET",
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function BanandUnban(id: string): Promise<genericResponse<WhoAmI>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/admins/${id}`,
-        method: "PATCH",
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-export async function FilterandRemovefilter(id: string): Promise<genericResponse<WhoAmI>> {
-    const request: ApiRequest = {
-        endpoint: `${server}/admins/${id}`,
-        method: "POST",
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    };
-    const response = await apiHandler(request);
-    return response;
-}
-
 export async function SendEmailCode(email: string): Promise<genericResponse<WhoAmI>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/send-code`,
@@ -108,7 +51,7 @@ export async function SendPhoneCode(phone: string): Promise<genericResponse<WhoA
 export async function VerifyEmailCode(
     email: string,
     code: string
-): Promise<genericResponse<WhoAmI>> {
+): Promise<genericResponse<string>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/verify-code`,
         method: "POST",
@@ -147,7 +90,7 @@ export async function SignupWithEmail(
     password: string,
     publicKey: string,
     privateKey: string
-) {
+): Promise<genericResponse<string>> {
     const request: ApiRequest = {
         endpoint: `${server}/auth/signup`,
         method: "POST",
