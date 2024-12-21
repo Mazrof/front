@@ -11,6 +11,8 @@ import { GroupData } from "@/types/group";
 function GroupChats() {
     const { selectedChatRoom } = useSelectedChatRoom();
     console.log("group", selectedChatRoom);
+    const { user } = useWhoAmI();
+    const myId = user?.user.id;
     // Ensure selectedChatRoom is defined before rendering
     if (!selectedChatRoom) return <div>Loading...</div>;
     const { group } = selectedChatRoom;
@@ -19,7 +21,13 @@ function GroupChats() {
     return (
         <div>
             <InfoChatBar name={name} imageURL={imageURL} chatType="group">
-                <GroupDropDownMenu groupId={id} groupSize={groupSize} privacy={privacy} />
+                <GroupDropDownMenu
+                    name={name}
+                    imageURL={imageURL}
+                    groupId={id}
+                    groupSize={groupSize}
+                    privacy={privacy}
+                />
             </InfoChatBar>
             <UploadingAlert />
             <ChatLayout />

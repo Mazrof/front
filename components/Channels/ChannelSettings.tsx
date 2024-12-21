@@ -40,7 +40,7 @@ type ChannelSettingsProps = {
     onClose: () => void;
 };
 
-export default function ChannelSettingsDialog({
+export default function ChannelSettings({
     channelId,
     canAddComments,
     privacy,

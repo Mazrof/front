@@ -18,7 +18,7 @@ type DeleteChannelProps = {
     onClose: () => void;
 };
 
-export default function DeleteChannelDialog({ channelId, isOpen, onClose }: DeleteChannelProps) {
+export default function DeleteChannel({ channelId, isOpen, onClose }: DeleteChannelProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 

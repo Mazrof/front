@@ -36,6 +36,7 @@ type GroupSettingsProps = {
     privacy: boolean;
     groupSize: number;
     name: string;
+    imageURL: string;
     onClose: () => void;
 };
 
@@ -44,6 +45,7 @@ export default function GroupSettings({
     privacy,
     groupSize,
     name,
+    imageURL,
     isOpen,
     onClose,
 }: GroupSettingsProps) {

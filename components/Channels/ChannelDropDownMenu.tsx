@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,7 +8,6 @@ import { ThreeDotsIcon } from "@/utils/icons";
 import AddSubscriber from "./AddSubscriber";
 import { useState } from "react";
 import ChannelSettings from "./ChannelSettings";
-import InviteLinkDialog from "./InviteLink";
 import { joinChannel } from "@/services/Channel";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
@@ -61,6 +59,7 @@ export default function ChannelDropDownMenu({
                     duration: 5000,
                 });
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             toast({
                 title: "Unexpected Error",

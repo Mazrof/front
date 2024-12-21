@@ -19,7 +19,7 @@ type LeaveGroupProps = {
     onClose: () => void;
 };
 
-export default function LeaveGroupDialog({ groupId, isOpen, onClose }: LeaveGroupProps) {
+export default function LeaveGroup({ groupId, isOpen, onClose }: LeaveGroupProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const me = useWhoAmI();

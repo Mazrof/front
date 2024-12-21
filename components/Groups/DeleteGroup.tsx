@@ -16,7 +16,7 @@ type DeleteGroupProps = {
     onClose: () => void;
 };
 
-export default function DeleteGroupDialog({ groupId, isOpen, onClose }: DeleteGroupProps) {
+export default function DeleteGroup({ groupId, isOpen, onClose }: DeleteGroupProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
