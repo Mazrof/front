@@ -60,6 +60,7 @@ export type ChannelMember = Member & {
 };
 export type GroupMember = Member & {
     groupId: number;
+    hasMessagePermissions: boolean;
 };
 
 export type ChatRoom = {
