@@ -16,23 +16,20 @@ jest.mock("../../../hooks/use-toast", () => ({
 // Mock the dialog components
 jest.mock("../../../components/Channels/AddAdmins", () => ({
     __esModule: true,
-    default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
-        isOpen ? <div role="dialog">Add Admins Dialog</div> : null
-    ),
+    default: ({ isOpen }: { isOpen: boolean }) =>
+        isOpen ? <div role="dialog">Add Admins Dialog</div> : null,
 }));
 
 jest.mock("../../../components/Channels/ChannelSettings", () => ({
     __esModule: true,
-    default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
-        isOpen ? <div role="dialog">Channel Settings Dialog</div> : null
-    ),
+    default: ({ isOpen }: { isOpen: boolean }) =>
+        isOpen ? <div role="dialog">Channel Settings Dialog</div> : null,
 }));
 
 jest.mock("../../../components/Channels/InviteLink", () => ({
     __esModule: true,
-    default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
-        isOpen ? <div role="dialog">Invite Link Dialog</div> : null
-    ),
+    default: ({ isOpen }: { isOpen: boolean }) =>
+        isOpen ? <div role="dialog">Invite Link Dialog</div> : null,
 }));
 
 describe("ChannelDropDownMenu", () => {
@@ -54,7 +51,7 @@ describe("ChannelDropDownMenu", () => {
 
     it("shows menu items when clicked", async () => {
         render(<ChannelDropDownMenu {...defaultProps} />);
-        
+
         // Click the trigger button
         const triggerButton = screen.getByRole("button");
         await userEvent.click(triggerButton);
@@ -69,7 +66,7 @@ describe("ChannelDropDownMenu", () => {
 
     it("opens AddAdmins dialog when clicking Add Admins", async () => {
         render(<ChannelDropDownMenu {...defaultProps} />);
-        
+
         // Open dropdown and click Add Admins
         await userEvent.click(screen.getByRole("button"));
         await userEvent.click(screen.getByText("Add Admins"));
@@ -83,7 +80,7 @@ describe("ChannelDropDownMenu", () => {
 
     it("opens Settings dialog when clicking Settings", async () => {
         render(<ChannelDropDownMenu {...defaultProps} />);
-        
+
         // Open dropdown and click Settings
         await userEvent.click(screen.getByRole("button"));
         await userEvent.click(screen.getByText("Settings"));
@@ -97,7 +94,7 @@ describe("ChannelDropDownMenu", () => {
 
     it("opens Invite Link dialog when clicking Invite Link", async () => {
         render(<ChannelDropDownMenu {...defaultProps} />);
-        
+
         // Open dropdown and click Invite Link
         await userEvent.click(screen.getByRole("button"));
         await userEvent.click(screen.getByText("Invite Link"));
@@ -116,7 +113,7 @@ describe("ChannelDropDownMenu", () => {
             });
 
             render(<ChannelDropDownMenu {...defaultProps} />);
-            
+
             // Click Join Channel
             await userEvent.click(screen.getByRole("button"));
             await userEvent.click(screen.getByText("Join Channel"));
@@ -142,7 +139,7 @@ describe("ChannelDropDownMenu", () => {
             });
 
             render(<ChannelDropDownMenu {...defaultProps} />);
-            
+
             // Click Join Channel
             await userEvent.click(screen.getByRole("button"));
             await userEvent.click(screen.getByText("Join Channel"));
@@ -164,7 +161,7 @@ describe("ChannelDropDownMenu", () => {
             (addMembersToChannel as jest.Mock).mockRejectedValue(new Error("Unexpected error"));
 
             render(<ChannelDropDownMenu {...defaultProps} />);
-            
+
             // Click Join Channel
             await userEvent.click(screen.getByRole("button"));
             await userEvent.click(screen.getByText("Join Channel"));

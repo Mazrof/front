@@ -1,8 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ChannelSettingsDialog from "../../../components/Channels/ChannelSettings";
+import ChannelSettings from "../../../components/Channels/ChannelSettings";
 import { updateChannelSettings } from "../../../services/Channel";
-import { toast } from "../../../hooks/use-toast";
 
 // Mock dependencies
 jest.mock("../../../services/Channel", () => ({
@@ -36,21 +35,21 @@ describe("ChannelSettingsDialog", () => {
     });
 
     it("renders the channel settings dialog when open", () => {
-        render(<ChannelSettingsDialog {...defaultProps} />);
-        
+        render(<ChannelSettings {...defaultProps} />);
+
         expect(screen.getByRole("dialog")).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Channel Settings" })).toBeInTheDocument();
     });
 
     it("doesn't render the dialog when isOpen is false", () => {
-        render(<ChannelSettingsDialog {...{ ...defaultProps, isOpen: false }} />);
-        
+        render(<ChannelSettings {...{ ...defaultProps, isOpen: false }} />);
+
         expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
     it("renders form fields with default values", () => {
-        render(<ChannelSettingsDialog {...defaultProps} />);
-        
+        render(<ChannelSettings {...defaultProps} />);
+
         // Check privacy options
         const publicRadio = screen.getByRole("radio", { name: "Public" });
         const privateRadio = screen.getByRole("radio", { name: "Private" });
@@ -77,7 +76,7 @@ describe("ChannelSettingsDialog", () => {
         const successResponse = { status: "success", data: {} };
         (updateChannelSettings as jest.Mock).mockResolvedValue(successResponse);
 
-        render(<ChannelSettingsDialog {...defaultProps} />);
+        render(<ChannelSettings {...defaultProps} />);
 
         // Change some settings
         await userEvent.click(screen.getByRole("radio", { name: "Private" }));
@@ -102,7 +101,7 @@ describe("ChannelSettingsDialog", () => {
         const failResponse = { status: "fail", message: errorMessage };
         (updateChannelSettings as jest.Mock).mockResolvedValue(failResponse);
 
-        render(<ChannelSettingsDialog {...defaultProps} />);
+        render(<ChannelSettings {...defaultProps} />);
 
         // Submit form without changes
         await userEvent.click(screen.getByRole("button", { name: "Save Settings" }));
@@ -122,19 +121,23 @@ describe("ChannelSettingsDialog", () => {
         const errorMessage = "Network error";
         (updateChannelSettings as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
-        render(<ChannelSettingsDialog {...defaultProps} />);
+        render(<ChannelSettings {...defaultProps} />);
 
         // Submit form without changes
         await userEvent.click(screen.getByRole("button", { name: "Save Settings" }));
 
         await waitFor(() => {
-            expect(screen.getByText(`An unexpected error Error: ${errorMessage} occurred. Please try again later.`)).toBeInTheDocument();
+            expect(
+                screen.getByText(
+                    `An unexpected error Error: ${errorMessage} occurred. Please try again later.`
+                )
+            ).toBeInTheDocument();
             expect(defaultProps.onClose).not.toHaveBeenCalled();
         });
     });
 
     it("closes dialog when cancel is clicked", async () => {
-        render(<ChannelSettingsDialog {...defaultProps} />);
+        render(<ChannelSettings {...defaultProps} />);
 
         await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
 

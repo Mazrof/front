@@ -13,29 +13,59 @@ jest.mock("@/components/ui/dialog", () => ({
             {children}
         </div>
     ),
-    DialogContent: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-content">{children}</div>,
-    DialogHeader: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-header">{children}</div>,
+    DialogContent: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-content">{children}</div>
+    ),
+    DialogHeader: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-header">{children}</div>
+    ),
     DialogTitle: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
-    DialogFooter: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-footer">{children}</div>,
+    DialogFooter: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-footer">{children}</div>
+    ),
     DialogClose: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="dialog-close" onClick={() => {}}>
             {children}
         </div>
     ),
-    DialogTrigger: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-trigger">{children}</div>,
+    DialogTrigger: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-trigger">{children}</div>
+    ),
 }));
 
 jest.mock("@/components/ui/radio-group", () => ({
-    RadioGroup: ({ children, value, onValueChange }: { children: React.ReactNode; value: string; onValueChange: (value: string) => void }) => (
-        <div data-testid="radio-group" data-value={value} onChange={(e: any) => onValueChange(e.target.value)}>
+    RadioGroup: ({
+        children,
+        value,
+        onValueChange,
+    }: {
+        children: React.ReactNode;
+        value: string;
+        onValueChange: (value: string) => void;
+    }) => (
+        <div
+            data-testid="radio-group"
+            data-value={value}
+            onChange={(e) => onValueChange(e.target.value)}
+        >
             {children}
         </div>
     ),
-    RadioGroupItem: ({ value, id }: { value: string; id: string }) => <input type="radio" value={value} id={id} />,
+    RadioGroupItem: ({ value, id }: { value: string; id: string }) => (
+        <input type="radio" value={value} id={id} />
+    ),
 }));
 
 jest.mock("@/components/ui/button", () => ({
-    Button: ({ children, onClick, type }: { children: React.ReactNode; onClick?: () => void; type?: string }) => (
+    Button: ({
+        children,
+        onClick,
+        type,
+    }: {
+        children: React.ReactNode;
+        onClick?: () => void;
+        type?: string;
+    }) => (
         <button onClick={onClick} type={type} data-testid="button">
             {children}
         </button>
@@ -43,7 +73,17 @@ jest.mock("@/components/ui/button", () => ({
 }));
 
 jest.mock("@/components/ui/input", () => ({
-    Input: ({ id, name, value, onChange }: { id: string; name: string; value: string; onChange: (e: any) => void }) => (
+    Input: ({
+        id,
+        name,
+        value,
+        onChange,
+    }: {
+        id: string;
+        name: string;
+        value: string;
+        onChange: (e) => void;
+    }) => (
         <input id={id} name={name} value={value} onChange={onChange} data-testid={`input-${id}`} />
     ),
 }));
@@ -83,7 +123,7 @@ describe("GroupSettings", () => {
         // Fill form
         await user.type(screen.getByTestId("input-name"), "Test Group");
         await user.type(screen.getByTestId("input-groupSize"), "20");
-        
+
         // Select privacy option
         const privacyRadio = screen.getByTestId("radio-group");
         await user.click(privacyRadio);

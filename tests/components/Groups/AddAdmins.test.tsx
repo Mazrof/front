@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import AddAdmins from "@/components/Groups/AddAdmins";
+import AddAdmins from "@/components/Groups/AddMember";
 import { useGroupMembers } from "@/hooks/useGroupMembers";
 import { addAdminsToGroup } from "@/services/Group";
 
@@ -10,17 +10,37 @@ jest.mock("@/services/Group");
 
 // Mock the Dialog components
 jest.mock("@/components/ui/dialog", () => ({
-    Dialog: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog">{children}</div>,
-    DialogContent: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-content">{children}</div>,
-    DialogHeader: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-header">{children}</div>,
-    DialogFooter: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-footer">{children}</div>,
-    DialogClose: ({ children }: { children: React.ReactNode }) => <div data-testid="dialog-close">{children}</div>,
+    Dialog: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog">{children}</div>
+    ),
+    DialogContent: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-content">{children}</div>
+    ),
+    DialogHeader: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-header">{children}</div>
+    ),
+    DialogFooter: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-footer">{children}</div>
+    ),
+    DialogClose: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="dialog-close">{children}</div>
+    ),
 }));
 
 // Mock the Checkbox component
 jest.mock("@/components/ui/checkbox", () => ({
-    Checkbox: ({ onCheckedChange, id }: { onCheckedChange: (checked: boolean) => void; id: string }) => (
-        <input type="checkbox" onChange={(e) => onCheckedChange(e.target.checked)} data-testid={`checkbox-${id}`} />
+    Checkbox: ({
+        onCheckedChange,
+        id,
+    }: {
+        onCheckedChange: (checked: boolean) => void;
+        id: string;
+    }) => (
+        <input
+            type="checkbox"
+            onChange={(e) => onCheckedChange(e.target.checked)}
+            data-testid={`checkbox-${id}`}
+        />
     ),
 }));
 
