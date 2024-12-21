@@ -6,28 +6,42 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreeDotsIcon } from "@/utils/icons";
-import AddAdmins from "./AddSubscriber";
+import AddSubscriber from "./AddSubscriber";
 import { useState } from "react";
 import ChannelSettings from "./ChannelSettings";
 import InviteLinkDialog from "./InviteLink";
 import { joinChannel } from "@/services/Channel";
 import { failResponse } from "@/types/api";
 import { toast } from "@/hooks/use-toast";
+import DeleteChannel from "./DeleteChannel";
+import EditMember from "./EditMember";
+import LeaveChannel from "./LeaveChannel";
+import DeleteMember from "./DeleteMember";
 type channelDropDownMenuProps = {
+    myRole: "admin" | "member" | "none";
+    name: string;
+    imageURL: string;
     channelId: number;
     inviteLink: string;
     canAddComments: boolean;
     privacy: boolean;
 };
 export default function ChannelDropDownMenu({
+    myRole,
+    name,
+    imageURL,
     channelId,
     inviteLink,
     canAddComments,
     privacy,
 }: channelDropDownMenuProps) {
-    const [isAddAdminsOpen, setIsAddAdminsOpen] = useState(false);
+    const [isAddSubscriberOpen, setIsAddSubscriberOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isInviteLinkOpen, setIsInviteLinkOpen] = useState(false);
+    const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
+    const [isEditMemberOpen, setIsEditMemberOpen] = useState(false);
+    const [isDeleteMemberOpen, setIsDeleteMemberOpen] = useState(false);
+    const [isLeaveChannelOpen, setIsLeaveChannelOpen] = useState(false);
+
     const handleJoiningChannel = async () => {
         try {
             const body: { token: string } = { token: inviteLink };
@@ -66,37 +80,79 @@ export default function ChannelDropDownMenu({
                     <ThreeDotsIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => setIsAddAdminsOpen(true)}>
-                        Add Admins
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleJoiningChannel}>Join Channel</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
-                        Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsInviteLinkOpen(true)}>
-                        Invite Link
-                    </DropdownMenuItem>
+                    {myRole === "none" && (
+                        <DropdownMenuItem onClick={handleJoiningChannel}>
+                            Join Channel
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsAddSubscriberOpen(true)}>
+                            Add Subscriber
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsEditMemberOpen(true)}>
+                            Edit Member
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsDeleteMemberOpen(true)}>
+                            Delete Member
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
+                            Settings
+                        </DropdownMenuItem>
+                    )}
+                    {myRole === "admin" && (
+                        <DropdownMenuItem onClick={() => setIsDeleteChannelOpen(true)}>
+                            DeleteChannel
+                        </DropdownMenuItem>
+                    )}
+                    {myRole !== "none" && (
+                        <DropdownMenuItem onClick={() => setIsLeaveChannelOpen(true)}>
+                            Leave Channel
+                        </DropdownMenuItem>
+                    )}
                     {/** TODO : ForWard Message */}
                     <DropdownMenuItem>Forward Message</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             <div className="hidden">
-                <AddAdmins
+                <AddSubscriber
                     channelId={channelId}
-                    isOpen={isAddAdminsOpen}
-                    onClose={() => setIsAddAdminsOpen(false)}
+                    isOpen={isAddSubscriberOpen}
+                    onClose={() => setIsAddSubscriberOpen(false)}
                 />
                 <ChannelSettings
+                    name={name}
+                    imageURL={imageURL}
                     channelId={channelId}
                     canAddComments={canAddComments}
                     privacy={privacy}
                     isOpen={isSettingsOpen}
                     onClose={() => setIsSettingsOpen(false)}
                 />
-                <InviteLinkDialog
-                    isOpen={isInviteLinkOpen}
-                    onClose={() => setIsInviteLinkOpen(false)}
-                    inviteLink={inviteLink}
+                <DeleteMember
+                    isOpen={isDeleteMemberOpen}
+                    onClose={() => setIsDeleteMemberOpen(false)}
+                    channelId={channelId}
+                />
+                <DeleteChannel
+                    isOpen={isDeleteChannelOpen}
+                    channelId={channelId}
+                    onClose={() => setIsDeleteChannelOpen(false)}
+                />
+                <EditMember
+                    channelId={channelId}
+                    isOpen={isEditMemberOpen}
+                    onClose={() => setIsEditMemberOpen(false)}
+                />
+                <LeaveChannel
+                    channelId={channelId}
+                    isOpen={isLeaveChannelOpen}
+                    onClose={() => setIsLeaveChannelOpen(false)}
                 />
             </div>
         </>

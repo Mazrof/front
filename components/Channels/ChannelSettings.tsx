@@ -36,6 +36,7 @@ type ChannelSettingsProps = {
     canAddComments: boolean;
     privacy: boolean;
     name: string;
+    imageURL: string;
     onClose: () => void;
 };
 
@@ -44,6 +45,7 @@ export default function ChannelSettingsDialog({
     canAddComments,
     privacy,
     name,
+    imageURL,
     isOpen,
     onClose,
 }: ChannelSettingsProps) {
@@ -57,6 +59,7 @@ export default function ChannelSettingsDialog({
         resolver: zodResolver(channelSettingsSchema),
         defaultValues: {
             name,
+            image: imageURL,
             privacy,
             canAddComments,
         },

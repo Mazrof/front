@@ -1,5 +1,5 @@
 import { SettingsObject } from "./settings";
-import {  MessageTypeBE } from "./Message";
+import { MessageTypeBE } from "./Message";
 import { ChannelData } from "./channel";
 import { GroupData } from "./group";
 export type PickTwoKeys<T, K1 extends keyof T, K2 extends keyof T> = {
@@ -49,7 +49,7 @@ export type MemberRole = {
 type Member = {
     active: boolean;
     hasDownloadPermissions: boolean;
-    role: MemberRole;
+    role: "member" | "admin";
     userId: number;
     users: {
         username: string;

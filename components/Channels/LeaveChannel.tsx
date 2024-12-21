@@ -19,7 +19,7 @@ type LeaveChannelProps = {
     onClose: () => void;
 };
 
-export default function LeaveChannelDialog({ channelId, isOpen, onClose }: LeaveChannelProps) {
+export default function LeaveChannel({ channelId, isOpen, onClose }: LeaveChannelProps) {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const me = useWhoAmI();
