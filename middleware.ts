@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = new Set(["/login", "/signup", "/forget-password", "/reset-password"]);
-const DISALLOWED_ROUTES = new Set(PUBLIC_ROUTES);
+const PUBLIC_ROUTES = new Set([
+    "/login",
+    "/signup",
+    "/verification",
+    "/forget-password",
+    "/reset-password",
+]);
 
 function isRouteMatched(pathname: string, routes: Set<string>): boolean {
-    return Array.from(routes).some((route) => pathname.startsWith(route));
+    for (const route of routes) {
+        if (pathname.startsWith(route)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 export function middleware(request: NextRequest) {
@@ -17,10 +27,17 @@ export function middleware(request: NextRequest) {
         const loginUrl = new URL("/login", request.url);
         return NextResponse.redirect(loginUrl);
     }
+
     const user_type = request.cookies.get("user_type")?.value;
-    if (user_type === "user") DISALLOWED_ROUTES.add("/admin-dashboard");
-    if (isRouteMatched(request.nextUrl.pathname, DISALLOWED_ROUTES)) {
-        return NextResponse.redirect(new URL("/", request.url));
+    const disallowedRoutes = new Set(PUBLIC_ROUTES);
+    if (user_type === "user") {
+        disallowedRoutes.add("/admin-dashboard");
+    }
+
+    if (isRouteMatched(request.nextUrl.pathname, disallowedRoutes)) {
+        return NextResponse.redirect(
+            new URL(user_type === "user" ? "/" : "/admin-dashboard", request.url)
+        );
     }
 
     return NextResponse.next();

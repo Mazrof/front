@@ -38,7 +38,7 @@ function ChannelChats() {
             role = myMemberData.role === "admin" ? "admin" : "member";
         }
     }
-
+    console.log("myRole", role);
     return (
         <div>
             <InfoChatBar name={name} imageURL={imageURL} chatType="channel">

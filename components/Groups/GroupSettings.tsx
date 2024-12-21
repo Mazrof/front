@@ -64,6 +64,7 @@ export default function GroupSettings({
             groupSize,
         },
     });
+    console.log(watch());
     const watchedImage: File = watch("image");
     const imagePath =
         watchedImage && watchedImage.size > 0 ? URL.createObjectURL(watchedImage) : imageURL;
@@ -88,7 +89,7 @@ export default function GroupSettings({
                 imageURL: base64 || imageURL,
                 groupSize: data.groupSize,
             };
-
+            console.log(body);
             const response: genericResponse<object> = await updateGroupSettings(groupId, body);
 
             if (response.status === "success") {
@@ -216,6 +217,8 @@ export default function GroupSettings({
                                 <input
                                     {...field}
                                     type="number"
+                                    value={field.value || ""}
+                                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                     className="mx-3 max-w-[100px] rounded-md border border-black px-2 shadow-sm focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800"
                                     placeholder="Enter group size"
                                 />

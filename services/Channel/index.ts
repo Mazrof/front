@@ -5,10 +5,10 @@ import { ApiRequest } from "@/types/request";
 import { ChannelMember } from "@/types/user";
 const server = `${process.env.NEXT_SERVER_IP}api/v1`;
 type CreateChannelRequest = {
-    name: string;
-    privacy: boolean;
-    canAddComments: boolean;
-    admins: string[];
+    name?: string;
+    privacy?: boolean;
+    canAddComments?: boolean;
+    admins?: string[];
 };
 export async function createChannel(
     body: CreateChannelRequest

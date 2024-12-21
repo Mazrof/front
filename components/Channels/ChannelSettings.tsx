@@ -91,7 +91,7 @@ export default function ChannelSettings({
                 imageURL: base64,
                 canAddComments: data.canAddComments,
             };
-
+            console.log(body);
             const response: genericResponse<object> = await updateChannelSettings(channelId, body);
 
             if (response.status === "success") {
